@@ -289,11 +289,8 @@ nav a:hover {
 
 /* ===== SCHEDULE STYLES ===== */
 .schedule-section {
-    margin-bottom: 2.5rem;
-    padding: 1.5rem;
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-top: 1.3rem;
+    padding: 0.5rem;
 }
 
 .schedule-section h2 {
@@ -330,23 +327,6 @@ td {
     text-align: center;
     vertical-align: top;
     transition: background-color 0.2s ease;
-}
-
-td.empty {
-    background-color: #f8f9fa;
-    color: #95a5a6;
-}
-
-td:not(.empty) {
-    background-color: #ecf0f1;
-}
-
-tbody tr:nth-child(even) td:not(.empty) {
-    background-color: #e1f5fe;
-}
-
-tbody tr:hover td:not(.empty) {
-    background-color: #bbdefb;
 }
 
 td:not(.empty) {
