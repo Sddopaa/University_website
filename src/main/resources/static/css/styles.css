@@ -21,7 +21,7 @@ body {
     padding: 0 20px;
 }
 
-/* ===== HEADER STYLES (шапка для всех страниц) ===== */
+/* ===== HEADER STYLES ===== */
 header {
     background: linear-gradient(135deg, #2c3e50, #34495e);
     color: white;
@@ -73,7 +73,7 @@ nav a:hover {
     transform: translateY(-2px);
 }
 
-/* ===== BUTTON STYLES (кнопки для всех страниц) ===== */
+/* ===== BUTTON STYLES ===== */
 .btn {
     background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
@@ -100,7 +100,7 @@ nav a:hover {
     background: linear-gradient(135deg, #7f8c8d, #95a5a6);
 }
 
-/* ===== MAIN CONTENT (основной контент для всех страниц) ===== */
+/* ===== MAIN CONTENT ===== */
 .main-content {
     flex: 1;
     padding: 3rem 0;
@@ -114,7 +114,7 @@ nav a:hover {
     font-weight: 300;
 }
 
-/* ===== CARDS STYLES (карточки для home.jsp и index.jsp) ===== */
+/* ===== CARDS STYLES ===== */
 .cards-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -149,7 +149,7 @@ nav a:hover {
     line-height: 1.5;
 }
 
-/* ===== FORM STYLES (формы для login.jsp и register.jsp) ===== */
+/* ===== FORM STYLES ===== */
 .login-container, .registration-container {
     display: flex;
     justify-content: center;
@@ -180,12 +180,6 @@ nav a:hover {
     font-weight: 300;
 }
 
-.login-subtitle, .registration-subtitle {
-    text-align: center;
-    color: #7f8c8d;
-    margin-bottom: 2rem;
-}
-
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -212,10 +206,31 @@ nav a:hover {
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
 }
 
+.form-group select:disabled {
+    background-color: #f5f5f5;
+    color: #999;
+    cursor: not-allowed;
+}
+
 .form-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
     gap: 1rem;
+}
+
+.form-row .form-group {
+    flex: 1;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.checkbox-label input {
+    width: auto;
+    margin-left: 10px;
 }
 
 .login-btn, .register-btn {
@@ -243,6 +258,207 @@ nav a:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
+
+/* ===== REGISTRATION SPECIFIC STYLES ===== */
+.user-type-selector {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.role-btn {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    background: white;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.role-btn:hover {
+    border-color: #3498db;
+}
+
+.role-btn.active {
+    border-color: #3498db;
+    background-color: #3498db;
+    color: white;
+}
+
+/* ===== SCHEDULE STYLES ===== */
+.schedule-section {
+    margin-bottom: 2.5rem;
+    padding: 1.5rem;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.schedule-section h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.4em;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+}
+
+/* ФИКС ТАБЛИЦ - используем обычные table, th, td */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 1rem;
+    background-color: white;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+th {
+    background-color: #3498db;
+    color: white;
+    padding: 1rem 0.75rem;
+    font-weight: 600;
+    text-align: center;
+    border: 1px solid #2980b9;
+}
+
+td {
+    border: 1px solid #e0e0e0;
+    padding: 0.75rem;
+    text-align: center;
+    vertical-align: top;
+    transition: background-color 0.2s ease;
+}
+
+td.empty {
+    background-color: #f8f9fa;
+    color: #95a5a6;
+}
+
+td:not(.empty) {
+    background-color: #ecf0f1;
+}
+
+tbody tr:nth-child(even) td:not(.empty) {
+    background-color: #e1f5fe;
+}
+
+tbody tr:hover td:not(.empty) {
+    background-color: #bbdefb;
+}
+
+td:not(.empty) {
+    font-size: 0.875rem;
+    line-height: 1.4;
+    color: #2c3e50;
+}
+
+/* ===== UNIVERSITY INFO STYLES ===== */
+.university-hero {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+    margin-bottom: 3rem;
+    border-radius: 15px;
+}
+
+.university-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 300;
+}
+
+.info-section {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.info-section h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    border-left: 4px solid #3498db;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    display: block;
+}
+
+.faculties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.faculty-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #87CEEB;
+}
+
+/* ===== FOOTER STYLES ===== */
+footer {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 2rem 0;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* ФИКС ГИТХАБ ССЫЛКИ */
+.github-link {
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ecf0f1;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.github-link:hover {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+}
+
+/* ===== UTILITY CLASSES ===== */
+.mt-1 { margin-top: 1rem; }
+.mt-2 { margin-top: 2rem; }
+.text-center { text-align: center; }
 
 .login-links, .registration-links {
     text-align: center;
@@ -280,202 +496,7 @@ nav a:hover {
     text-align: center;
 }
 
-/* ===== REGISTRATION SPECIFIC STYLES (только для register.jsp) ===== */
-.user-type-selector {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.user-type-option {
-    flex: 1;
-    text-align: center;
-    padding: 1rem;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.user-type-option:hover {
-    border-color: #3498db;
-}
-
-.user-type-option.selected {
-    border-color: #3498db;
-    background-color: #ebf5fb;
-}
-
-.user-type-option input {
-    display: none;
-}
-
-.additional-fields {
-    display: none;
-    margin-top: 1rem;
-    padding: 1rem;
-    background: #f8f9fa;
-    border-radius: 8px;
-    border-left: 4px solid #3498db;
-}
-
-.additional-fields.show {
-    display: block;
-}
-
-/* ===== UNIVERSITY INFO STYLES (только для info.jsp) ===== */
-.university-hero {
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    color: white;
-    padding: 4rem 0;
-    text-align: center;
-    margin-bottom: 3rem;
-    border-radius: 15px;
-}
-
-.university-hero h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    font-weight: 300;
-}
-
-.university-hero p {
-    font-size: 1.2rem;
-    opacity: 0.9;
-}
-
-.info-section {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    margin-bottom: 2rem;
-}
-
-.info-section h2 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 0.5rem;
-}
-
-.info-section p {
-    color: #555;
-    line-height: 1.8;
-    margin-bottom: 1rem;
-}
-
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin: 2rem 0;
-}
-
-.stat-card {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    padding: 1.5rem;
-    border-radius: 10px;
-    text-align: center;
-    border-left: 4px solid #3498db;
-}
-
-.stat-number {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #2c3e50;
-    display: block;
-}
-
-.stat-label {
-    color: #7f8c8d;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-}
-
-.faculties-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
-}
-
-.faculty-card {
-    background: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border-left: 4px solid #87CEEB;
-}
-
-.faculty-card h3 {
-    margin-bottom: 1rem;
-}
-
-.faculty-card ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-.faculty-card li {
-    padding: 0.3rem 0;
-    position: relative;
-    padding-left: 1rem;
-}
-
-.faculty-card li:before {
-    content: "•";
-    font-weight: bold;
-    position: absolute;
-    left: 0;
-}
-
-
-
-.faculty-info {
-    margin-top: 15px;
-    font-size: 0.9em;
-    color: #666;
-    padding: 10px;
-    background: #f8f9fa;
-    border-radius: 6px;
-    border-left: 4px solid #3498db;
-}
-
-/* ===== FOOTER STYLES (подвал для всех страниц) ===== */
-footer {
-    background: #2c3e50;
-    color: #ecf0f1;
-    padding: 2rem 0;
-    margin-top: auto;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.github-link {
-    color: #ecf0f1;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ecf0f1;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-}
-
-.github-link:hover {
-    background-color: #ecf0f1;
-    color: #2c3e50;
-}
-
-/* ===== UTILITY CLASSES (вспомогательные классы) ===== */
-.mt-1 { margin-top: 1rem; }
-.mt-2 { margin-top: 2rem; }
-.text-center { text-align: center; }
-
-/* ===== RESPONSIVE DESIGN (адаптивность для всех страниц) ===== */
+/* ===== RESPONSIVE DESIGN ===== */
 @media (max-width: 768px) {
     .header-content {
         flex-direction: column;
@@ -485,11 +506,6 @@ footer {
     nav ul {
         flex-wrap: wrap;
         justify-content: center;
-    }
-
-    .logo-link {
-        font-size: 1.5rem;
-        text-align: center;
     }
 
     .page-title {
@@ -512,7 +528,7 @@ footer {
     }
 
     .form-row {
-        grid-template-columns: 1fr;
+        flex-direction: column;
     }
 
     .user-type-selector {
@@ -527,27 +543,34 @@ footer {
         grid-template-columns: 1fr;
     }
 
-    .schedule-table {
+    /* ФИКС ТАБЛИЦ ДЛЯ МОБИЛ */
+    table {
         font-size: 0.8rem;
     }
 
-    .schedule-table th, .schedule-table td {
+    th, td {
         padding: 0.5rem;
     }
 
-    .faculty-schedule {
+    .schedule-section {
         padding: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .schedule-section h2 {
+        font-size: 1.2em;
     }
 }
 
 @media (max-width: 480px) {
-    .schedule-table {
+    table {
         display: block;
         overflow-x: auto;
         white-space: nowrap;
     }
 
-    h1 {
-        font-size: 2rem;
+    .footer-content {
+        flex-direction: column;
+        text-align: center;
     }
 }
