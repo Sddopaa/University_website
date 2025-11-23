@@ -1,0 +1,287 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <title>Расписание занятий</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="icon" href="/images/icon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <style>
+        .schedule-section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .schedule-section h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.4em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+            background-color: white;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background-color: #3498db;
+            color: white;
+            padding: 15px 10px;
+            font-weight: 600;
+            text-align: center;
+            border: 1px solid #2980b9;
+        }
+
+        td {
+            border: 1px solid #e0e0e0;
+            padding: 12px 10px;
+            text-align: center;
+            vertical-align: top;
+            transition: background-color 0.2s ease;
+        }
+
+        td.empty {
+            background-color: #f8f9fa;
+            color: #95a5a6;
+        }
+
+        td:not(.empty) {
+            background-color: #ecf0f1;
+        }
+
+        tbody tr:nth-child(even) td:not(.empty) {
+            background-color: #e1f5fe;
+        }
+
+        tbody tr:hover td:not(.empty) {
+            background-color: #bbdefb;
+        }
+
+        td:not(.empty) {
+            font-size: 14px;
+            line-height: 1.4;
+            color: #2c3e50;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .schedule-section {
+                padding: 15px;
+                margin-bottom: 30px;
+            }
+
+            table {
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 8px 5px;
+            }
+
+            .schedule-section h2 {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header th:insert="blocks/header :: header"></header>
+<main>
+    <div class="container">
+        <!-- Факультет вычислительной техники -->
+        <section class="schedule-section">
+            <h2>Факультет вычислительной техники</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Время</th>
+                    <th>Понедельник</th>
+                    <th>Вторник</th>
+                    <th>Среда</th>
+                    <th>Четверг</th>
+                    <th>Пятница</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>08:30–10:00</td>
+                    <td>Программирование на Java<br>Ауд. 401</td>
+                    <td>Математический анализ<br>Ауд. 405</td>
+                    <td>Алгоритмы и структуры данных<br>Ауд. 402</td>
+                    <td>Дискретная математика<br>Ауд. 406</td>
+                    <td>Веб-программирование<br>Комп. класс 403</td>
+                </tr>
+                <tr>
+                    <td>10:15–11:45</td>
+                    <td>Операционные системы<br>Комп. класс 407</td>
+                    <td>ООП<br>Комп. класс 401</td>
+                    <td>Теория вероятностей<br>Ауд. 408</td>
+                    <td>Базы данных<br>Комп. класс 404</td>
+                    <td>Компьютерные сети<br>Комп. класс 409</td>
+                </tr>
+                <tr>
+                    <td>12:00–13:30</td>
+                    <td class="empty"></td>
+                    <td>Иностранный язык<br>Ауд. 410</td>
+                    <td>Архитектура ЭВМ<br>Ауд. 411</td>
+                    <td>Физкультура<br>Спортзал</td>
+                    <td>Проектный практикум<br>Комп. класс 412</td>
+                </tr>
+                <tr>
+                    <td>13:45–15:15</td>
+                    <td>Тестирование ПО<br>Комп. класс 413</td>
+                    <td class="empty"></td>
+                    <td>Мобильная разработка<br>Комп. класс 414</td>
+                    <td>Криптография<br>Ауд. 415</td>
+                    <td class="empty"></td>
+                </tr>
+                <tr>
+                    <td>15:30–17:00</td>
+                    <td>Искусственный интеллект<br>Ауд. 416</td>
+                    <td>Большие данные<br>Комп. класс 417</td>
+                    <td class="empty"></td>
+                    <td>Кибербезопасность<br>Ауд. 418</td>
+                    <td>Технологии разработки ПО<br>Комп. класс 419</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Факультет информационных технологий и электроники -->
+        <section class="schedule-section">
+            <h2>Факультет информационных технологий и электроники</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Время</th>
+                    <th>Понедельник</th>
+                    <th>Вторник</th>
+                    <th>Среда</th>
+                    <th>Четверг</th>
+                    <th>Пятница</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>08:30–10:00</td>
+                    <td>Электроника<br>Лаб. 301</td>
+                    <td>Теоретическая физика<br>Ауд. 302</td>
+                    <td>Радиотехника<br>Лаб. 302</td>
+                    <td>Схемотехника<br>Лаб. 303</td>
+                    <td>Наноэлектроника<br>Лаб. 303</td>
+                </tr>
+                <tr>
+                    <td>10:15–11:45</td>
+                    <td>Цифровая обработка сигналов<br>Ауд. 304</td>
+                    <td>Телекоммуникации<br>Ауд. 304</td>
+                    <td>Микропроцессорная техника<br>Лаб. 305</td>
+                    <td>Автоматика и телемеханика<br>Лаб. 305</td>
+                    <td>Волоконная оптика<br>Лаб. 306</td>
+                </tr>
+                <tr>
+                    <td>12:00–13:30</td>
+                    <td>Электромагнитная совместимость<br>Ауд. 307</td>
+                    <td>Иностранный язык<br>Ауд. 308</td>
+                    <td class="empty"></td>
+                    <td>Физкультура<br>Спортзал</td>
+                    <td>Антенны и СВЧ устройства<br>Лаб. 309</td>
+                </tr>
+                <tr>
+                    <td>13:45–15:15</td>
+                    <td>Системы связи<br>Ауд. 310</td>
+                    <td>Цифровые системы управления<br>Лаб. 311</td>
+                    <td>Электронные измерения<br>Лаб. 312</td>
+                    <td class="empty"></td>
+                    <td>Проектирование РЭА<br>Ауд. 313</td>
+                </tr>
+                <tr>
+                    <td>15:30–17:00</td>
+                    <td class="empty"></td>
+                    <td>Теория информации<br>Ауд. 314</td>
+                    <td>Спутниковые системы<br>Ауд. 315</td>
+                    <td>Микроэлектроника<br>Лаб. 316</td>
+                    <td>Защита информации<br>Ауд. 317</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Факультет промышленных технологий -->
+        <section class="schedule-section">
+            <h2>Факультет промышленных технологий</h2>
+            <table>
+                <thead>
+                <tr>
+                    <th>Время</th>
+                    <th>Понедельник</th>
+                    <th>Вторник</th>
+                    <th>Среда</th>
+                    <th>Четверг</th>
+                    <th>Пятница</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>08:30–10:00</td>
+                    <td>Машиностроение<br>Ауд. 501</td>
+                    <td>Техническая механика<br>Ауд. 502</td>
+                    <td>Электроэнергетика<br>Лаб. 502</td>
+                    <td>Сопротивление материалов<br>Ауд. 503</td>
+                    <td>Транспортные системы<br>Ауд. 503</td>
+                </tr>
+                <tr>
+                    <td>10:15–11:45</td>
+                    <td>Гидравлика и пневматика<br>Лаб. 504</td>
+                    <td>Теплоэнергетика<br>Ауд. 504</td>
+                    <td>Технология машиностроения<br>Ауд. 505</td>
+                    <td>Логистика<br>Ауд. 505</td>
+                    <td>Автоматизация производств<br>Лаб. 506</td>
+                </tr>
+                <tr>
+                    <td>12:00–13:30</td>
+                    <td>Материаловедение<br>Лаб. 507</td>
+                    <td>Иностранный язык<br>Ауд. 508</td>
+                    <td>Электротехника<br>Лаб. 509</td>
+                    <td>Физкультура<br>Спортзал</td>
+                    <td>Робототехника<br>Лаб. 510</td>
+                </tr>
+                <tr>
+                    <td>13:45–15:15</td>
+                    <td>Станки и оборудование<br>Ауд. 511</td>
+                    <td>Технология металлов<br>Лаб. 512</td>
+                    <td>Силовая электроника<br>Ауд. 513</td>
+                    <td>Надежность технических систем<br>Ауд. 514</td>
+                    <td class="empty"></td>
+                </tr>
+                <tr>
+                    <td>15:30–17:00</td>
+                    <td>Проектирование предприятий<br>Ауд. 515</td>
+                    <td>Экология производства<br>Ауд. 516</td>
+                    <td>Стандартизация и сертификация<br>Ауд. 517</td>
+                    <td>Техническая диагностика<br>Лаб. 518</td>
+                    <td>Энергосберегающие технологии<br>Ауд. 519</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+    </div>
+</main>
+
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>

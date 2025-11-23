@@ -1,0 +1,54 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <title th:text="${title}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="icon" href="/images/icon.ico" type="image/x-icon">
+</head>
+
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+<main class="main-content">
+    <div class="container">
+        <div class="login-container">
+            <div class="login-form">
+                <h1 class="login-title">Вход в систему</h1>
+                <p class="login-subtitle">Введите ваши учетные данные</p>
+
+                <!-- Сообщения об ошибках/успехе через Thymeleaf -->
+                <div th:if="${param.error}" class="error-message">
+                    Неверный логин или пароль
+                </div>
+
+                <div th:if="${param.success}" class="success-message">
+                    Регистрация прошла успешно! Теперь вы можете войти.
+                </div>
+
+                <form th:action="@{/login}" method="post">
+                    <div class="form-group">
+                        <label for="username">Логин:</label>
+                        <input type="text" id="username" name="username" required placeholder="Введите ваш логин">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Пароль:</label>
+                        <input type="password" id="password" name="password" required placeholder="Введите ваш пароль">
+                    </div>
+
+                    <button type="submit" class="login-btn">Войти</button>
+                </form>
+
+                <div class="login-links">
+                    <p>Нет аккаунта? <a href="/register">Зарегистрируйтесь</a></p>
+                    <p><a href="/">Вернуться на главную</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>

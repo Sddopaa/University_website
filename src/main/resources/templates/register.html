@@ -1,0 +1,486 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <title>Регистрация</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="icon" href="/images/icon.ico" type="image/x-icon">
+    <style>
+        .user-type-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .role-btn {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .role-btn:hover {
+            border-color: #3498db;
+        }
+
+        .role-btn.active {
+            border-color: #3498db;
+            background-color: #3498db;
+            color: white;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .form-group select:disabled {
+            background-color: #f5f5f5;
+            color: #999;
+            cursor: not-allowed;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-weight: normal;
+        }
+
+        .checkbox-label input {
+            width: auto;
+            margin-left: 10px;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 15px;
+            background: #2ecc71;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .register-btn:hover {
+            background: #27ae60;
+        }
+    </style>
+</head>
+
+<body>
+<header th:insert="blocks/header :: header"></header>
+
+<main class="main-content">
+    <div class="container">
+        <div class="registration-container">
+            <div class="registration-form">
+                <h1 class="registration-title">Регистрация</h1>
+
+                <form id="registrationForm">
+                    <!-- Основные поля -->
+                    <div class="form-group">
+                        <label for="username">Логин</label>
+                        <input type="text" id="username" name="username" required placeholder="Придумайте логин">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Пароль</label>
+                        <input type="password" id="password" name="password" required placeholder="Придумайте пароль">
+                    </div>
+
+                    <!-- Выбор роли -->
+                    <div class="form-group">
+                        <label>Тип пользователя</label>
+                        <div class="user-type-selector">
+                            <button type="button" class="role-btn" onclick="selectRole('student')">Студент</button>
+                            <button type="button" class="role-btn" onclick="selectRole('teacher')">Преподаватель</button>
+                            <button type="button" class="role-btn" onclick="selectRole('admin')">Администратор</button>
+                        </div>
+                        <input type="hidden" id="userType" name="userType" required>
+                    </div>
+
+                    <!-- Общие поля -->
+                    <div id="commonFields" style="display: none;">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="lastName">Фамилия</label>
+                                <input type="text" id="lastName" name="lastName" placeholder="Введите фамилию">
+                            </div>
+                            <div class="form-group">
+                                <label for="firstName">Имя</label>
+                                <input type="text" id="firstName" name="firstName" placeholder="Введите имя">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="patronymic">Отчество</label>
+                            <input type="text" id="patronymic" name="patronymic" placeholder="Введите отчество">
+                        </div>
+                        <div class="form-group">
+                            <label for="birthDate">Дата рождения</label>
+                            <input type="date" id="birthDate" name="birthDate">
+                        </div>
+                    </div>
+
+                    <!-- Поля для студентов -->
+                    <div id="studentFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="faculty">Факультет</label>
+                            <select id="faculty" name="faculty" onchange="updateStudentFields()">
+                                <option value="">Выберите факультет</option>
+                                <option value="ФВТ">Факультет вычислительной техники (ФВТ)</option>
+                                <option value="ФИТЭ">Факультет информационных технологий и электроники (ФИТЭ)</option>
+                                <option value="ФПТЭТ">Факультет промышленных технологий, электроэнергетики и транспорта (ФПТЭТ)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="specialty">Специальность</label>
+                            <select id="specialty" name="specialty" disabled>
+                                <option value="">Сначала выберите факультет</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="course">Курс</label>
+                            <select id="course" name="course">
+                                <option value="">Выберите курс</option>
+                                <option value="1">1 курс</option>
+                                <option value="2">2 курс</option>
+                                <option value="3">3 курс</option>
+                                <option value="4">4 курс</option>
+                                <option value="5">5 курс</option>
+                                <option value="6">6 курс</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="checkbox-label">
+                                Бюджетная форма обучения
+                                <input type="checkbox" name="isTuitionFree">
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Поля для преподавателей -->
+                    <div id="teacherFields" style="display: none;">
+                        <div class="form-group">
+                            <label for="teacherFaculty">Факультет</label>
+                            <select id="teacherFaculty" name="teacherFaculty" onchange="updateTeacherFields()">
+                                <option value="">Выберите факультет</option>
+                                <option value="ФВТ">Факультет вычислительной техники (ФВТ)</option>
+                                <option value="ФИТЭ">Факультет информационных технологий и электроники (ФИТЭ)</option>
+                                <option value="ФПТЭТ">Факультет промышленных технологий, электроэнергетики и транспорта (ФПТЭТ)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="department">Кафедра</label>
+                            <select id="department" name="department" disabled onchange="updateSubjects()">
+                                <option value="">Сначала выберите факультет</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Предмет</label>
+                            <select id="subject" name="subject" disabled>
+                                <option value="">Сначала выберите кафедру</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="workExperience">Стаж работы</label>
+                            <input type="number" id="workExperience" name="workExperience" min="0" max="50" placeholder="Введите стаж">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="register-btn">Зарегистрироваться</button>
+                </form>
+
+                <div class="registration-links">
+                    <p>Уже есть аккаунт? <a href="/login">Войдите</a></p>
+                    <p><a href="/">Вернуться на главную</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Данные университета
+        const universityData = {
+            ФВТ: {
+                name: "Факультет вычислительной техники",
+                departments: {
+                    KT: "Кафедра \"Компьютерные технологии\"",
+                    MiSK: "Кафедра \"Математика и суперкомпьютерное моделирование\"",
+                    SAP: "Кафедра \"Системы автоматизированного проектирования\"",
+                    ViPM: "Кафедра \"Высшая и прикладная математика\"",
+                    IVS: "Кафедра \"Информационно-вычислительные системы\"",
+                    VT: "Кафедра \"Вычислительная техника\"",
+                    IOUiP: "Кафедра \"Информационное обеспечение управления и производства\"",
+                    MO_iP_EVM: "Кафедра \"Математическое обеспечение и применение ЭВМ\""
+                },
+                subjects: {
+                    JAVA: "Программирование на Java",
+                    OOP: "Объектно-ориентированное программирование",
+                    ALGORITHMS: "Алгоритмы и структуры данных",
+                    DATABASES: "Базы данных",
+                    WEB: "Веб-программирование",
+                    ARCHITECTURE: "Архитектура ЭВМ",
+                    OS: "Операционные системы",
+                    NETWORKS: "Компьютерные сети",
+                    SECURITY: "Информационная безопасность"
+                },
+                specialties: [
+                    '09.03.01 - Информатика и вычислительная техника',
+                    '09.03.02 - Информационные системы и технологии',
+                    '09.03.04 - Программная инженерия',
+                    '09.03.03 - Прикладная информатика',
+                    '02.03.03 - Математическое обеспечение и администрирование информационных систем',
+                    '01.03.04 - Прикладная математика',
+                    '01.03.02 - Прикладная математика и информатика'
+                ]
+            },
+            ФИТЭ: {
+                name: "Факультет информационных технологий и электроники",
+                departments: {
+                    AIS: "Кафедра \"Автономные информационные и управляющие системы\"",
+                    RiRS: "Кафедра \"Радиотехника и радиоэлектронные системы\"",
+                    AiT: "Кафедра \"Автоматика и телемеханика\"",
+                    PHYSICS: "Кафедра \"Физика\"",
+                    IBSiT: "Кафедра \"Информационная безопасность систем и технологий\"",
+                    IIMiM: "Кафедра \"Информационно-измерительная техника и метрология\"",
+                    NANO: "Кафедра \"Нано- и микроэлектроника\"",
+                    KiPRA: "Кафедра \"Конструирование и производство радиоаппаратуры\""
+                },
+                subjects: {
+                    ELECTRONICS: "Электроника",
+                    NANOELECTRONICS: "Наноэлектроника",
+                    RADIOTECH: "Радиотехника",
+                    TELECOM: "Телекоммуникации",
+                    AUTOMATION: "Автоматизация и управление",
+                    MEASUREMENT: "Информационно-измерительная техника",
+                    METROLOGY: "Метрология",
+                    CRYPTO: "Криптография"
+                },
+                specialties: [
+                    '03.03.02 - Физика',
+                    '11.03.03 - Конструирование и технология электронных средств',
+                    '11.03.04 - Электроника и наноэлектроника',
+                    '12.03.01 - Приборостроение',
+                    '27.03.01 - Стандартизация и метрология',
+                    '27.03.04 - Управление в технических системах',
+                    '28.03.01 - Нанотехнологии и микросистемная техника'
+                ]
+            },
+            ФПТЭТ: {
+                name: "Факультет промышленных технологий, электроэнергетики и транспорта",
+                departments: {
+                    TSB: "Кафедра \"Техносферная безопасность\"",
+                    SiLPM: "Кафедра \"Сварочное, литейное производство и материаловедение\"",
+                    PS: "Кафедра \"Приборостроение\"",
+                    TMiG: "Кафедра \"Теоретическая и прикладная механика и графика\"",
+                    TO_iOM: "Кафедра \"Технологии и оборудование машиностроения\"",
+                    CHEMISTRY: "Кафедра \"Химия\"",
+                    KiIM: "Кафедра \"Контроль и испытания материалов\"",
+                    EiE: "Кафедра \"Электроэнергетика и электротехника\"",
+                    TRANSPORT: "Кафедра \"Транспортные машины\""
+                },
+                subjects: {
+                    INDUSTRIAL_TECH: "Промышленные технологии",
+                    MACHINE_BUILDING: "Машиностроение",
+                    ENERGY: "Электроэнергетика",
+                    HEAT_ENERGY: "Теплоэнергетика",
+                    TRANSPORT_SYSTEMS: "Транспортные системы",
+                    LOGISTICS: "Логистика",
+                    TECH_SAFETY: "Техносферная безопасность",
+                    MATERIALS: "Материаловедение"
+                },
+                specialties: [
+                    '15.03.01 - Машиностроение',
+                    '15.03.05 - Конструкторско-технологическое обеспечение машиностроительных производств',
+                    '23.03.01 - Технология транспортных процессов',
+                    '20.03.01 - Техносферная безопасность',
+                    '13.03.01 - Теплоэнергетика и теплотехника',
+                    '13.03.02 - Электроэнергетика и электротехника'
+                ]
+            }
+        };
+
+        // Связи кафедр с предметами
+        const departmentSubjects = {
+            // ФВТ кафедры
+            "Кафедра \"Компьютерные технологии\"": ["Программирование на Java", "Объектно-ориентированное программирование", "Веб-программирование"],
+            "Кафедра \"Математика и суперкомпьютерное моделирование\"": ["Алгоритмы и структуры данных", "Математическое моделирование"],
+            "Кафедра \"Системы автоматизированного проектирования\"": ["Архитектура ЭВМ", "Системы автоматизированного проектирования"],
+            "Кафедра \"Высшая и прикладная математика\"": ["Высшая математика", "Прикладная математика"],
+            "Кафедра \"Информационно-вычислительные системы\"": ["Базы данных", "Информационные системы"],
+            "Кафедра \"Вычислительная техника\"": ["Компьютерные сети", "Архитектура ЭВМ"],
+            "Кафедра \"Информационное обеспечение управления и производства\"": ["Информационная безопасность", "Управление данными"],
+            "Кафедра \"Математическое обеспечение и применение ЭВМ\"": ["Операционные системы", "Математическое обеспечение"],
+
+            // ФИТЭ кафедры
+            "Кафедра \"Автономные информационные и управляющие системы\"": ["Автоматизация и управление", "Системы управления"],
+            "Кафедра \"Радиотехника и радиоэлектронные системы\"": ["Радиотехника", "Телекоммуникации"],
+            "Кафедра \"Автоматика и телемеханика\"": ["Автоматизация и управление", "Телемеханика"],
+            "Кафедра \"Физика\"": ["Физика", "Электроника"],
+            "Кафедра \"Информационная безопасность систем и технологий\"": ["Криптография", "Информационная безопасность"],
+            "Кафедра \"Информационно-измерительная техника и метрология\"": ["Информационно-измерительная техника", "Метрология"],
+            "Кафедра \"Нано- и микроэлектроника\"": ["Наноэлектроника", "Микроэлектроника"],
+            "Кафедра \"Конструирование и производство радиоаппаратуры\"": ["Электроника", "Радиотехника"],
+
+            // ФПТЭТ кафедры
+            "Кафедра \"Техносферная безопасность\"": ["Техносферная безопасность", "Экология"],
+            "Кафедра \"Сварочное, литейное производство и материаловедение\"": ["Материаловедение", "Технологии производства"],
+            "Кафедра \"Приборостроение\"": ["Приборостроение", "Измерительная техника"],
+            "Кафедра \"Теоретическая и прикладная механика и графика\"": ["Механика", "Графика"],
+            "Кафедра \"Технологии и оборудование машиностроения\"": ["Машиностроение", "Промышленные технологии"],
+            "Кафедра \"Химия\"": ["Химия", "Материаловедение"],
+            "Кафедра \"Контроль и испытания материалов\"": ["Контроль качества", "Испытания материалов"],
+            "Кафедра \"Электроэнергетика и электротехника\"": ["Электроэнергетика", "Электротехника"],
+            "Кафедра \"Транспортные машины\"": ["Транспортные системы", "Логистика"]
+        };
+
+        let selectedRole = '';
+
+        function selectRole(role) {
+            selectedRole = role;
+            document.getElementById('userType').value = role;
+
+            // Сбрасываем все кнопки
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Активируем выбранную кнопку
+            event.target.classList.add('active');
+
+            // Скрываем все дополнительные поля
+            document.getElementById('commonFields').style.display = 'none';
+            document.getElementById('studentFields').style.display = 'none';
+            document.getElementById('teacherFields').style.display = 'none';
+
+            // Показываем общие поля для всех ролей
+            document.getElementById('commonFields').style.display = 'block';
+
+            // Показываем специфичные поля в зависимости от роли
+            if (role === 'student') {
+                document.getElementById('studentFields').style.display = 'block';
+            } else if (role === 'teacher') {
+                document.getElementById('teacherFields').style.display = 'block';
+            }
+        }
+
+        function updateStudentFields() {
+            const faculty = document.getElementById('faculty').value;
+            const specialtySelect = document.getElementById('specialty');
+
+            specialtySelect.innerHTML = '<option value="">Выберите специальность</option>';
+            specialtySelect.disabled = !faculty;
+
+            if (faculty && universityData[faculty]) {
+                universityData[faculty].specialties.forEach(spec => {
+                    const option = document.createElement('option');
+                    option.value = spec;
+                    option.textContent = spec;
+                    specialtySelect.appendChild(option);
+                });
+            }
+        }
+
+        function updateTeacherFields() {
+            const faculty = document.getElementById('teacherFaculty').value;
+            const departmentSelect = document.getElementById('department');
+
+            departmentSelect.innerHTML = '<option value="">Выберите кафедру</option>';
+            document.getElementById('subject').innerHTML = '<option value="">Сначала выберите кафедру</option>';
+
+            departmentSelect.disabled = !faculty;
+            document.getElementById('subject').disabled = true;
+
+            if (faculty && universityData[faculty]) {
+                Object.values(universityData[faculty].departments).forEach(dept => {
+                    const option = document.createElement('option');
+                    option.value = dept;
+                    option.textContent = dept;
+                    departmentSelect.appendChild(option);
+                });
+            }
+        }
+
+        function updateSubjects() {
+            const department = document.getElementById('department').value;
+            const subjectSelect = document.getElementById('subject');
+
+            subjectSelect.innerHTML = '<option value="">Выберите предмет</option>';
+            subjectSelect.disabled = !department;
+
+            if (department && departmentSubjects[department]) {
+                departmentSubjects[department].forEach(subject => {
+                    const option = document.createElement('option');
+                    option.value = subject;
+                    option.textContent = subject;
+                    subjectSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Обработка формы
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            if (!selectedRole) {
+                alert('Пожалуйста, выберите тип пользователя');
+                return;
+            }
+
+            const formData = new FormData(this);
+            console.log('Данные формы:', Object.fromEntries(formData));
+
+            alert('Регистрация успешна!');
+            resetForm();
+        });
+
+        function resetForm() {
+            document.getElementById('registrationForm').reset();
+            selectedRole = '';
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById('commonFields').style.display = 'none';
+            document.getElementById('studentFields').style.display = 'none';
+            document.getElementById('teacherFields').style.display = 'none';
+
+            // Сбрасываем disabled состояния
+            document.getElementById('specialty').disabled = true;
+            document.getElementById('department').disabled = true;
+            document.getElementById('subject').disabled = true;
+        }
+    </script>
+</main>
+
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>

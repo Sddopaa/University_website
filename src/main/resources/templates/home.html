@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <title th:text="${title}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" type="text/css" href="/css/styles.css" />
+    <link rel="icon" href="/images/icon.ico" type="image/x-icon">
+</head>
+
+<body>
+<header th:insert="blocks/header :: header"></header>
+<main class="main-content">
+    <div class="container">
+        <h1 class="page-title">Добро пожаловать в Политехнический Университет</h1>
+        <div class="cards-container">
+            <div class="card">
+                <h3>Расписание</h3>
+                <p>Просмотр расписания занятий и экзаменов для всех факультетов</p>
+                <a href="/schedule" class="btn mt-1">Перейти</a>
+            </div>
+
+            <div class="card">
+                <h3>Об университете</h3>
+                <p>Информация о структуре университета и преподавательском составе</p>
+                <a href="/info" class="btn mt-1">Перейти</a>
+            </div>
+            <!-- <div class="card">
+                <h3>Студенты</h3>
+                <p>Личный кабинет студента и учебные материалы</p>
+                <a href="pages/students.jsp" class="btn mt-1">Перейти</a>
+            </div>
+
+            <div class="card">
+                <h3>Учебные материалы</h3>
+                <p>Доступ к учебным ресурсам и библиотеке</p>
+                <a href="pages/materials.jsp" class="btn mt-1">Перейти</a>
+            </div> -->
+        </div>
+    </div>
+</main>
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>

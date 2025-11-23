@@ -1,0 +1,553 @@
+/* ===== BASE STYLES (общие для всех страниц) ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ===== HEADER STYLES (шапка для всех страниц) ===== */
+header {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.logo-link {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #ecf0f1;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    padding: 0.5rem 0;
+    display: block;
+}
+
+.logo-link:hover {
+    color: #3498db;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 1.5rem;
+    align-items: center;
+}
+
+nav a {
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+nav a:hover {
+    background-color: rgba(255,255,255,0.1);
+    transform: translateY(-2px);
+}
+
+/* ===== BUTTON STYLES (кнопки для всех страниц) ===== */
+.btn {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 0.6rem 1.2rem;
+    border: none;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-align: center;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+}
+
+/* ===== MAIN CONTENT (основной контент для всех страниц) ===== */
+.main-content {
+    flex: 1;
+    padding: 3rem 0;
+}
+
+.page-title {
+    text-align: center;
+    font-size: 2.5rem;
+    margin-bottom: 3rem;
+    color: #2c3e50;
+    font-weight: 300;
+}
+
+/* ===== CARDS STYLES (карточки для home.jsp и index.jsp) ===== */
+.cards-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+.card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    border: 1px solid #e9ecef;
+    text-align: center;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.card h3 {
+    color: #2c3e50;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+}
+
+.card p {
+    color: #7f8c8d;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+/* ===== FORM STYLES (формы для login.jsp и register.jsp) ===== */
+.login-container, .registration-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: 2rem 0;
+}
+
+.login-form, .registration-form {
+    background: white;
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #e9ecef;
+}
+
+.registration-form {
+    max-width: 500px;
+}
+
+.login-title, .registration-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+    font-weight: 300;
+}
+
+.login-subtitle, .registration-subtitle {
+    text-align: center;
+    color: #7f8c8d;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus, .form-group select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.login-btn, .register-btn {
+    width: 100%;
+    padding: 0.75rem;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.login-btn {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+}
+
+.register-btn {
+    background: linear-gradient(135deg, #27ae60, #229954);
+    margin-top: 1rem;
+}
+
+.login-btn:hover, .register-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.login-links, .registration-links {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.login-links a, .registration-links a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-links a:hover, .registration-links a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #ffcdd2;
+    text-align: center;
+}
+
+.success-message {
+    background: #e8f5e8;
+    color: #2e7d32;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #c8e6c9;
+    text-align: center;
+}
+
+/* ===== REGISTRATION SPECIFIC STYLES (только для register.jsp) ===== */
+.user-type-selector {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.user-type-option {
+    flex: 1;
+    text-align: center;
+    padding: 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.user-type-option:hover {
+    border-color: #3498db;
+}
+
+.user-type-option.selected {
+    border-color: #3498db;
+    background-color: #ebf5fb;
+}
+
+.user-type-option input {
+    display: none;
+}
+
+.additional-fields {
+    display: none;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border-left: 4px solid #3498db;
+}
+
+.additional-fields.show {
+    display: block;
+}
+
+/* ===== UNIVERSITY INFO STYLES (только для info.jsp) ===== */
+.university-hero {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 4rem 0;
+    text-align: center;
+    margin-bottom: 3rem;
+    border-radius: 15px;
+}
+
+.university-hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    font-weight: 300;
+}
+
+.university-hero p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.info-section {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+}
+
+.info-section h2 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 0.5rem;
+}
+
+.info-section p {
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+}
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    border-left: 4px solid #3498db;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #2c3e50;
+    display: block;
+}
+
+.stat-label {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
+
+.faculties-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.faculty-card {
+    background: #f8f9fa;
+    padding: 1.5rem;
+    border-radius: 8px;
+    border-left: 4px solid #87CEEB;
+}
+
+.faculty-card h3 {
+    margin-bottom: 1rem;
+}
+
+.faculty-card ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.faculty-card li {
+    padding: 0.3rem 0;
+    position: relative;
+    padding-left: 1rem;
+}
+
+.faculty-card li:before {
+    content: "•";
+    font-weight: bold;
+    position: absolute;
+    left: 0;
+}
+
+
+
+.faculty-info {
+    margin-top: 15px;
+    font-size: 0.9em;
+    color: #666;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    border-left: 4px solid #3498db;
+}
+
+/* ===== FOOTER STYLES (подвал для всех страниц) ===== */
+footer {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 2rem 0;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.github-link {
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ecf0f1;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.github-link:hover {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+}
+
+/* ===== UTILITY CLASSES (вспомогательные классы) ===== */
+.mt-1 { margin-top: 1rem; }
+.mt-2 { margin-top: 2rem; }
+.text-center { text-align: center; }
+
+/* ===== RESPONSIVE DESIGN (адаптивность для всех страниц) ===== */
+@media (max-width: 768px) {
+    .header-content {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    nav ul {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .logo-link {
+        font-size: 1.5rem;
+        text-align: center;
+    }
+
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .cards-container {
+        grid-template-columns: 1fr;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 1rem;
+        text-align: center;
+    }
+
+    .login-form, .registration-form {
+        margin: 1rem;
+        padding: 2rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .user-type-selector {
+        flex-direction: column;
+    }
+
+    .university-hero h1 {
+        font-size: 2rem;
+    }
+
+    .stats-grid, .faculties-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .schedule-table {
+        font-size: 0.8rem;
+    }
+
+    .schedule-table th, .schedule-table td {
+        padding: 0.5rem;
+    }
+
+    .faculty-schedule {
+        padding: 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .schedule-table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
