@@ -1,39 +1,37 @@
 package com.Lb5.University_website.models;
 
-
 import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username", unique = true, nullable = false, length = 50)
     private String userName;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 20)
     private String role;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
 
-
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
 
-    @Column(name = "patronymic")
+    @Column(name = "patronymic", length = 50)
     private String patronymic;
 
     @Column(nullable = false)
     private Integer age;
 
     @Column(name = "avatar_path")
-    private String avatarPath = "images/defaultAvatar.png";
+    private String avatarPath = "/images/defaultAvatar.png";
 
     // Конструкторы
     public User() {}
@@ -43,13 +41,11 @@ public class User {
         setUserName(userName);
         setPassword(password);
         setRole(role);
-        setDefaultAvatarPath();
         setFIO(lastName, firstName, patronymic);
         setAge(age);
-        this.avatarPath = "images/defaultAvatar.png";
     }
 
-    // Геттеры
+    // Геттеры остаются без изменений
     public Long getId() { return id; }
     public String getUserName() { return userName; }
     public String getPassword() { return password; }
@@ -59,53 +55,65 @@ public class User {
     public String getPatronymic() { return patronymic; }
     public Integer getAge() { return age; }
     public String getAvatarPath() { return avatarPath; }
-    //Сеттеры
-    public void setUserName(String userName) {
-        if (userName == null || userName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Логин пользователя не может быть пустым");
-        }
-        this.userName = sanitizeInput(userName.trim());
-    }
 
+    // Сеттеры
     public void setFIO(String lastName, String firstName, String patronymic) {
         setLastName(lastName);
         setFirstName(firstName);
         setPatronymic(patronymic);
     }
 
+    public void setUserName(String username) {
+        if (username == null || username.trim().isEmpty()) {
+            throw new IllegalArgumentException("Логин не может быть пустым");
+        }
+        if (username.length() < 3 || username.length() > 50) {
+            throw new IllegalArgumentException("Логин должен быть от 3 до 50 символов");
+        }
+        this.userName = username.trim();
+    }
+
+    public void setPassword(String password) {
+        if (password == null || password.length() < 3) {
+            throw new IllegalArgumentException("Пароль должен быть не менее 3 символов");
+        }
+        this.password = password;
+    }
+
+    public void setRole(String role) {
+        if (role == null || (!role.equals("student") && !role.equals("teacher") && !role.equals("admin"))) {
+            throw new IllegalArgumentException("Недопустимая роль пользователя");
+        }
+        this.role = role;
+    }
+
     public void setFirstName(String firstName) {
         if (firstName == null || firstName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Имя пользователя не может быть пустым");
+            throw new IllegalArgumentException("Имя не может быть пустым");
         }
-        this.firstName = sanitizeInput(firstName.trim());
+        this.firstName = firstName.trim();
     }
 
     public void setLastName(String lastName) {
         if (lastName == null || lastName.trim().isEmpty()) {
-            throw new IllegalArgumentException("Фамилия пользователя не может быть пустым");
+            throw new IllegalArgumentException("Фамилия не может быть пустой");
         }
-        this.lastName = sanitizeInput(lastName.trim());
+        this.lastName = lastName.trim();
     }
 
     public void setPatronymic(String patronymic) {
         if (patronymic == null || patronymic.trim().isEmpty()) {
-            this.patronymic = "";
+            this.patronymic = null;
+        } else {
+            this.patronymic = patronymic.trim();
         }
-        this.patronymic = sanitizeInput(patronymic.trim());
     }
 
-    public void setPassword(String password) {
-        if (password == null || (password.length() < 3 || password.length() >= 20)) {
-            throw new IllegalArgumentException("Пароль должен быть от 3 до 20 символов");
+    public void setAge(Integer age) {
+        if (age == null || age < 17 || age > 70) {
+            throw new IllegalArgumentException("Возраст должен быть от 17 до 70 лет");
         }
-        this.password = sanitizeInput(password.trim());
-    }
-
-    public void setRole(String role) {
-        if (role == null || (!role.equals("admin") && !role.equals("teacher") && !role.equals("student"))) {
-            throw new IllegalArgumentException("Недопустимая роль пользователя");
-        }
-        this.role = role;
+        this.age = age;
     }
 
     public void setDefaultAvatarPath() {
@@ -114,26 +122,8 @@ public class User {
 
     public void setAvatarPath(String path) {
         if (path == null || path.trim().isEmpty()) {
-            throw new IllegalArgumentException("Путь к аватарке не может быть пустым");
+            throw new IllegalArgumentException("Некорректный путь к аватарке");
         }
         this.avatarPath = path;
-    }
-
-    public void setAge(int age) {
-        if (age < 17 || age > 70) {
-            throw new IllegalArgumentException("Возраст должен быть от 17 до 70 лет");
-        }
-        this.age = age;
-    }
-
-    //Метод для проверки инъекция
-    private String sanitizeInput(String input) {
-        if (input == null) return null;
-        return input
-                .replace("'", "''")
-                .replace(";", "")
-                .replace("--", "")
-                .replace("/*", "")
-                .replace("*/", "");
     }
 }

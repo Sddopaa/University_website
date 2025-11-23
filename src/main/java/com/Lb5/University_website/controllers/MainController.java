@@ -31,10 +31,4 @@ public class MainController {
         model.addAttribute("title", "Политехнический Университет - Вход");
         return "login";
     }
-
-    @GetMapping("/register")
-    public String register(Model model) {
-        model.addAttribute("title", "Политехнический Университет - Регистрация");
-        return "register";
-    }
 }
