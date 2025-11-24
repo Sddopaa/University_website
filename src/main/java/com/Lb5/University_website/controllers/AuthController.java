@@ -26,7 +26,7 @@ public class AuthController {
     @PostMapping("/register")
     public String registerUser(@RequestParam String username,
                                @RequestParam String password,
-                               @RequestParam String userType,
+                               @RequestParam String role,
                                @RequestParam String lastName,
                                @RequestParam String firstName,
                                @RequestParam(required = false) String patronymic,
@@ -34,7 +34,7 @@ public class AuthController {
                                Model model) {
 
         try {
-            User user = userService.registerUser(username, password, userType,
+            User user = userService.registerUser(username, password, role,
                     firstName, lastName, patronymic, age);
             return "redirect:/";
         } catch (Exception e) {

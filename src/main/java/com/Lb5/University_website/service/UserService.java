@@ -15,7 +15,7 @@ public class UserService {
     public User registerUser(String userName, String password, String role,
                              String firstName, String lastName, String patronymic, int age) {
         if (userRepository.existsByUserName(userName)) {
-            throw new IllegalArgumentException("Логин '" + userName + "' уже занят");
+            throw new IllegalArgumentException("Пользователь с именем '" + userName + "' уже занят");
         }
         User user = new User(userName, password, role, firstName, lastName, patronymic, age);
         return userRepository.save(user);
