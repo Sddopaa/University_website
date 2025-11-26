@@ -35,5 +35,4 @@ public class Task {
 
     public String getTaskText() { return taskText; }
     public void setTaskText(String taskText) { this.taskText = taskText; }
-
 }

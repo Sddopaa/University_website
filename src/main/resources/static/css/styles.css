@@ -554,3 +554,194 @@ footer {
         text-align: center;
     }
 }
+
+/* ===== PROFILE STYLES ===== */
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.profile-card {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.profile-header {
+    display: flex;
+    align-items: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.profile-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid white;
+    margin-right: 2rem;
+}
+
+.profile-info h2 {
+    margin: 0 0 0.5rem 0;
+    font-size: 1.8rem;
+    font-weight: 300;
+}
+
+.user-badge {
+    display: inline-block;
+    padding: 0.3rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.user-badge.student {
+    background: rgba(52, 152, 219, 0.2);
+    color: #2980b9;
+    border: 1px solid #3498db;
+}
+
+.user-badge.teacher {
+    background: rgba(231, 76, 60, 0.2);
+    color: #c0392b;
+    border: 1px solid #e74c3c;
+}
+
+.user-badge.admin {
+    background: rgba(46, 204, 113, 0.2);
+    color: #27ae60;
+    border: 1px solid #2ecc71;
+}
+
+.username {
+    color: rgba(255,255,255,0.8);
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.profile-section {
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.profile-section:last-child {
+    border-bottom: none;
+}
+
+.profile-section h3 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.info-item.full-width {
+    grid-column: 1 / -1;
+}
+
+.info-item label {
+    font-weight: 600;
+    color: #7f8c8d;
+    font-size: 0.9rem;
+}
+
+.info-item span {
+    color: #2c3e50;
+    font-size: 1rem;
+}
+
+/* Стили для оценок */
+.high-grade {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.low-grade {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+/* Стили для основы обучения */
+.budget {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.contract {
+    color: #e67e22;
+    font-weight: 600;
+}
+
+/* Стили для стипендии */
+.scholarship {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.no-scholarship {
+    color: #95a5a6;
+}
+
+/* Стили для перевода */
+.can-advance {
+    color: #27ae60;
+    font-weight: 600;
+}
+
+.cannot-advance {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+/* Стили для стажа */
+.senior {
+    color: #8e44ad;
+    font-weight: 600;
+}
+
+.junior {
+    color: #3498db;
+    font-weight: 600;
+}
+
+/* Стили для возможностей администратора */
+.capabilities {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.capability {
+    background: #f8f9fa;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    border: 1px solid #e9ecef;
+}
+
+.profile-actions {
+    padding: 1.5rem 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    border-top: 1px solid #e9ecef;
+}

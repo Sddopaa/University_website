@@ -26,4 +26,8 @@ public class UserService {
                 .filter(user -> user.getPassword().equals(password)) // Проверяем пароль
                 .orElse(null); // Если не нашли или пароль неверный - возвращаем null
     }
+
+    public User getUserByUsername(String userName) {
+        return userRepository.findByUserName(userName).orElse(null);
+    }
 }

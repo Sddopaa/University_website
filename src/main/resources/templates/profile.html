@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}"/>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <header th:insert="blocks/header :: header"></header>
+
+<main class="main-content">
+    <div class="container">
+        <h1 class="page-title">Мой профиль</h1>
+
+        <div th:if="${user}" class="profile-container">
+            <div class="profile-card">
+                <div class="profile-header">
+                    <div class="avatar-section">
+                        <img th:src="@{${user.avatarPath}}" alt="Аватар" class="profile-avatar">
+                        <button class="btn btn-secondary mt-1">Сменить аватар</button>
+                    </div>
+                    <div class="profile-info">
+                        <h2 th:text="${user.lastName + ' ' + user.firstName + ' ' + (user.patronymic != null ? user.patronymic : '')}"></h2>
+                        <div class="user-badge" th:classappend="${user.role}">
+                                <span th:text="${user.role == 'student' ? 'Студент' :
+                                                (user.role == 'teacher' ? 'Преподаватель' :
+                                                'Администратор')}"></span>
+                        </div>
+                        <p class="username" th:text="'@' + ${user.userName}"></p>
+                    </div>
+                </div>
+
+                <!-- Основная информация -->
+                <div class="profile-section">
+                    <h3>Основная информация</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Логин:</label>
+                            <span th:text="${user.userName}"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Возраст:</label>
+                            <span th:text="${user.age} + ' лет'"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>ФИО:</label>
+                            <span th:text="${user.lastName + ' ' + user.firstName + ' ' + (user.patronymic != null ? user.patronymic : '')}"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Роль:</label>
+                            <span th:text="${user.role == 'student' ? 'Студент' :
+                                                (user.role == 'teacher' ? 'Преподаватель' :
+                                                'Администратор')}"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Информация для СТУДЕНТА -->
+                <div th:if="${user.role == 'student'}" class="profile-section">
+                    <h3>📚 Информация о студенте</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Курс:</label>
+                            <span th:text="${user.course} + ' курс'"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Факультет:</label>
+                            <span th:text="${user.faculty}"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Специализация:</label>
+                            <span th:text="${user.specialization}"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Основа обучения:</label>
+                            <span th:text="${user.tuitionFree} ? 'Бюджетная' : 'Контрактная'"
+                                  th:classappend="${user.tuitionFree} ? 'budget' : 'contract'"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Информация для ПРЕПОДАВАТЕЛЯ -->
+                <div th:if="${user.role == 'teacher'}" class="profile-section">
+                    <h3>👨‍🏫 Информация о преподавателе</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Предмет:</label>
+                            <span th:text="${user.subject}" class="subject"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Факультет:</label>
+                            <span th:text="${user.faculty}" class="faculty"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Кафедра:</label>
+                            <span th:text="${user.department}" class="department"></span>
+                        </div>
+                        <div class="info-item">
+                            <label>Стаж работы:</label>
+                            <span th:text="${user.workExperience} + ' лет'"
+                                  th:classappend="${user.workExperience >= 10} ? 'senior' : 'junior'"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Информация для АДМИНИСТРАТОРА -->
+                <div th:if="${user.role == 'admin'}" class="profile-section">
+                    <h3>⚙️ Информация об администраторе</h3>
+                    <div class="info-grid">
+                        <div class="info-item full-width">
+                            <label>Статус:</label>
+                            <span>Администратор системы</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Действия -->
+                <div class="profile-actions">
+                    <button class="btn">Редактировать профиль</button>
+                    <button class="btn btn-secondary">Сменить пароль</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Если пользователь не авторизован -->
+        <div th:unless="${user}" class="error-message text-center">
+            <p>Вы не авторизованы. Пожалуйста, <a th:href="@{/login}">войдите в систему</a>.</p>
+        </div>
+    </div>
+</main>
+<footer th:insert="blocks/footer :: footer"></footer>
+</body>
+</html>

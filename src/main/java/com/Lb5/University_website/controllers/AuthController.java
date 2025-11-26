@@ -2,6 +2,7 @@ package com.Lb5.University_website.controllers;
 
 import com.Lb5.University_website.models.User;
 import com.Lb5.University_website.service.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,11 +37,25 @@ public class AuthController {
         try {
             User user = userService.registerUser(username, password, role,
                     firstName, lastName, patronymic, age);
-            return "redirect:/";
+            return "profile";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             model.addAttribute("title", "Политехнический Университет - Регистрация");
             return "register";
         }
+    }
+
+    @GetMapping("/profile")
+    public String showProfile(HttpSession session, Model model) {
+        model.addAttribute("title", "Политехнический Университет - Профиль");
+        User user = (User) session.getAttribute("user");
+        if (user == null) {
+            return "redirect:/login";
+        }
+        // Загружаем полные данные пользователя
+        User fullUser = userService.getUserByUsername(user.getUserName());
+        model.addAttribute("user", fullUser);
+
+        return "profile";
     }
 }
