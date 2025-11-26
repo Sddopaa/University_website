@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 
 @Entity
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,9 +33,6 @@ public class User {
 
     @Column(name = "avatar_path")
     private String avatarPath = "/images/defaultAvatar.png";
-
-    // Конструкторы
-    public User() {}
 
     public User(String userName, String password, String role,
                 String firstName, String lastName, String patronymic, int age) {
