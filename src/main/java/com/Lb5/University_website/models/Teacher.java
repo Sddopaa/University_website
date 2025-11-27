@@ -19,6 +19,10 @@ public class Teacher extends User {
     @Column(name = "work_experience", nullable = false)
     private Integer workExperience;
 
+    public Teacher() {
+        super();
+    }
+
     public Teacher(String userName, String password,
                    String firstName, String lastName, String patronymic, int age,
                    String subject, String department, String faculty, int workExperience) {

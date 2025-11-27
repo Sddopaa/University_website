@@ -34,6 +34,8 @@ public class User {
     @Column(name = "avatar_path")
     private String avatarPath = "/images/defaultAvatar.png";
 
+    public User() {};
+
     public User(String userName, String password, String role,
                 String firstName, String lastName, String patronymic, int age) {
         setUserName(userName);

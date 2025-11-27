@@ -19,6 +19,10 @@ public class Student extends User {
     @Column(name = "Specialization")
     private String specialization;
 
+    public Student() {
+        super();
+    }
+
     public Student(String userName, String password,
                    String firstName, String lastName, String patronymic, int age,
                    byte course, boolean isTuitionFree, String faculty, String specialization) {

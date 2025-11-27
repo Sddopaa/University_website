@@ -7,6 +7,10 @@ import jakarta.persistence.*;
 @PrimaryKeyJoinColumn(name = "user_id")
 public class Admin extends User {
 
+    public Admin() {
+        super();
+    }
+
     public Admin(String userName, String password,
                  String firstName, String lastName, String patronymic, int age) {
         super(userName, password, "admin", firstName, lastName, patronymic, age);
