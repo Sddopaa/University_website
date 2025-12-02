@@ -1,4 +1,10 @@
-/* ===== BASE STYLES (общие для всех страниц) ===== */
+/* ======================================================================
+   University Website - Main Stylesheet
+   Структура организована по компонентам для удобства поддержки
+   ====================================================================== */
+
+/* ===== 1. GLOBAL STYLES (Базовые стили) ===== */
+/* Применяются ко всем страницам */
 * {
     margin: 0;
     padding: 0;
@@ -21,7 +27,9 @@ body {
     padding: 0 20px;
 }
 
-/* ===== HEADER STYLES ===== */
+
+/* ===== 2. HEADER COMPONENT (Шапка сайта) ===== */
+/* header.html - Шапка с навигацией */
 header {
     background: linear-gradient(135deg, #2c3e50, #34495e);
     color: white;
@@ -38,6 +46,7 @@ header {
     padding: 1rem 0;
 }
 
+/* Логотип */
 .logo-link {
     font-size: 1.8rem;
     font-weight: bold;
@@ -52,6 +61,7 @@ header {
     color: #3498db;
 }
 
+/* Навигационное меню */
 nav ul {
     display: flex;
     list-style: none;
@@ -73,7 +83,9 @@ nav a:hover {
     transform: translateY(-2px);
 }
 
-/* ===== BUTTON STYLES ===== */
+
+/* ===== 3. BUTTONS COMPONENT (Кнопки) ===== */
+/* Используются во всех компонентах */
 .btn {
     background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
@@ -92,6 +104,7 @@ nav a:hover {
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
 
+/* Вторичная кнопка */
 .btn-secondary {
     background: linear-gradient(135deg, #95a5a6, #7f8c8d);
 }
@@ -100,7 +113,9 @@ nav a:hover {
     background: linear-gradient(135deg, #7f8c8d, #95a5a6);
 }
 
-/* ===== MAIN CONTENT ===== */
+
+/* ===== 4. MAIN CONTENT AREA (Основная область контента) ===== */
+/* main.html / home.html / info.html */
 .main-content {
     flex: 1;
     padding: 3rem 0;
@@ -114,7 +129,9 @@ nav a:hover {
     font-weight: 300;
 }
 
-/* ===== CARDS STYLES ===== */
+
+/* ===== 5. CARDS COMPONENT (Карточки) ===== */
+/* home.html - Карточки на главной */
 .cards-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -149,7 +166,9 @@ nav a:hover {
     line-height: 1.5;
 }
 
-/* ===== FORM STYLES ===== */
+
+/* ===== 6. FORM COMPONENTS (Формы) ===== */
+/* login.html, register.html - Формы входа и регистрации */
 .login-container, .registration-container {
     display: flex;
     justify-content: center;
@@ -180,6 +199,7 @@ nav a:hover {
     font-weight: 300;
 }
 
+/* Стили для групп полей формы */
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -212,6 +232,7 @@ nav a:hover {
     cursor: not-allowed;
 }
 
+/* Строки формы (два поля в ряд) */
 .form-row {
     display: flex;
     gap: 1rem;
@@ -221,6 +242,7 @@ nav a:hover {
     flex: 1;
 }
 
+/* Чекбоксы */
 .checkbox-label {
     display: flex;
     align-items: center;
@@ -233,6 +255,7 @@ nav a:hover {
     margin-left: 10px;
 }
 
+/* Кнопки форм */
 .login-btn, .register-btn {
     width: 100%;
     padding: 0.75rem;
@@ -259,7 +282,9 @@ nav a:hover {
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
 
-/* ===== REGISTRATION SPECIFIC STYLES ===== */
+
+/* ===== 7. REGISTRATION PAGE SPECIFIC (Регистрация) ===== */
+/* register.html - Специфичные стили для страницы регистрации */
 .user-type-selector {
     display: flex;
     gap: 1rem;
@@ -287,7 +312,9 @@ nav a:hover {
     color: white;
 }
 
-/* ===== SCHEDULE STYLES ===== */
+
+/* ===== 8. SCHEDULE PAGE (Расписание) ===== */
+/* schedule.html - Стили для расписания */
 .schedule-section {
     margin-top: 1.3rem;
     padding: 0.5rem;
@@ -301,7 +328,7 @@ nav a:hover {
     padding-bottom: 0.5rem;
 }
 
-/* ФИКС ТАБЛИЦ - используем обычные table, th, td */
+/* Таблицы расписания */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -335,7 +362,9 @@ td:not(.empty) {
     color: #2c3e50;
 }
 
-/* ===== UNIVERSITY INFO STYLES ===== */
+
+/* ===== 9. INFO PAGE (Об университете) ===== */
+/* info.html - Страница "Об университете" */
 .university-hero {
     background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
@@ -403,159 +432,9 @@ td:not(.empty) {
     border-left: 4px solid #87CEEB;
 }
 
-/* ===== FOOTER STYLES ===== */
-footer {
-    background: #2c3e50;
-    color: #ecf0f1;
-    padding: 2rem 0;
-    margin-top: auto;
-}
 
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-/* ФИКС ГИТХАБ ССЫЛКИ */
-.github-link {
-    color: #ecf0f1;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ecf0f1;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.github-link:hover {
-    background-color: #ecf0f1;
-    color: #2c3e50;
-}
-
-/* ===== UTILITY CLASSES ===== */
-.mt-1 { margin-top: 1rem; }
-.mt-2 { margin-top: 2rem; }
-.text-center { text-align: center; }
-
-.login-links, .registration-links {
-    text-align: center;
-    margin-top: 1.5rem;
-}
-
-.login-links a, .registration-links a {
-    color: #3498db;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.login-links a:hover, .registration-links a:hover {
-    color: #2980b9;
-    text-decoration: underline;
-}
-
-.error-message {
-    background: #ffebee;
-    color: #c62828;
-    padding: 0.75rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    border: 1px solid #ffcdd2;
-    text-align: center;
-}
-
-.success-message {
-    background: #e8f5e8;
-    color: #2e7d32;
-    padding: 0.75rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    border: 1px solid #c8e6c9;
-    text-align: center;
-}
-
-/* ===== RESPONSIVE DESIGN ===== */
-@media (max-width: 768px) {
-    .header-content {
-        flex-direction: column;
-        gap: 1rem;
-    }
-
-    nav ul {
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .page-title {
-        font-size: 2rem;
-    }
-
-    .cards-container {
-        grid-template-columns: 1fr;
-    }
-
-    .footer-content {
-        flex-direction: column;
-        gap: 1rem;
-        text-align: center;
-    }
-
-    .login-form, .registration-form {
-        margin: 1rem;
-        padding: 2rem;
-    }
-
-    .form-row {
-        flex-direction: column;
-    }
-
-    .user-type-selector {
-        flex-direction: column;
-    }
-
-    .university-hero h1 {
-        font-size: 2rem;
-    }
-
-    .stats-grid, .faculties-grid {
-        grid-template-columns: 1fr;
-    }
-
-    /* ФИКС ТАБЛИЦ ДЛЯ МОБИЛ */
-    table {
-        font-size: 0.8rem;
-    }
-
-    th, td {
-        padding: 0.5rem;
-    }
-
-    .schedule-section {
-        padding: 1rem;
-        margin-bottom: 2rem;
-    }
-
-    .schedule-section h2 {
-        font-size: 1.2em;
-    }
-}
-
-@media (max-width: 480px) {
-    table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-    }
-
-    .footer-content {
-        flex-direction: column;
-        text-align: center;
-    }
-}
-
-/* ===== PROFILE STYLES ===== */
+/* ===== 10. PROFILE PAGE (Профиль пользователя) ===== */
+/* profile.html - Страница профиля */
 .profile-container {
     max-width: 800px;
     margin: 0 auto;
@@ -590,6 +469,7 @@ footer {
     font-weight: 300;
 }
 
+/* Бейджи ролей пользователя */
 .user-badge {
     display: inline-block;
     padding: 0.3rem 1rem;
@@ -623,6 +503,7 @@ footer {
     margin: 0;
 }
 
+/* Секции профиля */
 .profile-section {
     padding: 1.5rem 2rem;
     border-bottom: 1px solid #e9ecef;
@@ -641,6 +522,7 @@ footer {
     gap: 0.5rem;
 }
 
+/* Сетка информации */
 .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -668,61 +550,19 @@ footer {
     font-size: 1rem;
 }
 
-/* Стили для оценок */
-.high-grade {
-    color: #27ae60;
-    font-weight: 600;
-}
+/* Цветовые стили для различных состояний */
+.high-grade { color: #27ae60; font-weight: 600; }
+.low-grade { color: #e74c3c; font-weight: 600; }
+.budget { color: #27ae60; font-weight: 600; }
+.contract { color: #e67e22; font-weight: 600; }
+.scholarship { color: #27ae60; font-weight: 600; }
+.no-scholarship { color: #95a5a6; }
+.can-advance { color: #27ae60; font-weight: 600; }
+.cannot-advance { color: #e74c3c; font-weight: 600; }
+.senior { color: #8e44ad; font-weight: 600; }
+.junior { color: #3498db; font-weight: 600; }
 
-.low-grade {
-    color: #e74c3c;
-    font-weight: 600;
-}
-
-/* Стили для основы обучения */
-.budget {
-    color: #27ae60;
-    font-weight: 600;
-}
-
-.contract {
-    color: #e67e22;
-    font-weight: 600;
-}
-
-/* Стили для стипендии */
-.scholarship {
-    color: #27ae60;
-    font-weight: 600;
-}
-
-.no-scholarship {
-    color: #95a5a6;
-}
-
-/* Стили для перевода */
-.can-advance {
-    color: #27ae60;
-    font-weight: 600;
-}
-
-.cannot-advance {
-    color: #e74c3c;
-    font-weight: 600;
-}
-
-/* Стили для стажа */
-.senior {
-    color: #8e44ad;
-    font-weight: 600;
-}
-
-.junior {
-    color: #3498db;
-    font-weight: 600;
-}
-
-/* Стили для возможностей администратора */
+/* Возможности администратора */
 .capabilities {
     display: flex;
     flex-wrap: wrap;
@@ -745,3 +585,83 @@ footer {
     justify-content: center;
     border-top: 1px solid #e9ecef;
 }
+
+
+/* ===== 11. FOOTER COMPONENT (Подвал сайта) ===== */
+/* footer.html - Подвал */
+footer {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 2rem 0;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+/* GitHub ссылка в подвале */
+.github-link {
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ecf0f1;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.github-link:hover {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+}
+
+
+/* ===== 12. UTILITY CLASSES (Вспомогательные классы) ===== */
+/* Используются для быстрой стилизации в HTML */
+.mt-1 { margin-top: 1rem; }
+.mt-2 { margin-top: 2rem; }
+.text-center { text-align: center; }
+
+/* Ссылки под формами */
+.login-links, .registration-links {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.login-links a, .registration-links a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-links a:hover, .registration-links a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* Сообщения об ошибках и успехе */
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #ffcdd2;
+    text-align: center;
+}
+
+.success-message {
+    background: #e8f5e8;
+    color: #2e7d32;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #c8e6c9;
+    text-align: center;
+}
+

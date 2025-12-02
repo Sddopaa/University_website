@@ -66,8 +66,8 @@ public class Teacher extends User {
         if (workExperience == null || workExperience < 0 || workExperience > 50) {
             throw new IllegalArgumentException("Стаж работы должен быть от 0 до 50 лет");
         }
-        if (getAge() - workExperience < 18) {
-            throw new IllegalArgumentException("Некорректный рабочий стаж");
+        if (getAge() - workExperience < 16) {
+            throw new IllegalArgumentException("Некорректный рабочий стаж для указанного возраста");
         }
         this.workExperience = workExperience;
     }

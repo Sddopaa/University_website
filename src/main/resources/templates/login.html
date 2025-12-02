@@ -15,24 +15,21 @@
         <div class="login-container">
             <div class="login-form">
                 <h1 class="login-title">Вход в систему</h1>
-                <!-- Сообщения об ошибках/успехе через Thymeleaf -->
-                <div th:if="${param.error}" class="error-message">
-                    Неверный логин или пароль
-                </div>
 
-                <div th:if="${param.success}" class="success-message">
-                    Регистрация прошла успешно! Теперь вы можете войти.
-                </div>
+                <!-- Сообщение об ошибке входа -->
+                <div th:if="${error}" class="error-message" th:text="${error}"></div>
 
                 <form th:action="@{/login}" method="post">
                     <div class="form-group">
                         <label for="username">Логин:</label>
-                        <input type="text" id="username" name="username" required placeholder="Введите ваш логин">
+                        <input type="text" id="username" name="username"
+                               required placeholder="Введите ваш логин">
                     </div>
 
                     <div class="form-group">
                         <label for="password">Пароль:</label>
-                        <input type="password" id="password" name="password" required placeholder="Введите ваш пароль">
+                        <input type="password" id="password" name="password"
+                               required placeholder="Введите ваш пароль">
                     </div>
 
                     <button type="submit" class="login-btn">Войти</button>

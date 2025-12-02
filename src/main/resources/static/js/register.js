@@ -153,8 +153,12 @@ function validateRoleFields() {
         const subject = document.getElementById('subject').value;
         const workExperience = document.getElementById('workExperience').value;
 
-        if (!faculty || !department || !subject || !workExperience) {
-            return 'Для преподавателя необходимо заполнить факультет, кафедру, предмет и стаж работы';
+        if (!faculty || !department || !subject) {
+            return 'Для преподавателя необходимо заполнить факультет, кафедру и предмет';
+        }
+
+        if (workExperience === '' || workExperience < 0) {
+            return 'Стаж работы должен быть 0 или больше';
         }
     }
 

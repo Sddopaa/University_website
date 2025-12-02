@@ -34,10 +34,11 @@ public class AuthController {
                                @RequestParam int age,
                                // Дополнительные поля для Student
                                @RequestParam(required = false) Byte course,
-                               @RequestParam(required = false) String faculty,
+                               @RequestParam(required = false) String studentFaculty,
                                @RequestParam(required = false) String specialization,
                                @RequestParam(required = false) Boolean isTuitionFree,
                                // Дополнительные поля для Teacher
+                               @RequestParam(required = false) String teacherFaculty,
                                @RequestParam(required = false) String subject,
                                @RequestParam(required = false) String department,
                                @RequestParam(required = false) Integer workExperience,
@@ -45,6 +46,13 @@ public class AuthController {
                                Model model) {
 
         try {
+
+            String faculty = null;
+            if ("student".equals(role)) {
+                faculty = studentFaculty;
+            } else if ("teacher".equals(role)) {
+                faculty = teacherFaculty;
+            }
             User user = userService.registerUser(
                     username, password, role, firstName, lastName, patronymic, age,
                     course, isTuitionFree, faculty, specialization,
@@ -69,10 +77,35 @@ public class AuthController {
             return "redirect:/login";
         }
 
-        // Загружаем пользователя (будет базовый User)
         User currentUser = userService.getUserByUsername(user.getUserName());
         model.addAttribute("user", currentUser);
+        model.addAttribute("title", "Политехнический Университет - Профиль");
         return "profile";
+    }
+
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/";
+    }
+
+    @PostMapping("/login")
+    public String loginUser(@RequestParam String username,
+                            @RequestParam String password,
+                            HttpSession session,
+                            Model model) {
+
+        User user = userService.loginUser(username, password);
+
+        if (user != null) {
+            session.setAttribute("user", user);
+            return "redirect:/profile";
+        } else {
+            model.addAttribute("error", "Неверный логин или пароль");
+            model.addAttribute("title", "Политехнический Университет - Вход");
+            return "login";
+        }
     }
 }
 

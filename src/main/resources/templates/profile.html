@@ -6,27 +6,20 @@
     <title th:text="${title}"/>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <header th:insert="blocks/header :: header"></header>
-
+</head>
 <main class="main-content">
     <div class="container">
-        <h1 class="page-title">Мой профиль</h1>
-
         <div th:if="${user}" class="profile-container">
             <div class="profile-card">
                 <div class="profile-header">
                     <div class="avatar-section">
                         <img th:src="@{${user.avatarPath}}" alt="Аватар" class="profile-avatar">
-                        <button class="btn btn-secondary mt-1">Сменить аватар</button>
+
                     </div>
-                    <div class="profile-info">
-                        <h2 th:text="${user.lastName + ' ' + user.firstName + ' ' + (user.patronymic != null ? user.patronymic : '')}"></h2>
-                        <div class="user-badge" th:classappend="${user.role}">
-                                <span th:text="${user.role == 'student' ? 'Студент' :
-                                                (user.role == 'teacher' ? 'Преподаватель' :
-                                                'Администратор')}"></span>
-                        </div>
-                        <p class="username" th:text="'@' + ${user.userName}"></p>
-                    </div>
+<!--                    <div class="profile-info">-->
+<!--                        <h2 th:text="${user.lastName + ' ' + user.firstName + ' ' + (user.patronymic != null ? user.patronymic : '')}"></h2>-->
+<!--                        <p class="username" th:text="'@' + ${user.userName}"></p>-->
+<!--                    </div>-->
                 </div>
 
                 <!-- Основная информация -->
@@ -34,16 +27,12 @@
                     <h3>Основная информация</h3>
                     <div class="info-grid">
                         <div class="info-item">
-                            <label>Логин:</label>
-                            <span th:text="${user.userName}"></span>
+                            <label>ФИО:</label>
+                            <span th:text="${user.lastName + ' ' + user.firstName + ' ' + (user.patronymic != null ? user.patronymic : '')}"></span>
                         </div>
                         <div class="info-item">
                             <label>Возраст:</label>
                             <span th:text="${user.age} + ' лет'"></span>
-                        </div>
-                        <div class="info-item">
-                            <label>ФИО:</label>
-                            <span th:text="${user.lastName + ' ' + user.firstName + ' ' + (user.patronymic != null ? user.patronymic : '')}"></span>
                         </div>
                         <div class="info-item">
                             <label>Роль:</label>
@@ -115,8 +104,8 @@
 
                 <!-- Действия -->
                 <div class="profile-actions">
-                    <button class="btn">Редактировать профиль</button>
                     <button class="btn btn-secondary">Сменить пароль</button>
+                    <button class="btn btn-secondary mt-1">Сменить аватар</button>
                 </div>
             </div>
         </div>
