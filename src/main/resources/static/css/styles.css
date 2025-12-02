@@ -433,34 +433,70 @@ td:not(.empty) {
 }
 
 
-/* ===== 10. PROFILE PAGE (Профиль пользователя) ===== */
-/* profile.html - Страница профиля */
+/* ===== 10. PROFILE PAGE (Упрощенный профиль) ===== */
+/* 1. Контейнер профиля */
 .profile-container {
-    max-width: 800px;
+    max-width: 700px;
     margin: 0 auto;
 }
 
+/* 2. Карточка профиля */
 .profile-card {
     background: white;
     border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
     overflow: hidden;
 }
 
+/* 3. Шапка с аватаром */
 .profile-header {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     padding: 2rem;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #4a6fa5;
     color: white;
+    gap: 2rem;
+}
+
+/* 4. Блок аватара с кнопкой */
+.avatar-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }
 
 .profile-avatar {
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    border: 4px solid white;
-    margin-right: 2rem;
+    border: 3px solid white;
+    object-fit: cover;
+    background-color: #f0f0f0;
+}
+
+/* 5. Кнопка смены аватара (в шапке) */
+.change-avatar-btn {
+    background: white;
+    color: #4a6fa5;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.change-avatar-btn:hover {
+    background: #385d8a;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* 6. Информация в шапке */
+.profile-info {
+    flex: 1;
 }
 
 .profile-info h2 {
@@ -469,64 +505,29 @@ td:not(.empty) {
     font-weight: 300;
 }
 
-/* Бейджи ролей пользователя */
-.user-badge {
-    display: inline-block;
-    padding: 0.3rem 1rem;
-    border-radius: 20px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-}
-
-.user-badge.student {
-    background: rgba(52, 152, 219, 0.2);
-    color: #2980b9;
-    border: 1px solid #3498db;
-}
-
-.user-badge.teacher {
-    background: rgba(231, 76, 60, 0.2);
-    color: #c0392b;
-    border: 1px solid #e74c3c;
-}
-
-.user-badge.admin {
-    background: rgba(46, 204, 113, 0.2);
-    color: #27ae60;
-    border: 1px solid #2ecc71;
-}
-
 .username {
-    color: rgba(255,255,255,0.8);
-    font-size: 1.1rem;
-    margin: 0;
+    color: rgba(255,255,255,0.9);
+    font-size: 1rem;
+    margin: 0 0 1rem 0;
 }
 
-/* Секции профиля */
-.profile-section {
-    padding: 1.5rem 2rem;
-    border-bottom: 1px solid #e9ecef;
+/* 7. Основная секция с информацией */
+.profile-main-section {
+    padding: 2rem;
 }
 
-.profile-section:last-child {
-    border-bottom: none;
-}
-
-.profile-section h3 {
+.section-title {
     color: #2c3e50;
     margin-bottom: 1.5rem;
-    font-size: 1.3rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 600;
 }
 
-/* Сетка информации */
+/* 8. Сетка информации */
 .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
+    gap: 1.5rem;
 }
 
 .info-item {
@@ -535,55 +536,46 @@ td:not(.empty) {
     gap: 0.3rem;
 }
 
-.info-item.full-width {
-    grid-column: 1 / -1;
-}
-
-.info-item label {
+.info-label {
     font-weight: 600;
-    color: #7f8c8d;
+    color: #666;
     font-size: 0.9rem;
 }
 
-.info-item span {
-    color: #2c3e50;
+.info-value {
+    color: #333;
     font-size: 1rem;
 }
 
-/* Цветовые стили для различных состояний */
-.high-grade { color: #27ae60; font-weight: 600; }
-.low-grade { color: #e74c3c; font-weight: 600; }
-.budget { color: #27ae60; font-weight: 600; }
-.contract { color: #e67e22; font-weight: 600; }
-.scholarship { color: #27ae60; font-weight: 600; }
-.no-scholarship { color: #95a5a6; }
-.can-advance { color: #27ae60; font-weight: 600; }
-.cannot-advance { color: #e74c3c; font-weight: 600; }
-.senior { color: #8e44ad; font-weight: 600; }
-.junior { color: #3498db; font-weight: 600; }
+/* 9. Стили для значений */
+.info-value.budget { color: #27ae60; }
+.info-value.contract { color: #e67e22; }
+.info-value.senior { color: #8e44ad; }
+.info-value.junior { color: #3498db; }
 
-/* Возможности администратора */
-.capabilities {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-top: 0.5rem;
-}
-
-.capability {
-    background: #f8f9fa;
-    padding: 0.3rem 0.8rem;
-    border-radius: 15px;
-    font-size: 0.9rem;
-    border: 1px solid #e9ecef;
-}
-
+/* 10. Блок с кнопкой смены пароля */
 .profile-actions {
     padding: 1.5rem 2rem;
-    display: flex;
-    gap: 1rem;
-    justify-content: center;
-    border-top: 1px solid #e9ecef;
+    text-align: center;
+    border-top: 1px solid #eee;
+    background-color: #f8f9fa;
+}
+
+.change-password-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.change-password-btn:hover {
+    background: #c0392b;
+    transform: translateY(-2px);
 }
 
 
