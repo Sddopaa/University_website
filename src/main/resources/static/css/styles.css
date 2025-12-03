@@ -500,7 +500,6 @@ td:not(.empty) {
 }
 
 .profile-info h2 {
-    margin: 0 0 0.5rem 0;
     font-size: 1.8rem;
     font-weight: 300;
 }
@@ -508,7 +507,8 @@ td:not(.empty) {
 .username {
     color: rgba(255,255,255,0.9);
     font-size: 1rem;
-    margin: 0 0 1rem 0;
+    margin-top: 3px;
+    margin-bottom: 10px;
 }
 
 /* 7. Основная секция с информацией */
@@ -676,3 +676,35 @@ footer {
     font-weight: 500;
 }
 
+/* ===== PROFILE PAGE - AVATAR BUTTONS (Кнопки аватара) ===== */
+.avatar-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+
+
+
+/* Кнопка удаления аватара (крестик) */
+.remove-avatar-btn {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    width: 33px;
+    height: 33px;
+    border-radius: 20%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+}
+
+.remove-avatar-btn:hover {
+    background: #c0392b;
+    transform: scale(1.1);
+}

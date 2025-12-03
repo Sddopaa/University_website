@@ -1,60 +1,113 @@
 // register.js
 let selectedRole = '';
-let userAge = 0; // Будем хранить возраст глобально
+let userAge = 0;
 
 // ========== ИНИЦИАЛИЗАЦИЯ ==========
 document.addEventListener('DOMContentLoaded', function() {
     // Устанавливаем максимальную дату (сегодня)
-    const today = new Date().toISOString().split('T')[0]; // Получаем сегодняшнюю дату в формате YYYY-MM-DD
-    document.getElementById('birthDate').max = today; // Устанавливаем максимальную дату в поле ввода
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('birthDate').max = today;
 
     // Восстанавливаем выбранную роль если есть
-    const roleInput = document.getElementById('role'); // Находим поле с ролью
-    if (roleInput && roleInput.value) { // Если поле существует и имеет значение
-        selectedRole = roleInput.value; // Сохраняем выбранную роль
-        showFieldsForRole(selectedRole); // Показываем соответствующие поля
+    const roleInput = document.getElementById('role');
+    if (roleInput && roleInput.value) {
+        selectedRole = roleInput.value;
+        showFieldsForRole(selectedRole);
+        // Делаем активной кнопку с выбранной ролью
+        updateRoleButtons();
     }
 
     // Биндим событие изменения кафедры для преподавателей
-    const departmentSelect = document.getElementById('department'); // Находим select кафедры
-    if (departmentSelect) { // Если он существует
-        departmentSelect.addEventListener('change', updateSubjects); // Добавляем обработчик изменения
+    const departmentSelect = document.getElementById('department');
+    if (departmentSelect) {
+        departmentSelect.addEventListener('change', function() {
+            // Очищаем ошибку кафедры при выборе
+            document.getElementById('departmentError').textContent = '';
+            updateSubjects();
+        });
+    }
+
+    // Биндим событие изменения предмета для преподавателей
+    const subjectSelect = document.getElementById('subject');
+    if (subjectSelect) {
+        subjectSelect.addEventListener('change', function() {
+            // Очищаем ошибку предмета при выборе
+            document.getElementById('subjectError').textContent = '';
+        });
+    }
+
+    // Биндим события для очистки ошибок при выборе в других select
+    const facultySelect = document.getElementById('faculty');
+    if (facultySelect) {
+        facultySelect.addEventListener('change', function() {
+            document.getElementById('facultyError').textContent = '';
+            updateStudentFields();
+        });
+    }
+
+    const teacherFacultySelect = document.getElementById('teacherFaculty');
+    if (teacherFacultySelect) {
+        teacherFacultySelect.addEventListener('change', function() {
+            document.getElementById('teacherFacultyError').textContent = '';
+            updateTeacherFields();
+        });
+    }
+
+    const specialtySelect = document.getElementById('specialty');
+    if (specialtySelect) {
+        specialtySelect.addEventListener('change', function() {
+            document.getElementById('specialtyError').textContent = '';
+        });
+    }
+
+    const courseSelect = document.getElementById('course');
+    if (courseSelect) {
+        courseSelect.addEventListener('change', function() {
+            document.getElementById('courseError').textContent = '';
+        });
     }
 });
 
 // ========== ВЫБОР РОЛИ ==========
 function selectRole(role) {
-    selectedRole = role; // Сохраняем выбранную роль
-    document.getElementById('role').value = role; // Устанавливаем значение в скрытое поле
+    selectedRole = role;
+    document.getElementById('role').value = role;
 
     // Активная кнопка
-    document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active')); // Убираем активный класс со всех кнопок
-    event.target.classList.add('active'); // Добавляем активный класс нажатой кнопке
+    document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+    event.target.classList.add('active');
 
     // Очищаем ошибку
-    document.getElementById('roleError').textContent = ''; // Очищаем сообщение об ошибке
+    document.getElementById('roleError').textContent = '';
 
-    showFieldsForRole(role); // Показываем соответствующие поля
+    showFieldsForRole(role);
+}
+
+function updateRoleButtons() {
+    document.querySelectorAll('.role-btn').forEach(btn => {
+        if (btn.textContent.toLowerCase().includes(selectedRole)) {
+            btn.classList.add('active');
+        }
+    });
 }
 
 function showFieldsForRole(role) {
     // Показываем общие поля
-    document.getElementById('commonFields').style.display = 'block'; // Показываем блок общих полей
+    document.getElementById('commonFields').style.display = 'block';
 
     // Скрываем все специфичные поля
-    document.getElementById('studentFields').style.display = 'none'; // Скрываем поля студента
-    document.getElementById('teacherFields').style.display = 'none'; // Скрываем поля преподавателя
+    document.getElementById('studentFields').style.display = 'none';
+    document.getElementById('teacherFields').style.display = 'none';
 
-    if (role === 'student') { // Если выбрана роль студента
-        document.getElementById('studentFields').style.display = 'block'; // Показываем поля студента
-    } else if (role === 'teacher') { // Если выбрана роль преподавателя
-        document.getElementById('teacherFields').style.display = 'block'; // Показываем поля преподавателя
+    if (role === 'student') {
+        document.getElementById('studentFields').style.display = 'block';
+    } else if (role === 'teacher') {
+        document.getElementById('teacherFields').style.display = 'block';
     }
 }
 
-// ========== ОБЪЕДИНЕННАЯ ФУНКЦИЯ ПРОВЕРКИ ДАТЫ И РАСЧЕТА ВОЗРАСТА ==========
+// ========== ФУНКЦИЯ ПРОВЕРКИ ДАТЫ ==========
 function calculateAge() {
-    // Получаем элементы DOM
     const birthDateInput = document.getElementById('birthDate').value;
     const ageDisplay = document.getElementById('ageDisplay');
     const ageHidden = document.getElementById('age');
@@ -69,17 +122,16 @@ function calculateAge() {
     // 1. Проверяем что поле не пустое
     if (!birthDateInput || birthDateInput.trim() === '') {
         errorElement.textContent = 'Некорректная дата рождения';
-        return;
+        return false;
     }
 
     // 2. Проверяем формат даты YYYY-MM-DD
     const dateRegex = /^(\d{4})-(\d{2})-(\d{2})$/;
     const match = birthDateInput.match(dateRegex);
 
-    // ВАЖНО: проверяем что match не null
     if (!match) {
         errorElement.textContent = 'Неверный формат даты. Используйте YYYY-MM-DD';
-        return;
+        return false;
     }
 
     // 3. Извлекаем и проверяем компоненты даты
@@ -91,54 +143,34 @@ function calculateAge() {
     const currentYear = new Date().getFullYear();
     if (year < 1900) {
         errorElement.textContent = 'Год не может быть меньше 1900';
-        return;
+        return false;
     }
     if (year > currentYear) {
         errorElement.textContent = 'Год не может быть больше текущего';
-        return;
+        return false;
     }
 
-    // 5. Проверяем месяц (1-12) - ЭТУ ПРОВЕРКУ НУЖНО ДОБАВИТЬ!
+    // 5. Проверяем месяц (1-12)
     if (month < 1 || month > 12) {
         errorElement.textContent = 'Месяц должен быть от 01 до 12';
-        return;
+        return false;
     }
 
     // 6. Проверяем день в зависимости от месяца
-    // Массив с количеством дней в месяцах для НЕВИСОКОСНОГО года
-    const daysInMonth = [
-        31, // январь
-        28, // февраль
-        31, // март
-        30, // апрель
-        31, // май
-        30, // июнь
-        31, // июль
-        31, // август
-        30, // сентябрь
-        31, // октябрь
-        30, // ноябрь
-        31  // декабрь
-    ];
-
-    // Проверяем високосный ли год
+    const daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
     const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
-
-    // Получаем максимальное количество дней для данного месяца
     let maxDays = daysInMonth[month - 1];
 
-    // Если февраль и високосный год - 29 дней
     if (month === 2 && isLeapYear) {
         maxDays = 29;
     }
 
-    // Проверяем день
     if (day < 1 || day > maxDays) {
-        let monthNames = [
+        const monthNames = [
             'январе', 'феврале', 'марте', 'апреле', 'мае', 'июне',
             'июле', 'августе', 'сентябре', 'октябре', 'ноябре', 'декабре'
         ];
-        let monthName = monthNames[month - 1];
+        const monthName = monthNames[month - 1];
 
         if (month === 2) {
             if (isLeapYear) {
@@ -149,32 +181,29 @@ function calculateAge() {
         } else {
             errorElement.textContent = `В ${monthName} может быть только ${maxDays} дней`;
         }
-        return;
+        return false;
     }
 
     // 7. Создаем объект Date и проверяем что дата не в будущем
     const birthDate = new Date(year, month - 1, day);
     const today = new Date();
 
-    // Проверяем что Date создал корректную дату
     if (birthDate.getFullYear() !== year ||
         birthDate.getMonth() !== month - 1 ||
         birthDate.getDate() !== day) {
         errorElement.textContent = 'Некорректная дата';
-        return;
+        return false;
     }
 
-    // Проверяем что дата не в будущем
     if (birthDate > today) {
         errorElement.textContent = 'Дата рождения не может быть в будущем';
-        return;
+        return false;
     }
 
     // 8. Рассчитываем возраст
     let age = today.getFullYear() - birthDate.getFullYear();
     const monthDiff = today.getMonth() - birthDate.getMonth();
 
-    // Корректируем если день рождения еще не наступил в этом году
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
         age--;
     }
@@ -182,305 +211,349 @@ function calculateAge() {
     // 9. Проверяем возрастные ограничения
     if (age < 17) {
         errorElement.textContent = 'Минимальный возраст: 17 лет';
-        ageHidden.value = '';
-        ageDisplay.textContent = '';
+        return false;
     } else if (age > 70) {
         errorElement.textContent = 'Максимальный возраст: 70 лет';
-        ageHidden.value = '';
-        ageDisplay.textContent = '';
-    } else {
-        // Все ок, сохраняем возраст
-        errorElement.textContent = '';
-        ageHidden.value = age;
-        userAge = age;
-        ageDisplay.textContent = `Возраст: ${age} лет`;
-
-        // Проверяем стаж если он введен
-        const experienceInput = document.getElementById('workExperience');
-        if (experienceInput && experienceInput.value) {
-            validateWorkExperience();
-        }
+        return false;
     }
+
+    // Все ок, сохраняем возраст
+    ageHidden.value = age;
+    userAge = age;
+    ageDisplay.textContent = `Возраст: ${age} лет`;
+
+    // Проверяем стаж если он введен
+    const experienceInput = document.getElementById('workExperience');
+    if (experienceInput && experienceInput.value) {
+        validateWorkExperience();
+    }
+
+    return true;
 }
 
- // ========== ПРОВЕРКА СТАЖА РАБОТЫ ==========
- function validateWorkExperience() {
-     const experienceInput = document.getElementById('workExperience'); // Находим поле стажа
-     const experience = parseInt(experienceInput.value); // Преобразуем значение в число
-     const errorElement = document.getElementById('workExperienceError'); // Находим элемент для ошибки
+// ========== ПРОВЕРКА СТАЖА РАБОТЫ ==========
+function validateWorkExperience() {
+    const experienceInput = document.getElementById('workExperience');
+    const experience = experienceInput.value.trim();
+    const errorElement = document.getElementById('workExperienceError');
 
-     // Очищаем ошибку
-     errorElement.textContent = ''; // Очищаем предыдущее сообщение об ошибке
+    errorElement.textContent = '';
 
-     // Если поле пустое, ничего не проверяем
-     if (!experienceInput.value) { // Если поле пустое
-         return true; // Возвращаем true (поле необязательное)
-     }
+    // Если поле пустое, ничего не проверяем
+    if (!experience) {
+        return true;
+    }
 
-     // Проверяем что это число
-     if (isNaN(experience)) { // Если значение не является числом
-         errorElement.textContent = 'Введите число'; // Показываем ошибку
-         return false; // Возвращаем false
-     }
+    // Проверяем что это число
+    const expNum = parseInt(experience);
+    if (isNaN(expNum)) {
+        errorElement.textContent = 'Введите число';
+        return false;
+    }
 
-     // Проверяем диапазон
-     if (experience < 0 || experience > 50) { // Если стаж меньше 0 или больше 50
-         errorElement.textContent = 'Стаж должен быть от 0 до 50 лет'; // Показываем ошибку
-         return false; // Возвращаем false
-     }
+    // Проверяем диапазон
+    if (expNum < 0 || expNum > 50) {
+        errorElement.textContent = 'Стаж должен быть от 0 до 50 лет';
+        return false;
+    }
 
-     // Проверяем что стаж не больше возраста минус 14 лет
-     if (userAge > 0) { // Если возраст известен
-         const minAgeForExperience = 14; // Минимальный возраст для начала работы
-         if (experience > userAge - minAgeForExperience) { // Если стаж больше чем (возраст - 14)
-             errorElement.textContent = `Стаж слишком большой. При возрасте ${userAge} максимальный стаж: ${Math.max(0, userAge - minAgeForExperience)}`; // Показываем ошибку
-             return false; // Возвращаем false
-         }
-     }
+    // Проверяем что стаж не больше возраста минус 14 лет
+    if (userAge > 0) {
+        const minAgeForExperience = 14;
+        if (expNum > userAge - minAgeForExperience) {
+            errorElement.textContent = `Стаж слишком большой. При возрасте ${userAge} максимальный стаж: ${Math.max(0, userAge - minAgeForExperience)}`;
+            return false;
+        }
+    }
 
-     return true; // Если все проверки пройдены, возвращаем true
- }
+    return true;
+}
 
 // ========== ВАЛИДАЦИЯ ПОЛЕЙ ==========
 function validateUsername() {
-    const username = document.getElementById('username').value.trim(); // Получаем значение логина и убираем пробелы
-    const errorElement = document.getElementById('usernameError'); // Находим элемент для ошибки
+    const username = document.getElementById('username').value.trim();
+    const errorElement = document.getElementById('usernameError');
 
-    if (!username) { // Если логин пустой
-        errorElement.textContent = 'Логин не может быть пустым'; // Показываем ошибку
-        return false; // Возвращаем false
+    if (!username) {
+        errorElement.textContent = 'Логин не может быть пустым';
+        return false;
     }
 
     // Только английские буквы и цифры
-    if (!/^[a-zA-Z0-9]+$/.test(username)) { // Если логин содержит другие символы
-        errorElement.textContent = 'Только английские буквы и цифры'; // Показываем ошибку
-        return false; // Возвращаем false
+    if (!/^[a-zA-Z0-9]+$/.test(username)) {
+        errorElement.textContent = 'Только английские буквы и цифры';
+        return false;
     }
 
-    if (username.length < 3 || username.length > 50) { // Если логин слишком короткий или длинный
-        errorElement.textContent = 'От 3 до 50 символов'; // Показываем ошибку
-        return false; // Возвращаем false
+    if (username.length < 3 || username.length > 50) {
+        errorElement.textContent = 'От 3 до 50 символов';
+        return false;
     }
 
-    errorElement.textContent = ''; // Очищаем ошибку
-    return true; // Возвращаем true
+    errorElement.textContent = '';
+    return true;
 }
 
 function validatePassword() {
-    const password = document.getElementById('password').value; // Получаем значение пароля
-    const errorElement = document.getElementById('passwordError'); // Находим элемент для ошибки
+    const password = document.getElementById('password').value;
+    const errorElement = document.getElementById('passwordError');
 
-    if (!password) { // Если пароль пустой
-        errorElement.textContent = 'Пароль не может быть пустым'; // Показываем ошибку
-        return false; // Возвращаем false
+    if (!password) {
+        errorElement.textContent = 'Пароль не может быть пустым';
+        return false;
     }
 
-    if (password.length < 3) { // Если пароль слишком короткий
-        errorElement.textContent = 'Минимум 3 символа'; // Показываем ошибку
-        return false; // Возвращаем false
+    if (password.length < 3) {
+        errorElement.textContent = 'Минимум 3 символа';
+        return false;
     }
 
-    errorElement.textContent = ''; // Очищаем ошибку
-    return true; // Возвращаем true
+    errorElement.textContent = '';
+    return true;
 }
 
 // ========== ВАЛИДАЦИЯ ИМЯ И ФАМИЛИИ ==========
 function validateName(fieldId, fieldName) {
-    const value = document.getElementById(fieldId).value.trim(); // Получаем значение поля и убираем пробелы
-    const errorElement = document.getElementById(fieldId + 'Error'); // Находим элемент для ошибки
+    const value = document.getElementById(fieldId).value.trim();
+    const errorElement = document.getElementById(fieldId + 'Error');
 
-    if (!value) { // Если поле пустое
-        errorElement.textContent = `Обязательное поле`; // Показываем ошибку
-        return false; // Возвращаем false
+    if (!value) {
+        errorElement.textContent = `Обязательное поле`;
+        return false;
     }
 
     // Только русские буквы, пробел, дефис
-    if (!/^[а-яА-ЯёЁ\s\-]+$/.test(value)) { // Если поле содержит другие символы
-        errorElement.textContent = 'Только русские буквы'; // Показываем ошибку
-        return false; // Возвращаем false
+    if (!/^[а-яА-ЯёЁ\s\-]+$/.test(value)) {
+        errorElement.textContent = 'Только русские буквы';
+        return false;
     }
 
-    if (value.length < 2) { // Если значение слишком короткое
-        errorElement.textContent = 'Минимум 2 символа'; // Показываем ошибку
-        return false; // Возвращаем false
+    if (value.length < 2) {
+        errorElement.textContent = 'Минимум 2 символа';
+        return false;
     }
 
-    errorElement.textContent = ''; // Очищаем ошибку
-    return true; // Возвращаем true
+    errorElement.textContent = '';
+    return true;
 }
 
 // ========== ВАЛИДАЦИЯ ОТЧЕСТВА (НЕОБЯЗАТЕЛЬНОЕ ПОЛЕ) ==========
 function validateOptionalName(fieldId) {
-    const value = document.getElementById(fieldId).value.trim(); // Получаем значение поля и убираем пробелы
-    const errorElement = document.getElementById(fieldId + 'Error'); // Находим элемент для ошибки
+    const value = document.getElementById(fieldId).value.trim();
+    const errorElement = document.getElementById(fieldId + 'Error');
 
     // Если поле пустое - ошибок нет (отчество необязательное)
-    if (!value) { // Если поле пустое
-        errorElement.textContent = ''; // Очищаем ошибку
-        return true; // Возвращаем true
+    if (!value) {
+        errorElement.textContent = '';
+        return true;
     }
 
     // Только русские буквы, пробел, дефис
-    if (!/^[а-яА-ЯёЁ\s\-]+$/.test(value)) { // Если поле содержит другие символы
-        errorElement.textContent = 'Только русские буквы'; // Показываем ошибку
-        return false; // Возвращаем false
+    if (!/^[а-яА-ЯёЁ\s\-]+$/.test(value)) {
+        errorElement.textContent = 'Только русские буквы';
+        return false;
     }
 
-    if (value.length < 2) { // Если значение слишком короткое
-        errorElement.textContent = 'Минимум 2 символа'; // Показываем ошибку
-        return false; // Возвращаем false
+    if (value.length < 2) {
+        errorElement.textContent = 'Минимум 2 символа';
+        return false;
     }
 
-    errorElement.textContent = ''; // Очищаем ошибку
-    return true; // Возвращаем true
+    errorElement.textContent = '';
+    return true;
 }
 
 // ========== ФУНКЦИИ ДЛЯ СТУДЕНТОВ/ПРЕПОДАВАТЕЛЕЙ ==========
 function updateStudentFields() {
-    const faculty = document.getElementById('faculty').value; // Получаем выбранный факультет
-    const specialtySelect = document.getElementById('specialty'); // Находим select специальностей
+    const faculty = document.getElementById('faculty').value;
+    const specialtySelect = document.getElementById('specialty');
 
-    specialtySelect.innerHTML = '<option value="">Выберите специальность</option>'; // Очищаем и добавляем пустой вариант
-    specialtySelect.disabled = true; // Блокируем select
+    specialtySelect.innerHTML = '<option value="">Выберите специальность</option>';
+    specialtySelect.disabled = true;
 
-    if (faculty && universityData[faculty]) { // Если факультет выбран и существует в данных
-        universityData[faculty].specialties.forEach(spec => { // Для каждой специальности
-            const option = document.createElement('option'); // Создаем элемент option
-            option.value = spec; // Устанавливаем значение
-            option.textContent = spec; // Устанавливаем текст
-            specialtySelect.appendChild(option); // Добавляем option в select
+    if (faculty && universityData[faculty]) {
+        universityData[faculty].specialties.forEach(spec => {
+            const option = document.createElement('option');
+            option.value = spec;
+            option.textContent = spec;
+            specialtySelect.appendChild(option);
         });
-        specialtySelect.disabled = false; // Разблокируем select
+        specialtySelect.disabled = false;
     }
 }
 
 function updateTeacherFields() {
-    const faculty = document.getElementById('teacherFaculty').value; // Получаем выбранный факультет
-    const departmentSelect = document.getElementById('department'); // Находим select кафедр
+    const faculty = document.getElementById('teacherFaculty').value;
+    const departmentSelect = document.getElementById('department');
 
-    departmentSelect.innerHTML = '<option value="">Выберите кафедру</option>'; // Очищаем и добавляем пустой вариант
-    departmentSelect.disabled = true; // Блокируем select
-    document.getElementById('subject').innerHTML = '<option value="">Сначала выберите кафедру</option>'; // Очищаем предметы
-    document.getElementById('subject').disabled = true; // Блокируем select предметов
+    departmentSelect.innerHTML = '<option value="">Выберите кафедру</option>';
+    departmentSelect.disabled = true;
+    document.getElementById('subject').innerHTML = '<option value="">Сначала выберите кафедру</option>';
+    document.getElementById('subject').disabled = true;
 
-    if (faculty && universityData[faculty]) { // Если факультет выбран и существует в данных
-        Object.keys(universityData[faculty].departments).forEach(dept => { // Для каждой кафедры
-            const option = document.createElement('option'); // Создаем элемент option
-            option.value = dept; // Устанавливаем значение
-            option.textContent = dept; // Устанавливаем текст
-            departmentSelect.appendChild(option); // Добавляем option в select
+    if (faculty && universityData[faculty]) {
+        Object.keys(universityData[faculty].departments).forEach(dept => {
+            const option = document.createElement('option');
+            option.value = dept;
+            option.textContent = dept;
+            departmentSelect.appendChild(option);
         });
-        departmentSelect.disabled = false; // Разблокируем select
+        departmentSelect.disabled = false;
     }
 }
 
 function updateSubjects() {
-    const faculty = document.getElementById('teacherFaculty').value; // Получаем выбранный факультет
-    const department = document.getElementById('department').value; // Получаем выбранную кафедру
-    const subjectSelect = document.getElementById('subject'); // Находим select предметов
+    const faculty = document.getElementById('teacherFaculty').value;
+    const department = document.getElementById('department').value;
+    const subjectSelect = document.getElementById('subject');
 
-    subjectSelect.innerHTML = '<option value="">Выберите предмет</option>'; // Очищаем и добавляем пустой вариант
-    subjectSelect.disabled = true; // Блокируем select
+    subjectSelect.innerHTML = '<option value="">Выберите предмет</option>';
+    subjectSelect.disabled = true;
 
-    if (faculty && department && universityData[faculty]) { // Если факультет и кафедра выбраны
-        const subjects = universityData[faculty].departments[department]; // Получаем предметы для кафедры
-        if (subjects) { // Если предметы существуют
-            subjects.forEach(subject => { // Для каждого предмета
-                const option = document.createElement('option'); // Создаем элемент option
-                option.value = subject; // Устанавливаем значение
-                option.textContent = subject; // Устанавливаем текст
-                subjectSelect.appendChild(option); // Добавляем option в select
+    if (faculty && department && universityData[faculty]) {
+        const subjects = universityData[faculty].departments[department];
+        if (subjects) {
+            subjects.forEach(subject => {
+                const option = document.createElement('option');
+                option.value = subject;
+                option.textContent = subject;
+                subjectSelect.appendChild(option);
             });
-            subjectSelect.disabled = false; // Разблокируем select
+            subjectSelect.disabled = false;
         }
     }
 }
 
-// ========== ВАЛИДАЦИЯ ФОРМЫ ==========
+// ========== ГЛАВНАЯ ВАЛИДАЦИЯ ФОРМЫ ==========
 function validateForm() {
-    let isValid = true; // Флаг валидности формы
+    let isValid = true;
 
     // 1. Логин
-    if (!validateUsername()) isValid = false; // Проверяем логин
+    if (!validateUsername()) {
+        isValid = false;
+    }
 
     // 2. Пароль
-    if (!validatePassword()) isValid = false; // Проверяем пароль
+    if (!validatePassword()) {
+        isValid = false;
+    }
 
     // 3. Роль
-    if (!selectedRole) { // Если роль не выбрана
-        document.getElementById('roleError').textContent = 'Выберите тип пользователя'; // Показываем ошибку
-        isValid = false; // Устанавливаем флаг в false
+    if (!selectedRole) {
+        document.getElementById('roleError').textContent = 'Выберите тип пользователя';
+        isValid = false;
     }
 
-    // 4. Общие поля
-    if (selectedRole) { // Если роль выбрана
-        if (!validateName('firstName', 'Имя')) isValid = false; // Проверяем имя
-        if (!validateName('lastName', 'Фамилия')) isValid = false; // Проверяем фамилию
-        // Отчество - необязательное поле
-        if (!validateOptionalName('patronymic')) isValid = false; // Проверяем отчество
-
-        // Дата рождения
-        const birthDate = document.getElementById('birthDate').value; // Получаем дату рождения
-        if (!birthDate) { // Если дата не выбрана
-            document.getElementById('birthDateError').textContent = 'Выберите дату рождения'; // Показываем ошибку
-            isValid = false; // Устанавливаем флаг в false
-        } else if (!isValidDate(birthDate)) { // Если дата некорректна
-            document.getElementById('birthDateError').textContent = 'Некорректная дата'; // Показываем ошибку
-            isValid = false; // Устанавливаем флаг в false
+    // 4. Общие поля (только если роль выбрана)
+    if (selectedRole) {
+        if (!validateName('firstName', 'Имя')) {
+            isValid = false;
         }
 
-        // Возраст должен быть рассчитан
-        if (!userAge || userAge < 17 || userAge > 70) { // Если возраст некорректен
-            document.getElementById('birthDateError').textContent = 'Некорректный возраст. Выберите дату рождения'; // Показываем ошибку
-            isValid = false; // Устанавливаем флаг в false
+        if (!validateName('lastName', 'Фамилия')) {
+            isValid = false;
         }
-    }
 
-    // 5. Специфичные поля
-    if (selectedRole === 'student') { // Если выбрана роль студента
-        if (!document.getElementById('faculty').value) { // Если факультет не выбран
-            document.getElementById('facultyError').textContent = 'Выберите факультет'; // Показываем ошибку
-            isValid = false; // Устанавливаем флаг в false
+        // Отчество - необязательное поле, но если заполнено - проверяем
+        if (!validateOptionalName('patronymic')) {
+            isValid = false;
         }
-        if (!document.getElementById('specialty').value || document.getElementById('specialty').disabled) { // Если специальность не выбрана или select заблокирован
-            document.getElementById('specialtyError').textContent = 'Выберите специальность'; // Показываем ошибку
-            isValid = false; // Устанавливаем флаг в false
+
+        // Дата рождения - проверяем что поле заполнено
+        const birthDate = document.getElementById('birthDate').value;
+        if (!birthDate) {
+            document.getElementById('birthDateError').textContent = 'Выберите дату рождения';
+            isValid = false;
+        } else {
+            // Вызываем calculateAge и проверяем результат
+            if (!calculateAge()) {
+                isValid = false;
+            }
         }
-        if (!document.getElementById('course').value) { // Если курс не выбран
-            document.getElementById('courseError').textContent = 'Выберите курс'; // Показываем ошибку
-            isValid = false; // Устанавливаем флаг в false
+
+        // Дополнительная проверка возраста
+        if (!userAge || userAge < 17 || userAge > 70) {
+            document.getElementById('birthDateError').textContent = 'Возраст должен быть от 17 до 70 лет';
+            isValid = false;
         }
     }
 
-    if (selectedRole === 'teacher') { // Если выбрана роль преподавателя
-        if (!document.getElementById('teacherFaculty').value) { // Если факультет не выбран
-            document.getElementById('teacherFacultyError').textContent = 'Выберите факультет'; // Показываем ошибку
-            isValid = false; // Устанавливаем флаг в false
+    // 5. Специфичные поля для студента
+    if (selectedRole === 'student') {
+        const faculty = document.getElementById('faculty').value;
+        const specialty = document.getElementById('specialty').value;
+        const course = document.getElementById('course').value;
+
+        if (!faculty) {
+            document.getElementById('facultyError').textContent = 'Выберите факультет';
+            isValid = false;
         }
-        if (!document.getElementById('department').value || document.getElementById('department').disabled) { // Если кафедра не выбрана или select заблокирован
-            document.getElementById('departmentError').textContent = 'Выберите кафедру'; // Показываем ошибку
-            isValid = false; // Устанавливаем флаг в false
+
+        if (!specialty || document.getElementById('specialty').disabled) {
+            document.getElementById('specialtyError').textContent = 'Выберите специальность';
+            isValid = false;
         }
-        if (!document.getElementById('subject').value || document.getElementById('subject').disabled) { // Если предмет не выбран или select заблокирован
-            document.getElementById('subjectError').textContent = 'Выберите предмет'; // Показываем ошибку
-            isValid = false; // Устанавливаем флаг в false
+
+        if (!course) {
+            document.getElementById('courseError').textContent = 'Выберите курс';
+            isValid = false;
+        }
+    }
+
+    // 6. Специфичные поля для преподавателя
+    if (selectedRole === 'teacher') {
+        const faculty = document.getElementById('teacherFaculty').value;
+        const department = document.getElementById('department').value;
+        const subject = document.getElementById('subject').value;
+
+        if (!faculty) {
+            document.getElementById('teacherFacultyError').textContent = 'Выберите факультет';
+            isValid = false;
+        }
+
+        if (!department || document.getElementById('department').disabled) {
+            document.getElementById('departmentError').textContent = 'Выберите кафедру';
+            isValid = false;
+        }
+
+        if (!subject || document.getElementById('subject').disabled) {
+            document.getElementById('subjectError').textContent = 'Выберите предмет';
+            isValid = false;
         }
 
         // Проверка стажа работы
-        if (!validateWorkExperience()) { // Если стаж некорректен
-            isValid = false; // Устанавливаем флаг в false
+        if (!validateWorkExperience()) {
+            isValid = false;
         }
-
-        // Дополнительная проверка: стаж должен быть числом
-//        const experienceInput = document.getElementById('workExperience'); // Находим поле стажа
-//        if (experienceInput && experienceInput.value) { // Если поле существует и имеет значение
-//            const experience = parseInt(experienceInput.value); // Преобразуем значение в число
-//            if (isNaN(experience)) { // Если значение не число
-//                document.getElementById('workExperienceError').textContent = 'Введите число'; // Показываем ошибку
-//                isValid = false; // Устанавливаем флаг в false
-//            }
-//        }
     }
 
-    return isValid; // Возвращаем результат валидации
+    // Если есть ошибки - показываем алерт и не даем отправить форму
+    if (!isValid) {
+        alert('Пожалуйста, исправьте ошибки в форме перед отправкой!');
+        // Прокручиваем к первой ошибке
+        const firstError = document.querySelector('.field-error:not(:empty)');
+        if (firstError) {
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return false; // Важно: возвращаем false чтобы форма НЕ отправилась
+    }
+
+    // Для поля firstName - убирает ВСЕ пробелы (внутри тоже)
+    document.getElementById('firstName').value =
+        document.getElementById('firstName').value.replace(/\s+/g, '').charAt(0).toUpperCase() +
+        document.getElementById('firstName').value.replace(/\s+/g, '').slice(1).toLowerCase();
+
+    // Для поля lastName - убирает ВСЕ пробелы (внутри тоже)
+    document.getElementById('lastName').value =
+        document.getElementById('lastName').value.replace(/\s+/g, '').charAt(0).toUpperCase() +
+        document.getElementById('lastName').value.replace(/\s+/g, '').slice(1).toLowerCase();
+
+    // Для поля patronymic - убирает ВСЕ пробелы (внутри тоже), если поле не пустое
+    const patronymicField = document.getElementById('patronymic');
+    if (patronymicField.value.trim()) {
+        patronymicField.value =
+            patronymicField.value.replace(/\s+/g, '').charAt(0).toUpperCase() +
+            patronymicField.value.replace(/\s+/g, '').slice(1).toLowerCase();
+    }
+    return true;
 }

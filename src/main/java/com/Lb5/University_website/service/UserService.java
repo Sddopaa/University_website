@@ -89,4 +89,17 @@ public class UserService {
     public Admin getAdminByUsername(String userName) {
         return adminRepository.findByUserName(userName).orElse(null);
     }
+
+    // ========== СОХРАНЕНИЕ ПОЛЬЗОВАТЕЛЯ В БАЗЕ ДАННЫХ ==========
+    public User save(User user) {
+        if (user instanceof Student) {
+            return studentRepository.save((Student) user);
+        } else if (user instanceof Teacher) {
+            return teacherRepository.save((Teacher) user);
+        } else if (user instanceof Admin) {
+            return adminRepository.save((Admin) user);
+        } else {
+            return userRepository.save(user);
+        }
+    }
 }

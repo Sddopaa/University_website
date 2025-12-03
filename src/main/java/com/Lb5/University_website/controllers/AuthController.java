@@ -2,6 +2,7 @@ package com.Lb5.University_website.controllers;
 
 import com.Lb5.University_website.models.User;
 import com.Lb5.University_website.service.UserService;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,18 +72,24 @@ public class AuthController {
     }
 
     @GetMapping("/profile")
-    public String showProfile(HttpSession session, Model model) {
+    public String showProfile(HttpSession session, Model model, HttpServletResponse response) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/login";
         }
 
+        // Отключаем кэширование для страницы профиля
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setDateHeader("Expires", 0);
+
+        // Получаем актуальные данные пользователя из базы
         User currentUser = userService.getUserByUsername(user.getUserName());
         model.addAttribute("user", currentUser);
         model.addAttribute("title", "Политехнический Университет - Профиль");
+
         return "profile";
     }
-
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {

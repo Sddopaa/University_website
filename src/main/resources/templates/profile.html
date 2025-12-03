@@ -16,13 +16,28 @@
                 <!-- Шапка профиля -->
                 <div class="profile-header">
                     <div class="avatar-section">
-                        <img th:src="@{${user.avatarPath}}" alt="Аватар" class="profile-avatar">
-                        <!-- Кнопка смены аватара -->
-                        <button class="change-avatar-btn">Сменить аватар</button>
+                        <img th:src="@{${user.avatarPath}}" alt="Аватар" class="profile-avatar" id="userAvatar">
                     </div>
                     <div class="profile-info">
                         <h2 th:text="${user.lastName + ' ' + user.firstName + ' ' + (user.patronymic != null ? user.patronymic : '')}"></h2>
                         <p class="username" th:text="'@' + ${user.userName}"></p>
+
+                        <div class="avatar-buttons">
+                            <!-- ФОРМА ДЛЯ ЗАГРУЗКИ АВАТАРА -->
+                            <form th:action="@{/profile/upload-avatar}" method="post" enctype="multipart/form-data" id="avatarForm">
+                                <input type="file" name="avatar" id="avatarInput" accept="image/*" style="display: none;">
+                                <button type="button" class="change-avatar-btn" onclick="document.getElementById('avatarInput').click();">
+                                    Сменить аватар
+                                </button>
+                            </form>
+
+                            <!-- ФОРМА ДЛЯ УДАЛЕНИЯ АВАТАРА -->
+                            <form th:action="@{/profile/remove-avatar}" method="post" id="removeAvatarForm">
+                                <button type="submit" class="remove-avatar-btn" title="Установить аватар по умолчанию">
+                                    ✕
+                                </button>
+                            </form>
+                        </div>
                     </div>
                 </div>
 
@@ -31,18 +46,12 @@
                     <h3 class="section-title">Основная информация</h3>
 
                     <div class="info-grid">
-                        <!-- Общая информация -->
-<!--                        <div class="info-item">-->
-<!--                            <span class="info-label">ФИО:</span>-->
-<!--                            <span class="info-value" th:text="${user.lastName + ' ' + user.firstName + ' ' + (user.patronymic != null ? user.patronymic : '')}"></span>-->
-<!--                        </div>-->
-
                         <div class="info-item">
                             <span class="info-label">Возраст (полных лет):</span>
                             <span class="info-value" th:text="${user.age}"></span>
                         </div>
 
-                        <!-- Роль пользователя (теперь в основной информации) -->
+                        <!-- Роль пользователя -->
                         <div class="info-item">
                             <span class="info-label">Роль:</span>
                             <span class="info-value"
@@ -77,7 +86,6 @@
                         </div>
 
                         <!-- Информация для ПРЕПОДАВАТЕЛЯ -->
-
                         <div th:if="${user.role == 'teacher'}" class="info-item">
                             <span class="info-label">Факультет:</span>
                             <span class="info-value" th:text="${user.faculty}"></span>
@@ -109,9 +117,12 @@
                     </div>
                 </div>
 
-                <!-- Кнопка смены пароля -->
-                <div class="profile-actions">
-                    <button class="change-password-btn">Сменить пароль</button>
+                <!-- Сообщения об успехе/ошибке -->
+                <div th:if="${success}" class="success-message">
+                    <p th:text="${success}"></p>
+                </div>
+                <div th:if="${error}" class="error-message">
+                    <p th:text="${error}"></p>
                 </div>
             </div>
         </div>
@@ -123,5 +134,39 @@
     </div>
 </main>
 <footer th:insert="blocks/footer :: footer"></footer>
+
+<script>
+    // Автоматическая отправка формы
+    const avatarInput = document.getElementById('avatarInput');
+    if (avatarInput) {
+        avatarInput.addEventListener('change', function() {
+            if (this.files.length > 0) {
+                document.getElementById('avatarForm').submit();
+            }
+        });
+    }
+
+    // Автоматическое обновление после успеха
+    if (document.querySelector('.success-message')) {
+        setTimeout(function() {
+            location.reload(true);
+        }, 5000);
+    }
+
+    // Добавляем timestamp к аватарке для обхода кэша через JavaScript
+    document.addEventListener('DOMContentLoaded', function() {
+        const userAvatar = document.getElementById('userAvatar');
+        if (userAvatar) {
+            // Добавляем timestamp к URL аватарки
+            const timestamp = new Date().getTime();
+            const currentSrc = userAvatar.src;
+
+            if (currentSrc && !currentSrc.includes('?v=')) {
+                userAvatar.src = currentSrc + '?v=' + timestamp;
+            }
+        }
+    });
+</script>
+
 </body>
 </html>
