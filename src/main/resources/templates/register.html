@@ -16,16 +16,32 @@
             <div class="registration-form">
                 <h1 class="registration-title">Регистрация</h1>
 
-                <form th:action="@{/register}" method="post" id="registrationForm">
+                <!-- БЛОК ДЛЯ ОТОБРАЖЕНИЯ ОШИБОК С СЕРВЕРА -->
+                <div th:if="${error}" class="error-message">
+                    <div class="alert alert-danger">
+                        <strong>Ошибка регистрации:</strong>
+                        <span th:text="${error}"></span>
+                    </div>
+                </div>
+
+                <form th:action="@{/register}" method="post" id="registrationForm" onsubmit="return validateForm()">
                     <!-- Основные поля -->
                     <div class="form-group">
                         <label for="username">Логин</label>
-                        <input type="text" id="username" name="username" required placeholder="Придумайте логин">
+                        <input type="text" id="username" name="username" required
+                               placeholder="Ведите логин"
+                               th:value="${username}"
+                               oninput="validateUsername()">
+                        <div class="field-error" id="usernameError"></div>
                     </div>
 
                     <div class="form-group">
                         <label for="password">Пароль</label>
-                        <input type="password" id="password" name="password" required placeholder="Придумайте пароль">
+                        <input type="password" id="password" name="password" required
+                               placeholder="Ведите пароль"
+                               th:value="${password}"
+                               oninput="validatePassword()">
+                        <div class="field-error" id="passwordError"></div>
                     </div>
 
                     <!-- Выбор роли -->
@@ -36,7 +52,8 @@
                             <button type="button" class="role-btn" onclick="selectRole('teacher')">Преподаватель</button>
                             <button type="button" class="role-btn" onclick="selectRole('admin')">Администратор</button>
                         </div>
-                        <input type="hidden" id="role" name="role" required>
+                        <input type="hidden" id="role" name="role" required th:value="${role}">
+                        <div class="field-error" id="roleError"></div>
                     </div>
 
                     <!-- Общие поля -->
@@ -44,21 +61,39 @@
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="lastName">Фамилия</label>
-                                <input type="text" id="lastName" name="lastName" required placeholder="Введите фамилию">
+                                <input type="text" id="lastName" name="lastName" required
+                                       placeholder="Ведите фамилию"
+                                       th:value="${lastName}"
+                                       oninput="validateName('lastName', 'Фамилия')">
+                                <div class="field-error" id="lastNameError"></div>
                             </div>
                             <div class="form-group">
                                 <label for="firstName">Имя</label>
-                                <input type="text" id="firstName" name="firstName" required placeholder="Введите имя">
+                                <input type="text" id="firstName" name="firstName" required
+                                       placeholder="Ведите имя"
+                                       th:value="${firstName}"
+                                       oninput="validateName('firstName', 'Имя')">
+                                <div class="field-error" id="firstNameError"></div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="patronymic">Отчество</label>
-                            <input type="text" id="patronymic" name="patronymic" placeholder="Введите отчество">
+                            <input type="text" id="patronymic" name="patronymic"
+                                   placeholder="Ведите отчество (необязательно)"
+                                   th:value="${patronymic}"
+                                   oninput="validateOptionalName('patronymic')"> <!-- Добавил обработчик -->
+                            <div class="field-error" id="patronymicError"></div> <!-- Добавил div для ошибки -->
                         </div>
                         <div class="form-group">
                             <label for="birthDate">Дата рождения</label>
-                            <input type="date" id="birthDate" name="birthDate" required>
-                            <input type="hidden" id="age" name="age">
+                            <input type="date" id="birthDate" name="birthDate" required
+                                   th:value="${birthDateValue}"
+                                   min="1900-01-01"
+                                   max=""
+                                   onchange="calculateAge()">
+                            <input type="hidden" id="age" name="age" th:value="${age}">
+                            <div class="age-display" id="ageDisplay"></div>
+                            <div class="field-error" id="birthDateError"></div>
                         </div>
                     </div>
 
@@ -66,22 +101,25 @@
                     <div id="studentFields" style="display: none;">
                         <div class="form-group">
                             <label for="faculty">Факультет</label>
-                            <select id="faculty" name="studentFaculty" onchange="updateStudentFields()">
+                            <select id="faculty" name="studentFaculty" onchange="updateStudentFields()"
+                                    th:value="${studentFaculty}">
                                 <option value="">Выберите факультет</option>
                                 <option value="ФВТ">Факультет вычислительной техники (ФВТ)</option>
                                 <option value="ФИТЭ">Факультет информационных технологий и электроники (ФИТЭ)</option>
                                 <option value="ФПТЭТ">Факультет промышленных технологий, электроэнергетики и транспорта (ФПТЭТ)</option>
                             </select>
+                            <div class="field-error" id="facultyError"></div>
                         </div>
                         <div class="form-group">
                             <label for="specialty">Специальность</label>
-                            <select id="specialty" name="specialization" disabled>
+                            <select id="specialty" name="specialization" disabled th:value="${specialization}">
                                 <option value="">Сначала выберите факультет</option>
                             </select>
+                            <div class="field-error" id="specialtyError"></div>
                         </div>
                         <div class="form-group">
                             <label for="course">Курс</label>
-                            <select id="course" name="course">
+                            <select id="course" name="course" th:value="${course}">
                                 <option value="">Выберите курс</option>
                                 <option value="1">1 курс</option>
                                 <option value="2">2 курс</option>
@@ -90,11 +128,13 @@
                                 <option value="5">5 курс</option>
                                 <option value="6">6 курс</option>
                             </select>
+                            <div class="field-error" id="courseError"></div>
                         </div>
                         <div class="form-group">
                             <label class="checkbox-label">
+                                <input type="checkbox" name="isTuitionFree" value="true"
+                                       th:checked="${isTuitionFree}">
                                 Бюджетная форма обучения
-                                <input type="checkbox" name="isTuitionFree" value="true">
                             </label>
                         </div>
                     </div>
@@ -103,32 +143,41 @@
                     <div id="teacherFields" style="display: none;">
                         <div class="form-group">
                             <label for="teacherFaculty">Факультет</label>
-                            <select id="teacherFaculty" name="teacherFaculty" onchange="updateTeacherFields()">
+                            <select id="teacherFaculty" name="teacherFaculty" onchange="updateTeacherFields()"
+                                    th:value="${teacherFaculty}">
                                 <option value="">Выберите факультет</option>
                                 <option value="ФВТ">Факультет вычислительной техники (ФВТ)</option>
                                 <option value="ФИТЭ">Факультет информационных технологий и электроники (ФИТЭ)</option>
                                 <option value="ФПТЭТ">Факультет промышленных технологий, электроэнергетики и транспорта (ФПТЭТ)</option>
                             </select>
+                            <div class="field-error" id="teacherFacultyError"></div>
                         </div>
                         <div class="form-group">
                             <label for="department">Кафедра</label>
-                            <select id="department" name="department" disabled onchange="updateSubjects()">
+                            <select id="department" name="department" disabled th:value="${department}">
                                 <option value="">Сначала выберите факультет</option>
                             </select>
+                            <div class="field-error" id="departmentError"></div>
                         </div>
                         <div class="form-group">
                             <label for="subject">Предмет</label>
-                            <select id="subject" name="subject" disabled>
+                            <select id="subject" name="subject" disabled th:value="${subject}">
                                 <option value="">Сначала выберите кафедру</option>
                             </select>
+                            <div class="field-error" id="subjectError"></div>
                         </div>
                         <div class="form-group">
                             <label for="workExperience">Стаж работы</label>
-                            <input type="number" id="workExperience" name="workExperience" min="0" max="50" placeholder="Введите стаж">
+                            <input type="number" id="workExperience" name="workExperience"
+                                   min="0" max="50"
+                                   placeholder="0-50 лет"
+                                   th:value="${workExperience}"
+                                   oninput="validateWorkExperience()"> <!-- Добавил oninput -->
+                            <div class="field-error" id="workExperienceError"></div> <!-- Добавил div для ошибки -->
                         </div>
                     </div>
 
-                    <button type="submit" class="register-btn" onclick="return validateAndSubmit()">Зарегистрироваться</button>
+                    <button type="submit" class="register-btn">Зарегистрироваться</button>
                 </form>
 
                 <div class="registration-links">
@@ -142,6 +191,8 @@
 
 <footer th:insert="blocks/footer :: footer"></footer>
 
+<script src="/js/universityData.js"></script>
 <script src="/js/register.js"></script>
 </body>
 </html>
+

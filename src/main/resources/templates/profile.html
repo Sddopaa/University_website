@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title th:text="${title}"/>
     <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <header th:insert="blocks/header :: header"></header>
     <link rel="icon" href="/images/icon.ico" type="image/x-icon">
+    <header th:insert="blocks/header :: header"></header>
 </head>
 <body>
 <main class="main-content">
@@ -32,10 +32,10 @@
 
                     <div class="info-grid">
                         <!-- Общая информация -->
-                        <div class="info-item">
-                            <span class="info-label">ФИО:</span>
-                            <span class="info-value" th:text="${user.lastName + ' ' + user.firstName + ' ' + (user.patronymic != null ? user.patronymic : '')}"></span>
-                        </div>
+<!--                        <div class="info-item">-->
+<!--                            <span class="info-label">ФИО:</span>-->
+<!--                            <span class="info-value" th:text="${user.lastName + ' ' + user.firstName + ' ' + (user.patronymic != null ? user.patronymic : '')}"></span>-->
+<!--                        </div>-->
 
                         <div class="info-item">
                             <span class="info-label">Возраст (полных лет):</span>

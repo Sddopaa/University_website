@@ -657,3 +657,22 @@ footer {
     text-align: center;
 }
 
+
+/* ===== 13. FIELD ERROR STYLES (Стили для ошибок полей) ===== */
+.field-error {
+    color: #dc3545; /* Красный цвет */
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+    min-height: 1.2rem;
+    font-weight: 500;
+}
+
+
+/* Возраст */
+.age-display {
+    color: #28a745; /* Зеленый для возраста */
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+    font-weight: 500;
+}
+
