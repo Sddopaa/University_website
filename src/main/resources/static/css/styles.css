@@ -24,7 +24,6 @@ body {
 .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
 }
 
 
@@ -65,14 +64,13 @@ header {
 nav ul {
     display: flex;
     list-style: none;
-    gap: 1.5rem;
+    gap: 1.8rem;
     align-items: center;
 }
 
 nav a {
     color: #ecf0f1;
     text-decoration: none;
-    padding: 0.5rem 1rem;
     border-radius: 4px;
     transition: all 0.3s ease;
     font-weight: 500;

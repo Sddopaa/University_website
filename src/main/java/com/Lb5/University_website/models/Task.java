@@ -3,36 +3,64 @@ package com.Lb5.University_website.models;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "student_tasks")
+@Table(name = "tasks")
 public class Task {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "student_id", nullable = false)
-    private Long studentId;
+    @Column(name = "title", nullable = false, length = 50)
+    private String title;
+
+    @Column(name = "description", nullable = false, length = 200)
+    private String description;
+
+    @Column(name = "subject", nullable = false, length = 50)
+    private String subject;
 
     @Column(name = "teacher_id", nullable = false)
     private Long teacherId;
 
-    @Column(name = "task_text", nullable = false, columnDefinition = "TEXT")
-    private String taskText;
+    @Column(name = "student_id", nullable = false)
+    private Long studentId;
 
-    public Task(Long studentId, Long teacherId, String taskText) {
-        setStudentId(studentId);
+    public Task() {}
+
+    // Конструктор для быстрого создания задания
+    public Task(String title, String description, String subject, Long teacherId, Long studentId) {
+        setTitle(title);
+        setDescription(description);
+        setSubject(subject);
         setTeacherId(teacherId);
-        setTaskText(taskText);
+        setStudentId(studentId);
     }
 
+    // Геттеры и сеттеры
     public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public Long getStudentId() { return studentId; }
-    public void setStudentId(Long studentId) { this.studentId = studentId; }
+    public String getTitle() { return title; }
+    public void setTitle(String title) {
+        if (title == null || title.length() < 3 || title.length() > 50) {
+            throw new IllegalArgumentException("Наименование задания должно быть от 3 до 50 символов");
+        }
+        this.title = title;
+    }
+
+    public String getDescription() { return description; }
+    public void setDescription(String description) {
+        if (description == null || description.length() < 20 || description.length() > 200) {
+            throw new IllegalArgumentException("Текст задания должен быть от 20 до 200 символов");
+        }
+        this.description = description;
+    }
+
+    public String getSubject() { return subject; }
+    public void setSubject(String subject) { this.subject = subject; }
 
     public Long getTeacherId() { return teacherId; }
     public void setTeacherId(Long teacherId) { this.teacherId = teacherId; }
 
-    public String getTaskText() { return taskText; }
-    public void setTaskText(String taskText) { this.taskText = taskText; }
+    public Long getStudentId() { return studentId; }
+    public void setStudentId(Long studentId) { this.studentId = studentId; }
 }

@@ -1,7 +1,7 @@
 package com.Lb5.University_website.controllers;
 
 import com.Lb5.University_website.models.User;
-import com.Lb5.University_website.service.UserService;
+import com.Lb5.University_website.services.UserService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;

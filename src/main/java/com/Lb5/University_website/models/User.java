@@ -2,6 +2,7 @@ package com.Lb5.University_website.models;
 
 import jakarta.persistence.*;
 
+
 @Entity
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -13,7 +14,7 @@ public class User {
     @Column(name = "username", unique = true, nullable = false, length = 50)
     private String userName;
 
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false, length = 50)
     private String password;
 
     @Column(nullable = false, length = 20)

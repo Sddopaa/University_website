@@ -220,7 +220,7 @@ function calculateAge() {
     // Все ок, сохраняем возраст
     ageHidden.value = age;
     userAge = age;
-    ageDisplay.textContent = `Возраст: ${age} лет`;
+    ageDisplay.textContent = `Возраст: ${age}`;
 
     // Проверяем стаж если он введен
     const experienceInput = document.getElementById('workExperience');

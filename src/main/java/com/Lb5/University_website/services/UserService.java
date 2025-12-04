@@ -1,5 +1,5 @@
 // САМЫЙ ПРОСТОЙ ВАРИАНТ UserService.java
-package com.Lb5.University_website.service;
+package com.Lb5.University_website.services;
 
 import com.Lb5.University_website.models.User;
 import com.Lb5.University_website.models.Student;
@@ -75,6 +75,10 @@ public class UserService {
     // ПРОСТОЙ МЕТОД - возвращаем всегда User из userRepository
     public User getUserByUsername(String userName) {
         return userRepository.findByUserName(userName).orElse(null);
+    }
+
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     // ДОПОЛНИТЕЛЬНЫЕ МЕТОДЫ ДЛЯ КОНКРЕТНЫХ ТИПОВ

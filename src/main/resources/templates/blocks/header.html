@@ -6,6 +6,15 @@
             </a>
             <nav>
                 <ul>
+                    <li th:if="${session.user != null and session.user.role == 'teacher'}">
+                        <a href="/fromTeacher">Кабинет учителя</a>
+                    </li>
+                    <li th:if="${session.user != null and session.user.role == 'student'}">
+                        <a href="/tasks">Задания</a>
+                    </li>
+                    <li th:if="${session.user != null and session.user.role == 'admin'}">
+                        <a href="/adminPanel">Панель админа</a>
+                    </li>
                     <li><a href="/schedule">Расписание</a></li>
                     <li><a href="/info">Об университете</a></li>
 
