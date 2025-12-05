@@ -81,7 +81,27 @@ public class UserService {
         return userRepository.findById(id).orElse(null);
     }
 
-    // ДОПОЛНИТЕЛЬНЫЕ МЕТОДЫ ДЛЯ КОНКРЕТНЫХ ТИПОВ
+    public String getUserFullNameById(Long userId) {
+        User user = getUserById(userId);
+        if (user == null) {
+            return "Неизвестный пользователь";
+        }
+
+        String lastName = user.getLastName();
+        String firstName = user.getFirstName();
+        String patronymic = user.getPatronymic();
+
+        String result = lastName;
+        if (firstName != null && !firstName.isEmpty()) {
+            result += " " + firstName.charAt(0) + ".";
+        }
+        if (patronymic != null && !patronymic.isEmpty()) {
+            result += patronymic.charAt(0) + ".";
+        }
+
+        return result;
+    }
+
     public Student getStudentByUsername(String userName) {
         return studentRepository.findByUserName(userName).orElse(null);
     }

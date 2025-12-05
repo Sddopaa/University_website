@@ -28,8 +28,8 @@ public class TaskService {
         if (student == null) {
             throw new RuntimeException("Студент не найден");
         }
-
-        Task task = new Task(title, description, subject, teacherId, studentId);
+        String teacherName = userService.getUserFullNameById(teacherId);
+        Task task = new Task(title, description, subject, teacherId, teacherName, studentId);
         return taskRepository.save(task);
     }
 

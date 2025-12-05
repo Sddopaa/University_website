@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
-    <title th:text="${title}"/>
+    <title th:text="${title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="/css/styles.css" />
     <link rel="icon" href="/images/icon.ico" type="image/x-icon">
@@ -9,6 +9,33 @@
 
 <body>
 <header th:insert="blocks/header :: header"></header>
+
+<main class="main-content">
+    <div class="container">
+        <div class="tasks-container" th:if="${not #lists.isEmpty(tasks)}">
+            <!-- Карточка задания -->
+            <div class="task-card" th:each="task : ${tasks}">
+                <div class="task-header">
+                    <h3 class="task-title" th:text="${task.title}"></h3>
+                    <div class="task-meta">
+                        <span class="task-subject" th:text="'Предмет: ' + ${task.subject}"></span>
+                        <span class="task-teacher" th:text="'Преподаватель: ' + ${task.teacherName}"></span>
+                    </div>
+                </div>
+
+                <div class="task-description">
+                    <span th:text="${task.description}">Описание задания...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Если заданий нет -->
+        <div class="tasks-empty" th:if="${#lists.isEmpty(tasks)}">
+            <h3>У вас пока нет заданий</h3>
+            <p>Как только преподаватели назначат вам задания, они появятся здесь</p>
+        </div>
+    </div>
+</main>
 
 <footer th:insert="blocks/footer :: footer"></footer>
 </body>
