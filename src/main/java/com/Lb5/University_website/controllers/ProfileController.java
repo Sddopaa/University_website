@@ -61,10 +61,10 @@ public class ProfileController {
             // Удаляем старый файл если существует
             Files.deleteIfExists(filePath);
 
-            // Сохраняем файл ВСЕГДА с расширением .jpg
+            // Сохраняем файл с расширением .jpg
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            // Обновляем путь в базе данных (всегда будет .jpg)
+            // Обновляем путь в базе данных
             user.setAvatarPath("/images/userAvatar/" + fileName);
             userService.save(user);
 

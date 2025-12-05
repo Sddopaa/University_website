@@ -28,7 +28,6 @@ public class Teacher extends User {
     public Teacher(String userName, String password,
                    String firstName, String lastName, String patronymic, int age,
                    String subject, String department, String faculty, int workExperience) {
-        // Вызываем родительский конструктор с фиксированной ролью "teacher"
         super(userName, password, "teacher", firstName, lastName, patronymic, age);
 
         setSubject(subject);

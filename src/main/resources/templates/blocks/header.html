@@ -7,7 +7,7 @@
             <nav>
                 <ul>
                     <li th:if="${session.user != null and session.user.role == 'teacher'}">
-                        <a href="/fromTeacher">Кабинет учителя</a>
+                        <a href="/fromTeacher">Кабинет</a>
                     </li>
                     <li th:if="${session.user != null and session.user.role == 'student'}">
                         <a href="/tasks">Задания</a>

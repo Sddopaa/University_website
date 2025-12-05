@@ -27,16 +27,19 @@ public class Task {
     @Column(name = "student_id", nullable = false)
     private Long studentId;
 
+    @Column(name = "student_name", nullable = false)
+    private String studentName;
+
     public Task() {}
 
-    // Конструктор для быстрого создания задания
-    public Task(String title, String description, String subject, Long teacherId, String teacherName, Long studentId) {
+    public Task(String title, String description, String subject, Long teacherId, String teacherName, Long studentId, String studentName) {
         setTitle(title);
         setDescription(description);
         setSubject(subject);
         setTeacherId(teacherId);
         setTeacherName(teacherName);
         setStudentId(studentId);
+        setStudentName(studentName);
     }
 
     // Геттеры и сеттеры
@@ -70,4 +73,7 @@ public class Task {
 
     public Long getStudentId() { return studentId; }
     public void setStudentId(Long studentId) { this.studentId = studentId; }
+
+    public String getStudentName() { return studentName; }
+    public void setStudentName(String studentName) { this.studentName = studentName; }
 }

@@ -11,6 +11,9 @@ import com.Lb5.University_website.repository.TeacherRepository;
 import com.Lb5.University_website.repository.AdminRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -125,5 +128,18 @@ public class UserService {
         } else {
             return userRepository.save(user);
         }
+    }
+
+    // В UserService.java добавить:
+    public List<Student> getStudentsByFaculty(String faculty) {
+        return studentRepository.findByFaculty(faculty);
+    }
+
+    public List<Student> getStudentsByTeacherFaculty(Long teacherId) {
+        Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
+        if (teacher == null) {
+            return new ArrayList<>();
+        }
+        return studentRepository.findByFaculty(teacher.getFaculty());
     }
 }

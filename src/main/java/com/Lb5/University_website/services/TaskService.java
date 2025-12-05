@@ -29,7 +29,10 @@ public class TaskService {
             throw new RuntimeException("Студент не найден");
         }
         String teacherName = userService.getUserFullNameById(teacherId);
-        Task task = new Task(title, description, subject, teacherId, teacherName, studentId);
+        String studentName = userService.getUserFullNameById(studentId);
+        Task task = new Task(title, description, subject,
+                teacherId, teacherName,
+                studentId, studentName);
         return taskRepository.save(task);
     }
 

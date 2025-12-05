@@ -10,6 +10,172 @@
 <body>
 <header th:insert="blocks/header :: header"></header>
 
+<main class="main-content">
+    <div class="container">
+        <div th:if="${param.error}" class="error-message">
+            <span th:if="${param.error == 'faculty_mismatch'}">Вы можете давать задания только студентам своего факультета</span>
+            <span th:if="${param.error == 'student_not_found'}">Студент не найден</span>
+            <span th:if="${param.error == 'title_length'}">Название должно быть от 3 до 50 символов</span>
+            <span th:if="${param.error == 'description_length'}">Описание должно быть от 20 до 200 символов</span>
+        </div>
+
+        <div class="teacher-layout">
+            <!-- Левая часть - форма создания задания -->
+            <div class="task-form-section">
+                <h2 class="section-title">Создать новое задание</h2>
+
+                <!-- Информация о предмете -->
+                <div class="subject-info">
+                    <div><strong>Ваш предмет:</strong> <span th:text="${teacher.subject}" class="teacher-subject"></span></div>
+                    <div class="subject-hint">
+                        Задание будет автоматически привязано к этому предмету
+                    </div>
+                </div>
+
+                <form th:action="@{/teacher/createTask}" method="post" id="taskForm">
+                    <!-- Название задания -->
+                    <div class="form-group">
+                        <label for="title">Название задания:</label>
+                        <input type="text" id="title" name="title"
+                               placeholder="Курсовой проект, лабораторная работа и т.п."
+                               required minlength="3" maxlength="50"
+                               oninput="updateTitleCounter()">
+                        <div class="char-counter" id="titleCounter">
+                            <span id="currentTitleChars">0</span>/50 символов
+                        </div>
+                    </div>
+
+                    <!-- Выбор студента -->
+                    <div class="form-group">
+                        <label for="studentId">Студент (вашего факультета):</label>
+                        <select id="studentId" name="studentId" required class="student-select">
+                            <option value="">Выберите студента</option>
+                            <option th:each="student : ${students}"
+                                    th:value="${student.id}"
+                                    th:text="${student.lastName + ' ' + student.firstName + ' ' + (student.patronymic != null ? student.patronymic : '')}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Описание задания -->
+                    <div class="form-group">
+                        <label for="description">Описание задания:</label>
+                        <textarea id="description" name="description"
+                                  rows="5" placeholder="Подробное описание задания..."
+                                  required minlength="20" maxlength="200"
+                                  class="description-textarea"
+                                  oninput="updateDescriptionCounter()"></textarea>
+                        <div class="char-counter" id="descriptionCounter">
+                            <span id="currentDescChars">0</span>/200 символов
+                        </div>
+                    </div>
+
+                    <!-- Кнопка отправки -->
+                    <button type="submit" class="btn register-btn submit-task-btn">
+                        Отправить задание
+                    </button>
+                </form>
+            </div>
+
+            <!-- Правая часть - список заданий -->
+            <div class="task-list-section">
+                <h2 class="section-title">Мои задания</h2>
+
+                <div class="teacher-tasks-list" th:if="${not #lists.isEmpty(tasks)}">
+                    <div th:each="task : ${tasks}" class="teacher-task-card">
+                        <h4 th:text="${task.title}"></h4>
+                        <div class="task-meta">
+                            <div><strong>Студент:</strong> <span class="task-student" th:text="${task.studentName}"></span></div>
+                        </div>
+                        <div class="task-description-box">
+                            <span th:text="${task.description}"></span>
+                        </div>
+                        <form th:action="@{/teacher/deleteTask/{taskId}(taskId=${task.id})}"
+                              method="post"
+                              onsubmit="return confirm('Удалить это задание?')">
+                            <button type="submit" class="delete-btn">
+                                Удалить задание
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="no-tasks-message" th:if="${#lists.isEmpty(tasks)}">
+                    <h3>Нет созданных заданий</h3>
+                    <p>Создайте первое задание для студентов</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
 <footer th:insert="blocks/footer :: footer"></footer>
+
+<script>
+    // Простые счетчики символов
+    function updateTitleCounter() {
+        const titleInput = document.getElementById('title');
+        const titleCounter = document.getElementById('titleCounter');
+        const currentTitleChars = document.getElementById('currentTitleChars');
+
+        const length = titleInput.value.length;
+        currentTitleChars.textContent = length;
+
+        if (length < 3) {
+            titleCounter.classList.add('warning');
+        } else if (length > 50) {
+            titleCounter.classList.add('warning');
+        } else {
+            titleCounter.classList.remove('warning');
+        }
+    }
+
+    function updateDescriptionCounter() {
+        const descriptionInput = document.getElementById('description');
+        const descriptionCounter = document.getElementById('descriptionCounter');
+        const currentDescChars = document.getElementById('currentDescChars');
+
+        const length = descriptionInput.value.length;
+        currentDescChars.textContent = length;
+
+        if (length < 20) {
+            descriptionCounter.classList.add('warning');
+        } else if (length > 200) {
+            descriptionCounter.classList.add('warning');
+        } else {
+            descriptionCounter.classList.remove('warning');
+        }
+    }
+
+    // Простая валидация перед отправкой
+    document.getElementById('taskForm').addEventListener('submit', function(e) {
+        const title = document.getElementById('title').value.trim();
+        const studentId = document.getElementById('studentId').value;
+        const description = document.getElementById('description').value.trim();
+
+        let errorMessage = '';
+
+        if (title.length < 3 || title.length > 50) {
+            errorMessage = 'Название должно быть от 3 до 50 символов\n';
+        }
+
+        if (!studentId) {
+            errorMessage += 'Выберите студента\n';
+        }
+
+        if (description.length < 20 || description.length > 200) {
+            errorMessage += 'Описание должно быть от 20 до 200 символов';
+        }
+
+        if (errorMessage) {
+            e.preventDefault(); // Останавливаем отправку
+            alert('Ошибки в форме:\n\n' + errorMessage);
+        }
+    });
+
+    // Инициализация
+    updateTitleCounter();
+    updateDescriptionCounter();
+</script>
 </body>
 </html>

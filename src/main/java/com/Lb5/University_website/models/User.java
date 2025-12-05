@@ -46,7 +46,6 @@ public class User {
         setAge(age);
     }
 
-    // Геттеры остаются без изменений
     public Long getId() { return id; }
     public String getUserName() { return userName; }
     public String getPassword() { return password; }
