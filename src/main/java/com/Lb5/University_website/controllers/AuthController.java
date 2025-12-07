@@ -60,7 +60,6 @@ public class AuthController {
                     subject, department, workExperience
             );
 
-            // Сохраняем пользователя в сессию
             session.setAttribute("user", user);
             return "redirect:/profile";
 
