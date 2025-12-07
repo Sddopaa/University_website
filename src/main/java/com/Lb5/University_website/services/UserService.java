@@ -14,6 +14,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Сервис для работы с пользователями.
+ * Обеспечивает регистрацию, аутентификацию и управление пользователями
+ */
 @Service
 public class UserService {
 
@@ -22,6 +26,14 @@ public class UserService {
     private final TeacherRepository teacherRepository;
     private final AdminRepository adminRepository;
 
+    /**
+     * Конструктор с внедрением зависимостей репозиториев
+     *
+     * @param userRepository     Репозиторий для общих пользователей
+     * @param studentRepository  Репозиторий для студентов
+     * @param teacherRepository  Репозиторий для преподавателей
+     * @param adminRepository    Репозиторий для администраторов
+     */
     public UserService(UserRepository userRepository,
                        StudentRepository studentRepository,
                        TeacherRepository teacherRepository,
@@ -32,15 +44,37 @@ public class UserService {
         this.adminRepository = adminRepository;
     }
 
+    /**
+     * Регистрирует нового пользователя в системе
+     *
+     * @param userName          Логин пользователя
+     * @param password          Пароль пользователя
+     * @param role              Роль пользователя (student/teacher/admin)
+     * @param firstName         Имя пользователя
+     * @param lastName          Фамилия пользователя
+     * @param patronymic        Отчество пользователя
+     * @param age               Возраст пользователя
+     * @param course            Курс обучения (только для студентов)
+     * @param isTuitionFree     Признак бесплатного обучения (только для студентов)
+     * @param faculty           Факультет (для студентов и преподавателей)
+     * @param specialization    Специализация (только для студентов)
+     * @param subject           Преподаваемый предмет (только для преподавателей)
+     * @param department        Кафедра (только для преподавателей)
+     * @param workExperience    Стаж работы (только для преподавателей)
+     * @return Зарегистрированный пользователь
+     * @throws IllegalArgumentException Если логин уже занят или указана неизвестная роль
+     */
     public User registerUser(String userName, String password, String role,
                              String firstName, String lastName, String patronymic, int age,
                              Byte course, Boolean isTuitionFree, String faculty, String specialization,
                              String subject, String department, Integer workExperience) {
 
+        // Проверка уникальности логина
         if (userRepository.existsByUserName(userName)) {
             throw new IllegalArgumentException("Пользователь с именем '" + userName + "' уже занят");
         }
 
+        // Создание пользователя в зависимости от роли
         switch (role) {
             case "student":
                 Student student = new Student(userName, password, firstName, lastName,
@@ -69,21 +103,45 @@ public class UserService {
         }
     }
 
+    /**
+     * Выполняет вход пользователя в систему
+     *
+     * @param userName Логин пользователя
+     * @param password Пароль пользователя
+     * @return Авторизованный пользователь или null если данные неверны
+     */
     public User loginUser(String userName, String password) {
         return userRepository.findByUserName(userName)
                 .filter(user -> user.getPassword().equals(password))
                 .orElse(null);
     }
 
-    // ПРОСТОЙ МЕТОД - возвращаем всегда User из userRepository
+    /**
+     * Получает пользователя по имени пользователя
+     *
+     * @param userName Логин пользователя
+     * @return Найденный пользователь или null если не найден
+     */
     public User getUserByUsername(String userName) {
         return userRepository.findByUserName(userName).orElse(null);
     }
 
+    /**
+     * Получает пользователя по идентификатору
+     *
+     * @param id Идентификатор пользователя
+     * @return Найденный пользователь или null если не найден
+     */
     public User getUserById(Long id) {
         return userRepository.findById(id).orElse(null);
     }
 
+    /**
+     * Получает полное ФИО пользователя в формате "Фамилия И. О."
+     *
+     * @param userId Идентификатор пользователя
+     * @return Полное ФИО или "Неизвестный пользователь" если пользователь не найден
+     */
     public String getUserFullNameById(Long userId) {
         User user = getUserById(userId);
         if (user == null) {
@@ -105,19 +163,44 @@ public class UserService {
         return result;
     }
 
+    /**
+     * Получает студента по имени пользователя
+     *
+     * @param userName Логин студента
+     * @return Найденный студент или null если не найден
+     */
     public Student getStudentByUsername(String userName) {
         return studentRepository.findByUserName(userName).orElse(null);
     }
 
+    /**
+     * Получает преподавателя по имени пользователя
+     *
+     * @param userName Логин преподавателя
+     * @return Найденный преподаватель или null если не найден
+     */
     public Teacher getTeacherByUsername(String userName) {
         return teacherRepository.findByUserName(userName).orElse(null);
     }
 
+    /**
+     * Получает администратора по имени пользователя
+     *
+     * @param userName Логин администратора
+     * @return Найденный администратор или null если не найден
+     */
     public Admin getAdminByUsername(String userName) {
         return adminRepository.findByUserName(userName).orElse(null);
     }
 
     // ========== СОХРАНЕНИЕ ПОЛЬЗОВАТЕЛЯ В БАЗЕ ДАННЫХ ==========
+
+    /**
+     * Сохраняет пользователя в соответствующем репозитории
+     *
+     * @param user Пользователь для сохранения
+     * @return Сохраненный пользователь
+     */
     public User save(User user) {
         if (user instanceof Student) {
             return studentRepository.save((Student) user);
@@ -130,11 +213,22 @@ public class UserService {
         }
     }
 
-    // В UserService.java добавить:
+    /**
+     * Получает список студентов по факультету
+     *
+     * @param faculty Название факультета
+     * @return Список студентов указанного факультета
+     */
     public List<Student> getStudentsByFaculty(String faculty) {
         return studentRepository.findByFaculty(faculty);
     }
 
+    /**
+     * Получает список студентов по факультету преподавателя
+     *
+     * @param teacherId Идентификатор преподавателя
+     * @return Список студентов того же факультета, что и преподаватель
+     */
     public List<Student> getStudentsByTeacherFaculty(Long teacherId) {
         Teacher teacher = teacherRepository.findById(teacherId).orElse(null);
         if (teacher == null) {

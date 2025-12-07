@@ -5,6 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="/css/styles.css" />
     <link rel="icon" href="/images/icon.ico" type="image/x-icon">
+    <script src="/js/universityData.js"></script>
+    <script src="/js/adminPanel.js"></script>
 </head>
 
 <body>
@@ -45,7 +47,7 @@
                 <input type="hidden" id="newRole" name="newRole" value="">
                 <input type="hidden" id="userAge" name="userAge" value="">
 
-                <!-- Информация о факультете (заполнится через JS) -->
+                <!-- Информация о факультете -->
                 <div id="facultyInfo" class="faculty-info" style="display: none; margin-bottom: 20px; padding: 10px; background: #f5f5f5; border-radius: 5px;">
                     <p><strong>Факультет пользователя:</strong> <span id="facultyDisplay"></span></p>
                 </div>
@@ -125,9 +127,5 @@
 
 <footer th:insert="blocks/footer :: footer"></footer>
 
-<!-- Подключаем общие данные университета -->
-<script src="/js/universityData.js"></script>
-<!-- Подключаем скрипт админ-панели -->
-<script src="/js/adminPanel.js"></script>
 </body>
 </html>

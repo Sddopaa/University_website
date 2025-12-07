@@ -1,10 +1,4 @@
-/* ======================================================================
-   University Website - Main Stylesheet
-   Структура организована по компонентам для удобства поддержки
-   ====================================================================== */
-
-/* ===== 1. GLOBAL STYLES (Базовые стили) ===== */
-/* Применяются ко всем страницам */
+/* ===== 1. GLOBAL STYLES ===== */
 * {
     margin: 0;
     padding: 0;
@@ -26,9 +20,7 @@ body {
     margin: 0 auto;
 }
 
-
-/* ===== 2. HEADER COMPONENT (Шапка сайта) ===== */
-/* header.html - Шапка с навигацией */
+/* ===== 2. HEADER ===== */
 header {
     background: linear-gradient(135deg, #2c3e50, #34495e);
     color: white;
@@ -45,7 +37,6 @@ header {
     padding: 1rem 0;
 }
 
-/* Логотип */
 .logo-link {
     font-size: 1.8rem;
     font-weight: bold;
@@ -60,7 +51,6 @@ header {
     color: #3498db;
 }
 
-/* Навигационное меню */
 nav ul {
     display: flex;
     list-style: none;
@@ -81,9 +71,7 @@ nav a:hover {
     transform: translateY(-2px);
 }
 
-
-/* ===== 3. BUTTONS COMPONENT (Кнопки) ===== */
-/* Используются во всех компонентах */
+/* ===== 3. BUTTONS ===== */
 .btn {
     background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
@@ -102,7 +90,6 @@ nav a:hover {
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
 
-/* Вторичная кнопка */
 .btn-secondary {
     background: linear-gradient(135deg, #95a5a6, #7f8c8d);
 }
@@ -111,9 +98,7 @@ nav a:hover {
     background: linear-gradient(135deg, #7f8c8d, #95a5a6);
 }
 
-
-/* ===== 4. MAIN CONTENT AREA (Основная область контента) ===== */
-/* main.html / home.html / info.html */
+/* ===== 4. MAIN CONTENT ===== */
 .main-content {
     flex: 1;
     padding: 3rem 0;
@@ -127,9 +112,7 @@ nav a:hover {
     font-weight: 300;
 }
 
-
-/* ===== 5. CARDS COMPONENT (Карточки) ===== */
-/* home.html - Карточки на главной */
+/* ===== 5. CARDS ===== */
 .cards-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -164,9 +147,7 @@ nav a:hover {
     line-height: 1.5;
 }
 
-
-/* ===== 6. FORM COMPONENTS (Формы) ===== */
-/* login.html, register.html - Формы входа и регистрации */
+/* ===== 6. FORMS ===== */
 .login-container, .registration-container {
     display: flex;
     justify-content: center;
@@ -197,7 +178,6 @@ nav a:hover {
     font-weight: 300;
 }
 
-/* Стили для групп полей формы */
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -209,16 +189,17 @@ nav a:hover {
     font-weight: 500;
 }
 
-.form-group input, .form-group select {
+.form-group input, .form-group select, .form-group textarea {
     width: 100%;
     padding: 0.75rem;
     border: 2px solid #e9ecef;
     border-radius: 8px;
     font-size: 1rem;
     transition: all 0.3s ease;
+    font-family: inherit;
 }
 
-.form-group input:focus, .form-group select:focus {
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
     outline: none;
     border-color: #3498db;
     box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
@@ -230,7 +211,6 @@ nav a:hover {
     cursor: not-allowed;
 }
 
-/* Строки формы (два поля в ряд) */
 .form-row {
     display: flex;
     gap: 1rem;
@@ -240,7 +220,6 @@ nav a:hover {
     flex: 1;
 }
 
-/* Чекбоксы */
 .checkbox-label {
     display: flex;
     align-items: center;
@@ -253,8 +232,7 @@ nav a:hover {
     margin-left: 10px;
 }
 
-/* Кнопки форм */
-.login-btn, .register-btn {
+.login-btn, .register-btn, .submit-task-btn, .admin-submit-btn {
     width: 100%;
     padding: 0.75rem;
     color: white;
@@ -264,25 +242,27 @@ nav a:hover {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s ease;
+    margin-top: 1rem;
 }
 
 .login-btn {
     background: linear-gradient(135deg, #3498db, #2980b9);
 }
 
-.register-btn {
+.register-btn, .submit-task-btn {
     background: linear-gradient(135deg, #27ae60, #229954);
-    margin-top: 1rem;
 }
 
-.login-btn:hover, .register-btn:hover {
+.admin-submit-btn {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+}
+
+.login-btn:hover, .register-btn:hover, .submit-task-btn:hover, .admin-submit-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
 
-
-/* ===== 7. REGISTRATION PAGE SPECIFIC (Регистрация) ===== */
-/* register.html - Специфичные стили для страницы регистрации */
+/* ===== 7. REGISTRATION SPECIFIC ===== */
 .user-type-selector {
     display: flex;
     gap: 1rem;
@@ -310,9 +290,7 @@ nav a:hover {
     color: white;
 }
 
-
-/* ===== 8. SCHEDULE PAGE (Расписание) ===== */
-/* schedule.html - Стили для расписания */
+/* ===== 8. SCHEDULE ===== */
 .schedule-section {
     margin-top: 1.3rem;
     padding: 0.5rem;
@@ -326,7 +304,6 @@ nav a:hover {
     padding-bottom: 0.5rem;
 }
 
-/* Таблицы расписания */
 table {
     width: 100%;
     border-collapse: collapse;
@@ -360,9 +337,7 @@ td:not(.empty) {
     color: #2c3e50;
 }
 
-
-/* ===== 9. INFO PAGE (Об университете) ===== */
-/* info.html - Страница "Об университете" */
+/* ===== 9. INFO PAGE ===== */
 .university-hero {
     background: linear-gradient(135deg, #3498db, #2980b9);
     color: white;
@@ -430,15 +405,12 @@ td:not(.empty) {
     border-left: 4px solid #87CEEB;
 }
 
-
-/* ===== 10. PROFILE PAGE (Упрощенный профиль) ===== */
-/* 1. Контейнер профиля */
+/* ===== 10. PROFILE PAGE ===== */
 .profile-container {
     max-width: 700px;
     margin: 0 auto;
 }
 
-/* 2. Карточка профиля */
 .profile-card {
     background: white;
     border-radius: 15px;
@@ -446,7 +418,6 @@ td:not(.empty) {
     overflow: hidden;
 }
 
-/* 3. Шапка с аватаром */
 .profile-header {
     display: flex;
     align-items: flex-start;
@@ -456,7 +427,6 @@ td:not(.empty) {
     gap: 2rem;
 }
 
-/* 4. Блок аватара с кнопкой */
 .avatar-section {
     display: flex;
     flex-direction: column;
@@ -473,7 +443,6 @@ td:not(.empty) {
     background-color: #f0f0f0;
 }
 
-/* 5. Кнопка смены аватара (в шапке) */
 .change-avatar-btn {
     background: white;
     color: #4a6fa5;
@@ -492,7 +461,6 @@ td:not(.empty) {
     transform: translateY(-2px);
 }
 
-/* 6. Информация в шапке */
 .profile-info {
     flex: 1;
 }
@@ -509,7 +477,6 @@ td:not(.empty) {
     margin-bottom: 10px;
 }
 
-/* 7. Основная секция с информацией */
 .profile-main-section {
     padding: 2rem;
 }
@@ -521,7 +488,6 @@ td:not(.empty) {
     font-weight: 600;
 }
 
-/* 8. Сетка информации */
 .info-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -545,13 +511,11 @@ td:not(.empty) {
     font-size: 1rem;
 }
 
-/* 9. Стили для значений */
 .info-value.budget { color: #27ae60; }
 .info-value.contract { color: #e67e22; }
 .info-value.senior { color: #8e44ad; }
 .info-value.junior { color: #3498db; }
 
-/* 10. Блок с кнопкой смены пароля */
 .profile-actions {
     padding: 1.5rem 2rem;
     text-align: center;
@@ -576,112 +540,12 @@ td:not(.empty) {
     transform: translateY(-2px);
 }
 
-
-/* ===== 11. FOOTER COMPONENT (Подвал сайта) ===== */
-/* footer.html - Подвал */
-footer {
-    background: #2c3e50;
-    color: #ecf0f1;
-    padding: 2rem 0;
-    margin-top: auto;
-}
-
-.footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-}
-
-/* GitHub ссылка в подвале */
-.github-link {
-    color: #ecf0f1;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ecf0f1;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-}
-
-.github-link:hover {
-    background-color: #ecf0f1;
-    color: #2c3e50;
-}
-
-
-/* ===== 12. UTILITY CLASSES (Вспомогательные классы) ===== */
-/* Используются для быстрой стилизации в HTML */
-.mt-1 { margin-top: 1rem; }
-.mt-2 { margin-top: 2rem; }
-.text-center { text-align: center; }
-
-/* Ссылки под формами */
-.login-links, .registration-links {
-    text-align: center;
-    margin-top: 1.5rem;
-}
-
-.login-links a, .registration-links a {
-    color: #3498db;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.login-links a:hover, .registration-links a:hover {
-    color: #2980b9;
-    text-decoration: underline;
-}
-
-/* Сообщения об ошибках и успехе */
-.error-message {
-    background: #ffebee;
-    color: #c62828;
-    padding: 0.75rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    border: 1px solid #ffcdd2;
-    text-align: center;
-}
-
-.success-message {
-    background: #e8f5e8;
-    color: #2e7d32;
-    padding: 0.75rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    border: 1px solid #c8e6c9;
-    text-align: center;
-}
-
-
-/* ===== 13. FIELD ERROR STYLES (Стили для ошибок полей) ===== */
-.field-error {
-    color: #dc3545; /* Красный цвет */
-    font-size: 0.85rem;
-    margin-top: 0.3rem;
-    min-height: 1.2rem;
-    font-weight: 500;
-}
-
-
-/* Возраст */
-.age-display {
-    color: #28a745; /* Зеленый для возраста */
-    font-size: 0.9rem;
-    margin-top: 0.3rem;
-    font-weight: 500;
-}
-
-/* ===== PROFILE PAGE - AVATAR BUTTONS (Кнопки аватара) ===== */
 .avatar-buttons {
     display: flex;
     gap: 10px;
     margin-top: 15px;
 }
 
-/* Кнопка удаления аватара (крестик) */
 .remove-avatar-btn {
     background: #e74c3c;
     color: white;
@@ -703,9 +567,8 @@ footer {
     background: #c0392b;
     transform: scale(1.1);
 }
-/* ===== 14. TASKS PAGE ===== */
 
-/* Контейнер для заданий - 3 колонки */
+/* ===== 11. TASKS PAGE ===== */
 .tasks-container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -713,7 +576,6 @@ footer {
     padding: 2rem 0;
 }
 
-/* Карточка задания */
 .task-card {
     background: white;
     border-radius: 12px;
@@ -731,7 +593,6 @@ footer {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-/* Заголовок карточки */
 .task-header {
     margin-bottom: 1rem;
 }
@@ -743,7 +604,6 @@ footer {
     font-weight: 600;
 }
 
-/* Мета-информация */
 .task-meta {
     display: flex;
     flex-direction: column;
@@ -761,7 +621,6 @@ footer {
     color: #555;
 }
 
-/* Текст задания */
 .task-description {
     color: #333;
     line-height: 1.5;
@@ -773,7 +632,6 @@ footer {
     border: 1px solid #eee;
 }
 
-/* Пустое состояние */
 .tasks-empty {
     text-align: center;
     padding: 4rem 2rem;
@@ -795,16 +653,13 @@ footer {
     font-size: 1rem;
 }
 
-/* ===== TEACHER DASHBOARD STYLES ===== */
-
-/* Расположение 2/3 и 1/3 */
+/* ===== 12. TEACHER DASHBOARD ===== */
 .teacher-layout {
     display: flex;
     gap: 2rem;
     margin-top: 2rem;
 }
 
-/* Левая часть - форма создания (2/3) */
 .task-form-section {
     flex: 2;
     background: white;
@@ -813,7 +668,6 @@ footer {
     box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
-/* Правая часть - список заданий (1/3) */
 .task-list-section {
     flex: 1;
     background: white;
@@ -824,16 +678,6 @@ footer {
     overflow-y: auto;
 }
 
-/* Заголовки секций */
-.section-title {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 0.5rem;
-}
-
-/* Информация о предмете */
 .subject-info {
     background: #f8f9fa;
     padding: 1rem;
@@ -853,38 +697,17 @@ footer {
     margin-top: 0.3rem;
 }
 
-/* Текстовое поле описания */
 .description-textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-family: inherit;
     resize: vertical;
-    transition: all 0.3s ease;
+    min-height: 100px;
 }
 
-.description-textarea:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-}
-
-/* Кнопка отправки задания */
-.submit-task-btn {
-    width: 100%;
-    padding: 0.75rem;
-}
-
-/* Список заданий преподавателя */
 .teacher-tasks-list {
     display: flex;
     flex-direction: column;
     gap: 1rem;
 }
 
-/* Карточка задания преподавателя */
 .teacher-task-card {
     background: #f8f9fa;
     border-radius: 8px;
@@ -904,17 +727,6 @@ footer {
     font-size: 1.1rem;
 }
 
-/* Мета-информация задания */
-.task-meta {
-    margin-bottom: 0.8rem;
-    font-size: 0.9rem;
-}
-
-.task-meta div {
-    margin-bottom: 0.3rem;
-}
-
-/* Блок с описанием задания */
 .task-description-box {
     background: white;
     padding: 0.75rem;
@@ -930,7 +742,6 @@ footer {
     color: #333;
 }
 
-/* Стили для скроллбара в описании */
 .task-description-box::-webkit-scrollbar {
     width: 6px;
 }
@@ -949,12 +760,10 @@ footer {
     background: #999;
 }
 
-/* Информация о студенте */
 .task-student {
     font-weight: 500;
 }
 
-/* Кнопка удаления */
 .delete-btn {
     background: #e74c3c;
     color: white;
@@ -971,7 +780,6 @@ footer {
     transform: translateY(-2px);
 }
 
-/* Счетчики символов */
 .char-counter {
     text-align: right;
     font-size: 0.85rem;
@@ -983,7 +791,6 @@ footer {
     color: #e74c3c;
 }
 
-/* Сообщение когда нет заданий */
 .no-tasks-message {
     text-align: center;
     padding: 3rem;
@@ -995,26 +802,11 @@ footer {
     font-weight: 300;
 }
 
-/* Выпадающий список студентов */
 .student-select {
-    width: 100%;
-    padding: 0.75rem;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    font-size: 1rem;
     background: white;
-    transition: all 0.3s ease;
 }
 
-.student-select:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
-}
-
-/* ===== ADMIN PANEL STYLES ===== */
-
-/* Карточка админ-формы */
+/* ===== 13. ADMIN PANEL ===== */
 .admin-form-card {
     background: white;
     border-radius: 15px;
@@ -1031,47 +823,23 @@ footer {
     font-weight: 300;
 }
 
-.admin-form-description {
-    color: #7f8c8d;
-    margin-bottom: 2rem;
-    line-height: 1.5;
-}
-
-/* Поля для ролей */
 .role-fields {
     margin-top: 20px;
     padding: 20px;
     background: #f8f9fa;
     border-radius: 8px;
-    border-left: 4px solid;
+    border-left: 4px solid #3498db;
     display: none;
-}
-
-.teacher-fields {
-    border-left-color: #3498db;
-}
-
-.student-fields {
-    border-left-color: #3498db;
 }
 
 .role-fields h4 {
     color: #2c3e50;
     margin-bottom: 1rem;
     font-size: 1.2rem;
-    border-bottom: 2px solid;
+    border-bottom: 2px solid #3498db;
     padding-bottom: 0.5rem;
 }
 
-.teacher-fields h4 {
-    border-color: #e74c3c;
-}
-
-.student-fields h4 {
-    border-color: #3498db;
-}
-
-/* Сетка для полей */
 .admin-form-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -1079,35 +847,95 @@ footer {
     margin-bottom: 1.2rem;
 }
 
-/* Кнопка админки */
-.admin-submit-btn {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
-    color: white;
-    padding: 0.75rem 2rem;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    width: 100%;
-    margin-top: 1.5rem;
-}
-
-.admin-submit-btn:hover {
-    background: linear-gradient(135deg, #c0392b, #a93226);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
-}
-
 .admin-button-group {
     text-align: center;
 }
 
-/* Для выпадающих списков с зависимыми полями */
-.dependent-select:disabled {
-    background-color: #f5f5f5;
-    color: #999;
-    cursor: not-allowed;
+/* ===== 14. FOOTER ===== */
+footer {
+    background: #2c3e50;
+    color: #ecf0f1;
+    padding: 2rem 0;
+    margin-top: auto;
 }
 
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.github-link {
+    color: #ecf0f1;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ecf0f1;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+}
+
+.github-link:hover {
+    background-color: #ecf0f1;
+    color: #2c3e50;
+}
+
+/* ===== 15. UTILITY CLASSES ===== */
+.mt-1 { margin-top: 1rem; }
+.mt-2 { margin-top: 2rem; }
+.text-center { text-align: center; }
+
+.login-links, .registration-links {
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.login-links a, .registration-links a {
+    color: #3498db;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.login-links a:hover, .registration-links a:hover {
+    color: #2980b9;
+    text-decoration: underline;
+}
+
+/* ===== 16. MESSAGES ===== */
+.error-message {
+    background: #ffebee;
+    color: #c62828;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #ffcdd2;
+    text-align: center;
+}
+
+.success-message {
+    background: #e8f5e8;
+    color: #2e7d32;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    border: 1px solid #c8e6c9;
+    text-align: center;
+}
+
+/* ===== 17. FIELD ERRORS ===== */
+.field-error {
+    color: #dc3545;
+    font-size: 0.85rem;
+    margin-top: 0.3rem;
+    min-height: 1.2rem;
+    font-weight: 500;
+}
+
+.age-display {
+    color: #28a745;
+    font-size: 0.9rem;
+    margin-top: 0.3rem;
+    font-weight: 500;
+}

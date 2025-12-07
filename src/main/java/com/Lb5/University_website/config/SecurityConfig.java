@@ -12,14 +12,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-//                .authorizeHttpRequests(auth -> auth
-//                        .anyRequest().permitAll()  // Разрешаем ВСЕ запросы без авторизации
-//                )
-                .formLogin(form -> form.disable());  // Отключаем форму логина Spring
-//                .httpBasic(basic -> basic.disable()) // Отключаем basic auth
-//                .csrf(csrf -> csrf.disable());      // Отключаем CSRF
-
+        http.formLogin(form -> form.disable());  // Отключаем форму логина Spring
         return http.build();
     }
 }

@@ -13,24 +13,40 @@ import jakarta.servlet.http.HttpSession;
 
 import java.nio.file.*;
 
+/**
+ * Контроллер для обработки операций с профилем пользователя
+ */
 @Controller
 public class ProfileController {
 
     @Autowired
     private UserService userService;
 
+    // Директория для сохранения аватаров пользователей
     private final String AVATAR_DIR = "src/main/resources/static/images/userAvatar/";
-    private final String DEFAULT_EXTENSION = ".jpg"; // Все файлы будем сохранять как .jpg
 
+    // Расширение по умолчанию для всех загружаемых изображений
+    private final String DEFAULT_EXTENSION = ".jpg";
+
+    /**
+     * Обрабатывает загрузку аватара пользователя
+     *
+     * @param file          Загружаемый файл изображения
+     * @param session       Сессия HTTP для проверки авторизации
+     * @param redirect      Атрибуты для передачи сообщений при редиректе
+     * @return Редирект на страницу профиля с сообщением о результате
+     */
     @PostMapping("/profile/upload-avatar")
     public String uploadAvatar(@RequestParam("avatar") MultipartFile file,
                                HttpSession session,
                                RedirectAttributes redirect) {
 
+        // Проверка авторизации пользователя
         User sessionUser = (User) session.getAttribute("user");
         if (sessionUser == null) return "redirect:/login";
 
         try {
+            // Получение актуальных данных пользователя из базы
             User user = userService.getUserByUsername(sessionUser.getUserName());
 
             // Проверка 1: файл не пустой
@@ -39,38 +55,36 @@ public class ProfileController {
                 return "redirect:/profile";
             }
 
-            // Проверка 2: файл является картинкой
+            // Проверка 2: файл является изображением
             if (!file.getContentType().startsWith("image/")) {
                 redirect.addFlashAttribute("error", "Только изображения");
                 return "redirect:/profile";
             }
 
-            // ВСЕГДА используем .jpg расширение, независимо от исходного файла
-            String fileName = user.getUserName() + DEFAULT_EXTENSION; // всегда user123.jpg
-
+            // Формирование имени файла: username + .jpg
+            String fileName = user.getUserName() + DEFAULT_EXTENSION;
             Path dir = Paths.get(AVATAR_DIR);
 
-            // Создаем папку если не существует
+            // Создание директории если она не существует
             if (!Files.exists(dir)) {
                 Files.createDirectories(dir);
             }
 
-            // Полный путь к файлу
+            // Формирование полного пути к файлу
             Path filePath = dir.resolve(fileName);
 
-            // Удаляем старый файл если существует
+            // Удаление старого файла если он существует
             Files.deleteIfExists(filePath);
 
-            // Сохраняем файл с расширением .jpg
+            // Сохранение нового файла
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            // Обновляем путь в базе данных
+            // Обновление пути к аватару в базе данных
             user.setAvatarPath("/images/userAvatar/" + fileName);
             userService.save(user);
 
-            // Обновляем сессию
+            // Обновление данных пользователя в сессии
             session.setAttribute("user", user);
-
             redirect.addFlashAttribute("success", "Аватар обновлен");
 
         } catch (Exception e) {
@@ -80,20 +94,29 @@ public class ProfileController {
         return "redirect:/profile";
     }
 
+    /**
+     * Обрабатывает удаление аватара пользователя
+     *
+     * @param session  Сессия HTTP для проверки авторизации
+     * @param redirect Атрибуты для передачи сообщений при редиректе
+     * @return Редирект на страницу профиля с сообщением о результате
+     */
     @PostMapping("/profile/remove-avatar")
     public String removeAvatar(HttpSession session, RedirectAttributes redirect) {
 
+        // Проверка авторизации пользователя
         User sessionUser = (User) session.getAttribute("user");
         if (sessionUser == null) return "redirect:/login";
 
         try {
+            // Получение актуальных данных пользователя из базы
             User user = userService.getUserByUsername(sessionUser.getUserName());
 
-            // Устанавливаем дефолтную аватарку
+            // Установка аватара по умолчанию
             user.setDefaultAvatarPath();
             userService.save(user);
 
-            // Обновляем сессию
+            // Обновление данных пользователя в сессии
             session.setAttribute("user", user);
             redirect.addFlashAttribute("success", "Аватар удален");
 
@@ -104,4 +127,3 @@ public class ProfileController {
         return "redirect:/profile";
     }
 }
-

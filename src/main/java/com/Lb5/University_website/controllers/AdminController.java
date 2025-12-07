@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Контроллер для обработки запросов администратора
+ */
 @Controller
 public class AdminController {
 
@@ -28,9 +31,13 @@ public class AdminController {
     @Autowired
     private AdminRepository adminRepository;
 
+    /**
+     * Отображает панель администратора
+     */
     @GetMapping("/adminPanel")
     public String adminPanel(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
+        // Проверка прав доступа администратора
         if (user == null || !user.getRole().equals("admin")) {
             return "redirect:/";
         }
@@ -44,6 +51,21 @@ public class AdminController {
         return "adminPanel";
     }
 
+    /**
+     * Изменяет роль пользователя
+     *
+     * @param userId               Идентификатор пользователя
+     * @param newRole              Новая роль пользователя (student/teacher)
+     * @param course               Курс обучения (только для студентов)
+     * @param isTuitionFree        Признак бесплатного обучения (только для студентов)
+     * @param specialization       Специализация (только для студентов)
+     * @param subject              Преподаваемый предмет (только для преподавателей)
+     * @param department           Кафедра (только для преподавателей)
+     * @param workExperience       Опыт работы (только для преподавателей)
+     * @param session              Сессия HTTP для проверки прав администратора
+     * @param redirectAttributes   Атрибуты для передачи сообщений между запросами
+     * @return Редирект на панель администратора с сообщением о результате операции
+     */
     @PostMapping("/adminPanel/changeRole")
     public String changeUserRole(
             @RequestParam Long userId,
@@ -58,13 +80,17 @@ public class AdminController {
             RedirectAttributes redirectAttributes) {
 
         User adminUser = (User) session.getAttribute("user");
+        // Проверка прав администратора
         if (adminUser == null || !adminUser.getRole().equals("admin")) {
             return "redirect:/";
         }
 
         try {
-            User oldUser = userRepository.findById(userId).get();
+            // Получение пользователя по ID и исключение если не найден
+            User oldUser = userRepository.findById(userId)
+                    .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
 
+            // Сохранение данных пользователя для переноса в новую роль
             String userName = oldUser.getUserName();
             String password = oldUser.getPassword();
             String firstName = oldUser.getFirstName();
@@ -74,6 +100,7 @@ public class AdminController {
             String avatarPath = oldUser.getAvatarPath();
             String oldRole = oldUser.getRole();
 
+            // Получение факультета из старой роли
             String faculty = "";
             if (oldRole.equals("student")) {
                 faculty = studentRepository.findById(userId).get().getFaculty();
@@ -81,6 +108,7 @@ public class AdminController {
                 faculty = teacherRepository.findById(userId).get().getFaculty();
             }
 
+            // Удаление из старой роли
             if (oldRole.equals("student")) {
                 studentRepository.deleteById(userId);
             } else if (oldRole.equals("teacher")) {
@@ -88,6 +116,7 @@ public class AdminController {
             }
             userRepository.deleteById(userId);
 
+            // Создание новой записи
             if (newRole.equals("student")) {
                 Student student = new Student(
                         userName, password, firstName, lastName,
@@ -118,20 +147,19 @@ public class AdminController {
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Ошибка: " + e.getMessage());
         }
-
         return "redirect:/adminPanel";
     }
 
-    // Новый endpoint для получения факультета пользователя
+    /**
+     * Получает факультет пользователя по его ID
+     */
     @GetMapping("/adminPanel/getFaculty/{userId}")
     @ResponseBody
     public String getUserFaculty(@PathVariable Long userId) {
         Optional<User> userOpt = userRepository.findById(userId);
-        if (!userOpt.isPresent()) {
-            return "";
-        }
-
         User user = userOpt.get();
+
+        // Возвращаем факультет
         if (user.getRole().equals("student")) {
             Optional<Student> studentOpt = studentRepository.findById(userId);
             return studentOpt.map(Student::getFaculty).orElse("");
