@@ -10,6 +10,124 @@
 <body>
 <header th:insert="blocks/header :: header"></header>
 
+<main class="main-content">
+    <div class="container">
+
+        <div th:if="${success}" class="success-message">
+            <span th:text="${success}"></span>
+        </div>
+
+        <div th:if="${error}" class="error-message">
+            <span th:text="${error}"></span>
+        </div>
+
+        <!-- Форма смены роли -->
+        <div class="admin-form-card">
+            <h3 class="admin-form-title">Смена роли пользователя</h3>
+
+            <form th:action="@{/adminPanel/changeRole}" method="post" id="changeRoleForm">
+
+                <!-- Выбор пользователя -->
+                <div class="form-group">
+                    <label for="userSelect">Выберите пользователя:</label>
+                    <select id="userSelect" name="userId" class="form-control" required onchange="showRoleFields()">
+                        <option value="">Выберите пользователя:</option>
+                        <option th:each="user : ${users}"
+                                th:value="${user.id}"
+                                th:data-role="${user.role}"
+                                th:data-age="${user.age}"
+                                th:text="|${user.userName} - ${user.lastName} ${user.firstName} (${user.role})|">
+                        </option>
+                    </select>
+                </div>
+
+                <!-- Скрытые поля -->
+                <input type="hidden" id="newRole" name="newRole" value="">
+                <input type="hidden" id="userAge" name="userAge" value="">
+
+                <!-- Информация о факультете (заполнится через JS) -->
+                <div id="facultyInfo" class="faculty-info" style="display: none; margin-bottom: 20px; padding: 10px; background: #f5f5f5; border-radius: 5px;">
+                    <p><strong>Факультет пользователя:</strong> <span id="facultyDisplay"></span></p>
+                </div>
+
+                <!-- Поля для смены студента на преподавателя -->
+                <div id="studentToTeacherFields" class="role-fields teacher-fields">
+                    <h4>Данные преподавателя</h4>
+
+                    <div class="form-group">
+                        <label for="department">Кафедра:</label>
+                        <select id="department" name="department" class="form-control" required>
+                            <option value="">Выберите кафедру</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Предмет:</label>
+                        <select id="subject" name="subject" class="form-control" required disabled>
+                            <option value="">Сначала выберите кафедру</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="workExperience">Стаж работы (лет):</label>
+                        <input type="number" id="workExperience" name="workExperience"
+                               min="0" max="50" class="form-control" value="0" required
+                               oninput="validateWorkExperience()">
+                        <div class="field-error" id="workExperienceError"></div>
+                    </div>
+                </div>
+
+                <!-- Поля для смены преподавателя на студента -->
+                <div id="teacherToStudentFields" class="role-fields student-fields">
+                    <h4>Данные студента</h4>
+
+                    <div class="form-group">
+                        <label for="specialization">Специализация:</label>
+                        <select id="specialization" name="specialization" class="form-control" required>
+                            <option value="">Выберите специализацию</option>
+                        </select>
+                    </div>
+
+                    <div class="admin-form-grid">
+                        <div class="form-group">
+                            <label for="course">Курс:</label>
+                            <select id="course" name="course" class="form-control" required>
+                                <option value="">Выберите курс</option>
+                                <option value="1">1 курс</option>
+                                <option value="2">2 курс</option>
+                                <option value="3">3 курс</option>
+                                <option value="4">4 курс</option>
+                                <option value="5">5 курс</option>
+                                <option value="6">6 курс</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="tuitionFree">Тип обучения:</label>
+                            <select id="tuitionFree" name="isTuitionFree" class="form-control" required>
+                                <option value="true">Бюджет</option>
+                                <option value="false">Контракт</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Кнопка отправки -->
+                <div class="form-group admin-button-group">
+                    <button type="button" class="btn admin-submit-btn" onclick="submitAdminForm()">
+                        Изменить роль пользователя
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+
 <footer th:insert="blocks/footer :: footer"></footer>
+
+<!-- Подключаем общие данные университета -->
+<script src="/js/universityData.js"></script>
+<!-- Подключаем скрипт админ-панели -->
+<script src="/js/adminPanel.js"></script>
 </body>
 </html>
