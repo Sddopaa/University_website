@@ -26,6 +26,18 @@
                 <div class="task-description">
                     <span th:text="${task.description}">Описание задания...</span>
                 </div>
+
+                <!-- Список файлов -->
+                <div class="task-files" th:if="${not #lists.isEmpty(task.attachmentPaths)}">
+                    <strong>Файлы задания:</strong>
+                    <div th:each="filePath : ${task.attachmentPaths}" class="task-file-item">
+                        <a th:href="@{'/tasks/download/' + ${filePath}}"
+                           th:text="${filePath}"
+                           target="_blank"
+                           class="task-file-link">
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
 

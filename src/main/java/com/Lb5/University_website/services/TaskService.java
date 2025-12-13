@@ -4,15 +4,18 @@ import com.Lb5.University_website.models.Task;
 import com.Lb5.University_website.models.User;
 import com.Lb5.University_website.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
-/**
- * Сервис для работы с заданиями.
- * Обеспечивает бизнес-логику создания, получения и удаления заданий
- */
 @Service
 @Transactional
 public class TaskService {
@@ -23,65 +26,33 @@ public class TaskService {
     @Autowired
     private UserService userService;
 
-    /**
-     * Создает новое задание для студента
-     *
-     * @param title       Заголовок задания
-     * @param description Описание задания
-     * @param subject     Учебный предмет
-     * @param teacherId   ID преподавателя, создающего задание
-     * @param studentId   ID студента, которому назначено задание
-     * @return Созданное задание
-     * @throws RuntimeException Если студент не найден
-     */
-    public Task createTask(String title, String description, String subject,
-                           Long teacherId, Long studentId) {
+    // ===== Папка для файлов заданий =====
+    private final Path rootDir = Paths.get("tasksFiles");
 
-        // Проверка существования пользователей
+    // ===================== Работа с заданиями =====================
+    public Task createTask(String title, String description, String subject, Long teacherId, Long studentId) {
         User teacher = userService.getUserById(teacherId);
         User student = userService.getUserById(studentId);
-        if (student == null) {
-            throw new RuntimeException("Студент не найден");
-        }
+        if (student == null) throw new RuntimeException("Студент не найден");
 
-        // Получение полных имен преподавателя и студента
         String teacherName = userService.getUserFullNameById(teacherId);
         String studentName = userService.getUserFullNameById(studentId);
 
-        // Создание и сохранение задания
         Task task = new Task(title, description, subject,
                 teacherId, teacherName,
                 studentId, studentName);
+
         return taskRepository.save(task);
     }
 
-    /**
-     * Получает список всех заданий, созданных преподавателем
-     *
-     * @param teacherId ID преподавателя
-     * @return Список заданий преподавателя
-     */
     public List<Task> getTeacherTasks(Long teacherId) {
         return taskRepository.findByTeacherId(teacherId);
     }
 
-    /**
-     * Получает список всех заданий, назначенных студенту
-     *
-     * @param studentId ID студента
-     * @return Список заданий студента
-     */
     public List<Task> getStudentTasks(Long studentId) {
         return taskRepository.findByStudentId(studentId);
     }
 
-    /**
-     * Удаляет задание с проверкой прав преподавателя
-     *
-     * @param taskId    ID задания для удаления
-     * @param teacherId ID преподавателя, пытающегося удалить задание
-     * @return true если задание удалено, false если задание не найдено или нет прав
-     */
     public boolean deleteTask(Long taskId, Long teacherId) {
         Task task = taskRepository.findByIdAndTeacherId(taskId, teacherId);
         if (task != null) {
@@ -91,26 +62,40 @@ public class TaskService {
         return false;
     }
 
-    /**
-     * Получает задание по его ID
-     *
-     * @param taskId ID задания
-     * @return Найденное задание
-     * @throws RuntimeException Если задание не найдено
-     */
     public Task getTaskById(Long taskId) {
         return taskRepository.findById(taskId)
                 .orElseThrow(() -> new RuntimeException("Задание не найдено"));
     }
 
-    /**
-     * Проверяет, может ли преподаватель удалить задание
-     *
-     * @param taskId    ID задания
-     * @param teacherId ID преподавателя
-     * @return true если преподаватель создал это задание, иначе false
-     */
-    public boolean canTeacherDeleteTask(Long taskId, Long teacherId) {
-        return taskRepository.findByIdAndTeacherId(taskId, teacherId) != null;
+    public Task saveTask(Task task) {
+        return taskRepository.save(task);
+    }
+
+    // ===================== Работа с файлами =====================
+    public String saveFile(MultipartFile file, Long taskId) throws IOException {
+        if (file == null || file.isEmpty()) throw new IllegalArgumentException("Файл не может быть пустым");
+
+        String originalFilename = file.getOriginalFilename();
+        if (originalFilename == null) originalFilename = "unknown";
+
+        String safeFilename = taskId + "_" + originalFilename.replaceAll("[^a-zA-Z0-9\\.\\-_]", "_");
+
+        if (!Files.exists(rootDir)) {
+            Files.createDirectories(rootDir);
+        }
+
+        Path destination = rootDir.resolve(safeFilename);
+        file.transferTo(destination);
+
+        return safeFilename;
+    }
+
+    public Path getFilePath(String fileName) {
+        return rootDir.resolve(fileName);
+    }
+
+    public Resource getResource(String fileName) {
+        Path path = getFilePath(fileName);
+        return new FileSystemResource(path.toFile());
     }
 }

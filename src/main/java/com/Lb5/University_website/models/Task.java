@@ -1,6 +1,8 @@
 package com.Lb5.University_website.models;
 
 import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Модель задания, выдаваемого преподавателем студенту
@@ -34,6 +36,14 @@ public class Task {
     @Column(name = "student_name", nullable = false)
     private String studentName; // Имя студента
 
+    @ElementCollection
+    @CollectionTable(
+            name = "task_attachments",
+            joinColumns = @JoinColumn(name = "task_id")
+    )
+    @Column(name = "file_path")
+    private List<String> attachmentPaths = new ArrayList<>(); // Пути к прикрепленным файлам
+
     public Task() {}
 
     /**
@@ -57,20 +67,15 @@ public class Task {
         setTeacherName(teacherName);
         setStudentId(studentId);
         setStudentName(studentName);
+        this.attachmentPaths = new ArrayList<>(); // Инициализируем пустой список
     }
 
-    // Геттеры и сеттеры
+    // ----------------- Геттеры и сеттеры -----------------
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
     public String getTitle() { return title; }
-
-    /**
-     * Устанавливает заголовок задания с валидацией длины
-     *
-     * @param title Заголовок задания (3-50 символов)
-     * @throws IllegalArgumentException Если заголовок не соответствует требованиям
-     */
     public void setTitle(String title) {
         if (title == null || title.length() < 3 || title.length() > 50) {
             throw new IllegalArgumentException("Наименование задания должно быть от 3 до 50 символов");
@@ -79,13 +84,6 @@ public class Task {
     }
 
     public String getDescription() { return description; }
-
-    /**
-     * Устанавливает описание задания с валидацией длины
-     *
-     * @param description Описание задания (20-200 символов)
-     * @throws IllegalArgumentException Если описание не соответствует требованиям
-     */
     public void setDescription(String description) {
         if (description == null || description.length() < 20 || description.length() > 200) {
             throw new IllegalArgumentException("Текст задания должен быть от 20 до 200 символов");
@@ -96,15 +94,46 @@ public class Task {
     public String getSubject() { return subject; }
     public void setSubject(String subject) { this.subject = subject; }
 
-    public String getTeacherName() { return teacherName; }
-    public void setTeacherName(String teacherName) { this.teacherName = teacherName; }
-
     public Long getTeacherId() { return teacherId; }
     public void setTeacherId(Long teacherId) { this.teacherId = teacherId; }
+
+    public String getTeacherName() { return teacherName; }
+    public void setTeacherName(String teacherName) { this.teacherName = teacherName; }
 
     public Long getStudentId() { return studentId; }
     public void setStudentId(Long studentId) { this.studentId = studentId; }
 
     public String getStudentName() { return studentName; }
     public void setStudentName(String studentName) { this.studentName = studentName; }
+
+    // ----------------- Методы для работы с файлами -----------------
+
+    public List<String> getAttachmentPaths() {
+        return attachmentPaths;
+    }
+
+    public void setAttachmentPaths(List<String> attachmentPaths) {
+        this.attachmentPaths = attachmentPaths != null ? attachmentPaths : new ArrayList<>();
+    }
+
+    public void addAttachmentPath(String filePath) {
+        if (filePath != null && !filePath.trim().isEmpty()) {
+            if (this.attachmentPaths == null) {
+                this.attachmentPaths = new ArrayList<>();
+            }
+            this.attachmentPaths.add(filePath.trim());
+        }
+    }
+
+    public boolean removeAttachmentPath(String filePath) {
+        return this.attachmentPaths != null && filePath != null && this.attachmentPaths.remove(filePath);
+    }
+
+    public boolean hasAttachments() {
+        return this.attachmentPaths != null && !this.attachmentPaths.isEmpty();
+    }
+
+    public int getAttachmentCount() {
+        return this.attachmentPaths != null ? this.attachmentPaths.size() : 0;
+    }
 }

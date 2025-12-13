@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
 <head>
-    <title th:text="${title}"/>
+    <title th:text="${title}"></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="/css/styles.css" />
     <link rel="icon" href="/images/icon.ico" type="image/x-icon">
@@ -17,6 +17,7 @@
             <span th:if="${param.error == 'student_not_found'}">Студент не найден</span>
             <span th:if="${param.error == 'title_length'}">Название должно быть от 3 до 50 символов</span>
             <span th:if="${param.error == 'description_length'}">Описание должно быть от 20 до 200 символов</span>
+            <span th:if="${param.error == 'file_upload'}">Ошибка загрузки файла</span>
         </div>
 
         <div class="teacher-layout">
@@ -24,15 +25,12 @@
             <div class="task-form-section">
                 <h2 class="section-title">Создать новое задание</h2>
 
-                <!-- Информация о предмете -->
                 <div class="subject-info">
                     <div><strong>Ваш предмет:</strong> <span th:text="${teacher.subject}" class="teacher-subject"></span></div>
-                    <div class="subject-hint">
-                        Задание будет автоматически привязано к этому предмету
-                    </div>
+                    <div class="subject-hint">Задание будет автоматически привязано к этому предмету</div>
                 </div>
 
-                <form th:action="@{/teacher/createTask}" method="post" id="taskForm">
+                <form th:action="@{/teacher/createTask}" method="post" id="taskForm" enctype="multipart/form-data">
                     <!-- Название задания -->
                     <div class="form-group">
                         <label for="title">Название задания:</label>
@@ -70,10 +68,18 @@
                         </div>
                     </div>
 
+                    <!-- Выбор файлов -->
+                    <div class="form-group">
+                        <label for="files">Прикрепить файлы:</label>
+                        <input type="file" id="files" name="files" multiple>
+                        <div class="char-counter" id="fileCounter">
+                            <span id="fileStatusText">Файл не выбран</span>
+                        </div>
+                        <div id="fileList" class="file-list"></div>
+                    </div>
+
                     <!-- Кнопка отправки -->
-                    <button type="submit" class="btn register-btn submit-task-btn">
-                        Отправить задание
-                    </button>
+                    <button type="submit" class="btn register-btn submit-task-btn">Отправить задание</button>
                 </form>
             </div>
 
@@ -86,16 +92,20 @@
                         <h4 th:text="${task.title}"></h4>
                         <div class="task-meta">
                             <div><strong>Студент:</strong> <span class="task-student" th:text="${task.studentName}"></span></div>
+                            <!-- Файлы задания -->
+                            <div class="task-files" th:if="${not #lists.isEmpty(task.attachmentPaths)}">
+                                <strong>Файлы:</strong>
+                                <div th:each="filePath : ${task.attachmentPaths}" class="task-file-item">
+                                    <a th:href="@{'/teacher/download/' + ${filePath}}"
+                                       th:text="${filePath}" target="_blank" class="task-file-link"></a>
+                                </div>
+                            </div>
                         </div>
                         <div class="task-description-box">
                             <span th:text="${task.description}"></span>
                         </div>
-                        <form th:action="@{/teacher/deleteTask/{taskId}(taskId=${task.id})}"
-                              method="post"
-                              onsubmit="return confirm('Удалить это задание?')">
-                            <button type="submit" class="delete-btn">
-                                Удалить задание
-                            </button>
+                        <form th:action="@{/teacher/deleteTask/{taskId}(taskId=${task.id})}" method="post" onsubmit="return confirm('Удалить это задание?')">
+                            <button type="submit" class="delete-btn">Удалить задание</button>
                         </form>
                     </div>
                 </div>
@@ -112,70 +122,87 @@
 <footer th:insert="blocks/footer :: footer"></footer>
 
 <script>
-    // Простые счетчики символов
+    // ===== Счетчики символов =====
     function updateTitleCounter() {
         const titleInput = document.getElementById('title');
-        const titleCounter = document.getElementById('titleCounter');
         const currentTitleChars = document.getElementById('currentTitleChars');
-
-        const length = titleInput.value.length;
-        currentTitleChars.textContent = length;
-
-        if (length < 3) {
-            titleCounter.classList.add('warning');
-        } else if (length > 50) {
-            titleCounter.classList.add('warning');
-        } else {
-            titleCounter.classList.remove('warning');
-        }
+        currentTitleChars.textContent = titleInput.value.length;
     }
 
     function updateDescriptionCounter() {
         const descriptionInput = document.getElementById('description');
-        const descriptionCounter = document.getElementById('descriptionCounter');
         const currentDescChars = document.getElementById('currentDescChars');
+        currentDescChars.textContent = descriptionInput.value.length;
+    }
 
-        const length = descriptionInput.value.length;
-        currentDescChars.textContent = length;
+    // ===== Множественные файлы =====
+    const filesInput = document.getElementById('files');
+    const fileList = document.getElementById('fileList');
+    const fileStatusText = document.getElementById('fileStatusText');
+    let selectedFiles = [];
 
-        if (length < 20) {
-            descriptionCounter.classList.add('warning');
-        } else if (length > 200) {
-            descriptionCounter.classList.add('warning');
+    filesInput.addEventListener('change', (event) => {
+        const newFiles = Array.from(event.target.files);
+        selectedFiles = selectedFiles.concat(newFiles);
+        renderFileList();
+        updateFileStatus();
+    });
+
+    function updateFileStatus() {
+        if (selectedFiles.length === 0) {
+            fileStatusText.textContent = 'Файл не выбран';
+        } else if (selectedFiles.length === 1) {
+            fileStatusText.textContent = '1 файл выбран';
+        } else if (selectedFiles.length >= 2 && selectedFiles.length <= 4) {
+            fileStatusText.textContent = selectedFiles.length + ' файла выбрано';
         } else {
-            descriptionCounter.classList.remove('warning');
+            fileStatusText.textContent = selectedFiles.length + ' файлов выбрано';
         }
     }
 
-    // Простая валидация перед отправкой
+    function renderFileList() {
+        fileList.innerHTML = '';
+        selectedFiles.forEach((file, index) => {
+            const fileItem = document.createElement('div');
+            fileItem.textContent = file.name;
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.textContent = '✖';
+            removeBtn.style.marginLeft = '10px';
+            removeBtn.onclick = () => {
+                selectedFiles.splice(index, 1);
+                renderFileList();
+                updateFileStatus();
+            };
+            fileItem.appendChild(removeBtn);
+            fileList.appendChild(fileItem);
+        });
+
+        const dataTransfer = new DataTransfer();
+        selectedFiles.forEach(f => dataTransfer.items.add(f));
+        filesInput.files = dataTransfer.files;
+    }
+
+    // ===== Валидация формы =====
     document.getElementById('taskForm').addEventListener('submit', function(e) {
         const title = document.getElementById('title').value.trim();
         const studentId = document.getElementById('studentId').value;
         const description = document.getElementById('description').value.trim();
 
         let errorMessage = '';
-
-        if (title.length < 3 || title.length > 50) {
-            errorMessage = 'Название должно быть от 3 до 50 символов\n';
-        }
-
-        if (!studentId) {
-            errorMessage += 'Выберите студента\n';
-        }
-
-        if (description.length < 20 || description.length > 200) {
-            errorMessage += 'Описание должно быть от 20 до 200 символов';
-        }
+        if (title.length < 3 || title.length > 50) errorMessage += 'Название должно быть от 3 до 50 символов\n';
+        if (!studentId) errorMessage += 'Выберите студента\n';
+        if (description.length < 20 || description.length > 200) errorMessage += 'Описание должно быть от 20 до 200 символов\n';
 
         if (errorMessage) {
-            e.preventDefault(); // Останавливаем отправку
+            e.preventDefault();
             alert('Ошибки в форме:\n\n' + errorMessage);
         }
     });
 
-    // Инициализация
     updateTitleCounter();
     updateDescriptionCounter();
 </script>
+
 </body>
 </html>
