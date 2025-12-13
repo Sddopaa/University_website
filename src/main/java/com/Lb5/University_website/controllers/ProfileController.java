@@ -2,6 +2,7 @@ package com.Lb5.University_website.controllers;
 
 import com.Lb5.University_website.models.User;
 import com.Lb5.University_website.services.UserService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,119 +10,127 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import jakarta.servlet.http.HttpSession;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
-import java.nio.file.*;
-
-/**
- * Контроллер для обработки операций с профилем пользователя
- */
 @Controller
 public class ProfileController {
 
     @Autowired
     private UserService userService;
 
-    // Директория для сохранения аватаров пользователей
-    private final String AVATAR_DIR = "src/main/resources/static/images/userAvatar/";
+    // Путь ВНУТРИ контейнера (совпадает с docker volume)
+    private static final String AVATAR_DIR = "/app/userAvatar/";
 
-    // Расширение по умолчанию для всех загружаемых изображений
-    private final String DEFAULT_EXTENSION = ".jpg";
+    // URL по которому браузер запрашивает файл
+    private static final String AVATAR_URL_PREFIX = "/avatars/";
 
-    /**
-     * Обрабатывает загрузку аватара пользователя
-     *
-     * @param file          Загружаемый файл изображения
-     * @param session       Сессия HTTP для проверки авторизации
-     * @param redirect      Атрибуты для передачи сообщений при редиректе
-     * @return Редирект на страницу профиля с сообщением о результате
-     */
+    private static final String DEFAULT_AVATAR = "/avatars/defaultAvatar.png";
+
+
     @PostMapping("/profile/upload-avatar")
     public String uploadAvatar(@RequestParam("avatar") MultipartFile file,
                                HttpSession session,
                                RedirectAttributes redirect) {
 
-        // Проверка авторизации пользователя
         User sessionUser = (User) session.getAttribute("user");
-        if (sessionUser == null) return "redirect:/login";
+        if (sessionUser == null) {
+            return "redirect:/login";
+        }
 
         try {
-            // Получение актуальных данных пользователя из базы
             User user = userService.getUserByUsername(sessionUser.getUserName());
 
-            // Проверка 1: файл не пустой
-            if (file.isEmpty()) {
+            if (file == null || file.isEmpty()) {
                 redirect.addFlashAttribute("error", "Файл не выбран");
                 return "redirect:/profile";
             }
 
-            // Проверка 2: файл является изображением
-            if (!file.getContentType().startsWith("image/")) {
-                redirect.addFlashAttribute("error", "Только изображения");
+            if (file.getContentType() == null || !file.getContentType().startsWith("image/")) {
+                redirect.addFlashAttribute("error", "Можно загружать только изображения");
                 return "redirect:/profile";
             }
 
-            // Формирование имени файла: username + .jpg
-            String fileName = user.getUserName() + DEFAULT_EXTENSION;
-            Path dir = Paths.get(AVATAR_DIR);
+            // ⬇️ корректно определяем расширение
+            String originalName = file.getOriginalFilename();
+            String extension = ".jpg";
 
-            // Создание директории если она не существует
-            if (!Files.exists(dir)) {
-                Files.createDirectories(dir);
+            if (originalName != null && originalName.contains(".")) {
+                extension = originalName.substring(originalName.lastIndexOf("."));
             }
 
-            // Формирование полного пути к файлу
-            Path filePath = dir.resolve(fileName);
+            String fileName = "user_" + user.getId() + extension;
 
-            // Удаление старого файла если он существует
-            Files.deleteIfExists(filePath);
+            Path dirPath = Paths.get(AVATAR_DIR);
+            if (!Files.exists(dirPath)) {
+                Files.createDirectories(dirPath);
+            }
 
-            // Сохранение нового файла
+
+            if (user.getAvatarPath() != null &&
+                    !user.getAvatarPath().equals(DEFAULT_AVATAR)) {
+
+                String oldFileName = user.getAvatarPath()
+                        .replace(AVATAR_URL_PREFIX, "")
+                        .split("\\?")[0];
+
+                Path oldFilePath = dirPath.resolve(oldFileName);
+                Files.deleteIfExists(oldFilePath);
+            }
+
+            Path filePath = dirPath.resolve(fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
-            // Обновление пути к аватару в базе данных
-            user.setAvatarPath("/images/userAvatar/" + fileName);
-            userService.save(user);
+            String avatarUrl = AVATAR_URL_PREFIX + fileName + "?v=" + System.currentTimeMillis();
+            user.setAvatarPath(avatarUrl);
 
-            // Обновление данных пользователя в сессии
+            userService.save(user);
             session.setAttribute("user", user);
-            redirect.addFlashAttribute("success", "Аватар обновлен");
+
+            redirect.addFlashAttribute("success", "Аватар успешно обновлён");
 
         } catch (Exception e) {
-            redirect.addFlashAttribute("error", "Ошибка: " + e.getMessage());
+            e.printStackTrace();
+            redirect.addFlashAttribute("error", "Ошибка загрузки аватара");
         }
 
         return "redirect:/profile";
     }
 
-    /**
-     * Обрабатывает удаление аватара пользователя
-     *
-     * @param session  Сессия HTTP для проверки авторизации
-     * @param redirect Атрибуты для передачи сообщений при редиректе
-     * @return Редирект на страницу профиля с сообщением о результате
-     */
     @PostMapping("/profile/remove-avatar")
     public String removeAvatar(HttpSession session, RedirectAttributes redirect) {
 
-        // Проверка авторизации пользователя
         User sessionUser = (User) session.getAttribute("user");
-        if (sessionUser == null) return "redirect:/login";
+        if (sessionUser == null) {
+            return "redirect:/login";
+        }
 
         try {
-            // Получение актуальных данных пользователя из базы
             User user = userService.getUserByUsername(sessionUser.getUserName());
 
-            // Установка аватара по умолчанию
-            user.setDefaultAvatarPath();
-            userService.save(user);
+            Path dirPath = Paths.get(AVATAR_DIR);
 
-            // Обновление данных пользователя в сессии
+            if (user.getAvatarPath() != null &&
+                    !user.getAvatarPath().equals(DEFAULT_AVATAR)) {
+
+                String fileName = user.getAvatarPath()
+                        .replace(AVATAR_URL_PREFIX, "")
+                        .split("\\?")[0];
+
+                Files.deleteIfExists(dirPath.resolve(fileName));
+            }
+
+            user.setAvatarPath(DEFAULT_AVATAR);
+            userService.save(user);
             session.setAttribute("user", user);
-            redirect.addFlashAttribute("success", "Аватар удален");
+
+            redirect.addFlashAttribute("success", "Аватар удалён");
 
         } catch (Exception e) {
-            redirect.addFlashAttribute("error", "Ошибка удаления");
+            e.printStackTrace();
+            redirect.addFlashAttribute("error", "Ошибка удаления аватара");
         }
 
         return "redirect:/profile";

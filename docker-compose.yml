@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: university_postgres
+    environment:
+      POSTGRES_DB: university_db
+      POSTGRES_USER: sddopaa
+      POSTGRES_PASSWORD: password
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build: .
+    container_name: university_app
+    ports:
+      - "8081:8081"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/university_db
+      SPRING_DATASOURCE_USERNAME: sddopaa
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    volumes:
+        - ./userAvatar:/app/userAvatar
+    depends_on:
+      - postgres
+
+volumes:
+  postgres_data:

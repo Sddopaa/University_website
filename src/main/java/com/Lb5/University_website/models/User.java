@@ -38,7 +38,7 @@ public class User {
     private Integer age; // Возраст пользователя
 
     @Column(name = "avatar_path")
-    private String avatarPath = "/images/defaultAvatar.png"; // Путь к аватару по умолчанию
+    private String avatarPath = "/avatars/defaultAvatar.png";
 
     /**
      * Конструктор по умолчанию, необходимый для JPA
