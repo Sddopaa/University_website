@@ -1,1037 +1,1074 @@
-/* ===== 1. GLOBAL STYLES ===== */
+/* =====================================================
+   1. GLOBAL STYLES & RESET
+===================================================== */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    margin: 0;                     /* сброс всех внешних отступов */
+    padding: 0;                    /* сброс всех внутренних отступов */
+    box-sizing: border-box;        /* padding и border включаются в размеры */
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #f8f9fa;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* кросс-платформенные шрифты */
+    line-height: 1.6;              /* улучшение читаемости текста */
+    color: #333;                   /* основной цвет текста */
+    background-color: #f8f9fa;     /* светлый фон страницы */
+    min-height: 100vh;             /* минимальная высота на весь экран */
+    display: flex;                 /* flex для липкого футера */
+    flex-direction: column;        /* вертикальное расположение */
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
+    max-width: 1200px;             /* ограничение максимальной ширины */
+    margin: 0 auto;                /* центрирование контейнера */
 }
 
-/* ===== 2. HEADER ===== */
+/* =====================================================
+   2. HEADER & NAVIGATION
+===================================================== */
 header {
-    background: linear-gradient(135deg, #2c3e50, #34495e);
-    color: white;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    background: linear-gradient(135deg, #2c3e50, #34495e); /* градиентный фон */
+    color: white;                   /* белый текст */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1); /* тень для глубины */
+    position: sticky;               /* липкий хедер */
+    top: 0;                         /* прилипает к верху */
+    z-index: 1000;                  /* поверх других элементов */
 }
 
 .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 0;
+    display: flex;                  /* flexbox для выравнивания */
+    justify-content: space-between; /* лого и навигация по краям */
+    align-items: center;            /* вертикальное выравнивание */
+    padding: 1rem 0;                /* вертикальные отступы */
 }
 
 .logo-link {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #ecf0f1;
-    text-decoration: none;
-    transition: all 0.3s ease;
-    padding: 0.5rem 0;
-    display: block;
+    font-size: 1.8rem;             /* крупный размер логотипа */
+    font-weight: bold;              /* жирное начертание */
+    color: #ecf0f1;                 /* светло-серый цвет */
+    text-decoration: none;          /* убрать подчеркивание */
+    transition: all 0.3s ease;      /* плавные переходы */
+    padding: 0.5rem 0;              /* вертикальные отступы */
+    display: block;                 /* блочное отображение */
 }
 
 .logo-link:hover {
-    color: #3498db;
+    color: #3498db;                 /* синий цвет при наведении */
 }
 
 nav ul {
-    display: flex;
-    list-style: none;
-    gap: 1.8rem;
-    align-items: center;
+    display: flex;                  /* горизонтальное меню */
+    list-style: none;               /* убрать маркеры списка */
+    gap: 1.8rem;                    /* расстояние между пунктами */
+    align-items: center;            /* вертикальное выравнивание */
 }
 
 nav a {
-    color: #ecf0f1;
-    text-decoration: none;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    font-weight: 500;
+    color: #ecf0f1;                 /* цвет ссылок */
+    text-decoration: none;          /* убрать подчеркивание */
+    border-radius: 4px;             /* скругленные углы */
+    transition: all 0.3s ease;      /* плавные анимации */
+    font-weight: 500;               /* средняя жирность */
 }
 
 nav a:hover {
-    background-color: rgba(255,255,255,0.1);
-    transform: translateY(-2px);
+    background-color: rgba(255,255,255,0.1); /* полупрозрачный фон */
+    transform: translateY(-2px);    /* легкий подъем */
 }
 
-/* ===== 3. BUTTONS ===== */
+/* =====================================================
+   3. BUTTONS STYLES
+===================================================== */
 .btn {
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    color: white;
-    padding: 0.6rem 1.2rem;
-    border: none;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    display: inline-block;
-    text-align: center;
+    background: linear-gradient(135deg, #3498db, #2980b9); /* синий градиент */
+    color: white;                   /* белый текст */
+    padding: 0.6rem 1.2rem;         /* внутренние отступы */
+    border: none;                    /* без границы */
+    border-radius: 6px;              /* скругленные углы */
+    text-decoration: none;           /* убрать подчеркивание */
+    font-weight: 600;                /* жирный текст */
+    transition: all 0.3s ease;       /* плавные переходы */
+    display: inline-block;           /* инлайн-блочный элемент */
+    text-align: center;              /* центрирование текста */
 }
 
 .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    transform: translateY(-2px);     /* подъем при наведении */
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3); /* тень при наведении */
 }
 
 .btn-secondary {
-    background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+    background: linear-gradient(135deg, #95a5a6, #7f8c8d); /* серый градиент */
 }
 
 .btn-secondary:hover {
-    background: linear-gradient(135deg, #7f8c8d, #95a5a6);
+    background: linear-gradient(135deg, #7f8c8d, #95a5a6); /* инвертированный градиент */
 }
 
-/* ===== 4. MAIN CONTENT ===== */
+/* =====================================================
+   4. MAIN CONTENT AREA
+===================================================== */
 .main-content {
-    flex: 1;
-    padding: 3rem 0;
+    flex: 1;                        /* занимает все доступное пространство */
+    padding: 3rem 0;                /* вертикальные отступы */
 }
 
 .page-title {
-    text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
-    color: #2c3e50;
-    font-weight: 300;
+    text-align: center;             /* центрирование заголовка */
+    font-size: 2.5rem;              /* крупный размер шрифта */
+    margin-bottom: 3rem;            /* отступ снизу */
+    color: #2c3e50;                 /* темно-синий цвет */
+    font-weight: 300;               /* легкое начертание */
 }
 
-/* ===== 5. CARDS ===== */
+/* =====================================================
+   5. CARDS COMPONENTS
+===================================================== */
 .cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
+    display: grid;                  /* grid layout */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* адаптивные колонки */
+    gap: 2rem;                      /* расстояние между карточками */
+    margin-bottom: 3rem;            /* отступ снизу */
 }
 
 .card {
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    border: 1px solid #e9ecef;
-    text-align: center;
+    background: white;               /* белый фон */
+    padding: 2rem;                   /* внутренние отступы */
+    border-radius: 12px;             /* скругленные углы */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* легкая тень */
+    transition: all 0.3s ease;       /* плавные анимации */
+    border: 1px solid #e9ecef;       /* тонкая граница */
+    text-align: center;              /* центрирование содержимого */
 }
 
 .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    transform: translateY(-5px);     /* подъем карточки */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15); /* усиленная тень */
 }
 
 .card h3 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-size: 1.3rem;
+    color: #2c3e50;                  /* темно-синий цвет заголовка */
+    margin-bottom: 1rem;             /* отступ снизу */
+    font-size: 1.3rem;               /* размер шрифта */
 }
 
 .card p {
-    color: #7f8c8d;
-    margin-bottom: 1.5rem;
-    line-height: 1.5;
+    color: #7f8c8d;                  /* серый цвет текста */
+    margin-bottom: 1.5rem;           /* отступ снизу */
+    line-height: 1.5;                /* межстрочный интервал */
 }
 
-/* ===== 6. FORMS ===== */
+/* =====================================================
+   6. FORMS & FORM ELEMENTS
+===================================================== */
 .login-container, .registration-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 70vh;
-    padding: 2rem 0;
+    display: flex;                  /* flex для центрирования */
+    justify-content: center;        /* горизонтальное центрирование */
+    align-items: center;            /* вертикальное центрирование */
+    min-height: 70vh;               /* минимальная высота 70% экрана */
+    padding: 2rem 0;                /* вертикальные отступы */
 }
 
 .login-form, .registration-form {
-    background: white;
-    padding: 3rem;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-    width: 100%;
-    max-width: 400px;
-    border: 1px solid #e9ecef;
+    background: white;               /* белый фон формы */
+    padding: 3rem;                   /* внутренние отступы */
+    border-radius: 15px;             /* скругленные углы */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1); /* тень формы */
+    width: 100%;                     /* ширина 100% */
+    max-width: 400px;                /* максимальная ширина */
+    border: 1px solid #e9ecef;       /* тонкая граница */
 }
 
 .registration-form {
-    max-width: 500px;
+    max-width: 500px;                /* шире чем форма входа */
 }
 
 .login-title, .registration-title {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: #2c3e50;
-    font-weight: 300;
+    text-align: center;             /* центрирование заголовка */
+    font-size: 2rem;                /* размер шрифта */
+    margin-bottom: 1.5rem;          /* отступ снизу */
+    color: #2c3e50;                 /* цвет текста */
+    font-weight: 300;               /* легкое начертание */
 }
 
 .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1.5rem;          /* отступ между группами */
 }
 
 .form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: #2c3e50;
-    font-weight: 500;
+    display: block;                 /* блочное отображение */
+    margin-bottom: 0.5rem;          /* отступ снизу */
+    color: #2c3e50;                 /* цвет текста */
+    font-weight: 500;               /* средняя жирность */
 }
 
 .form-group input, .form-group select, .form-group textarea {
-    width: 100%;
-    padding: 0.75rem;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    font-family: inherit;
+    width: 100%;                    /* ширина 100% */
+    padding: 0.75rem;               /* внутренние отступы */
+    border: 2px solid #e9ecef;      /* цвет границы */
+    border-radius: 8px;             /* скругленные углы */
+    font-size: 1rem;                /* размер шрифта */
+    transition: all 0.3s ease;      /* плавные переходы */
+    font-family: inherit;           /* наследование шрифта */
 }
 
 .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    outline: none;                  /* убрать стандартный outline */
+    border-color: #3498db;          /* синяя граница при фокусе */
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1); /* свечение */
 }
 
 .form-group select:disabled {
-    background-color: #f5f5f5;
-    color: #999;
-    cursor: not-allowed;
+    background-color: #f5f5f5;      /* серый фон для disabled */
+    color: #999;                    /* серый текст */
+    cursor: not-allowed;            /* курсор запрещен */
 }
 
 .form-row {
-    display: flex;
-    gap: 1rem;
+    display: flex;                  /* flex для строки */
+    gap: 1rem;                      /* расстояние между элементами */
 }
 
 .form-row .form-group {
-    flex: 1;
+    flex: 1;                        /* равномерное распределение */
 }
 
 .checkbox-label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-weight: normal;
+    display: flex;                  /* flex для чекбокса и текста */
+    align-items: center;            /* вертикальное выравнивание */
+    cursor: pointer;                /* курсор указатель */
+    font-weight: normal;            /* обычное начертание */
 }
 
 .checkbox-label input {
-    width: auto;
-    margin-left: 10px;
+    width: auto;                    /* авто ширина */
+    margin-left: 10px;              /* отступ слева */
 }
 
 .login-btn, .register-btn, .submit-task-btn, .admin-submit-btn {
-    width: 100%;
-    padding: 0.75rem;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    margin-top: 1rem;
+    width: 100%;                    /* ширина 100% */
+    padding: 0.75rem;               /* внутренние отступы */
+    color: white;                   /* белый текст */
+    border: none;                    /* без границы */
+    border-radius: 8px;              /* скругленные углы */
+    font-size: 1.1rem;              /* размер шрифта */
+    font-weight: 600;                /* жирный текст */
+    cursor: pointer;                 /* курсор указатель */
+    transition: all 0.3s ease;       /* плавные переходы */
+    margin-top: 1rem;                /* отступ сверху */
 }
 
 .login-btn {
-    background: linear-gradient(135deg, #3498db, #2980b9);
+    background: linear-gradient(135deg, #3498db, #2980b9); /* синий градиент */
 }
 
 .register-btn, .submit-task-btn {
-    background: linear-gradient(135deg, #27ae60, #229954);
+    background: linear-gradient(135deg, #27ae60, #229954); /* зеленый градиент */
 }
 
 .admin-submit-btn {
-    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    background: linear-gradient(135deg, #e74c3c, #c0392b); /* красный градиент */
 }
 
 .login-btn:hover, .register-btn:hover, .submit-task-btn:hover, .admin-submit-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    transform: translateY(-2px);     /* подъем кнопки */
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3); /* тень */
 }
 
-/* ===== 7. REGISTRATION SPECIFIC ===== */
+/* =====================================================
+   7. REGISTRATION SPECIFIC STYLES
+===================================================== */
 .user-type-selector {
-    display: flex;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
+    display: flex;                  /* flex для кнопок выбора роли */
+    gap: 1rem;                      /* расстояние между кнопками */
+    margin-bottom: 1.5rem;          /* отступ снизу */
 }
 
 .role-btn {
-    flex: 1;
-    padding: 1rem;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    background: white;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: all 0.3s ease;
+    flex: 1;                        /* равномерное распределение */
+    padding: 1rem;                  /* внутренние отступы */
+    border: 2px solid #e9ecef;      /* цвет границы */
+    border-radius: 8px;             /* скругленные углы */
+    background: white;               /* белый фон */
+    cursor: pointer;                 /* курсор указатель */
+    font-size: 1rem;                /* размер шрифта */
+    transition: all 0.3s ease;      /* плавные переходы */
 }
 
 .role-btn:hover {
-    border-color: #3498db;
+    border-color: #3498db;          /* синяя граница при наведении */
 }
 
 .role-btn.active {
-    border-color: #3498db;
-    background-color: #3498db;
-    color: white;
+    border-color: #3498db;          /* синяя граница активной */
+    background-color: #3498db;       /* синий фон */
+    color: white;                   /* белый текст */
 }
 
-/* ===== 8. SCHEDULE ===== */
+/* =====================================================
+   8. SCHEDULE TABLE
+===================================================== */
 .schedule-section {
-    margin-top: 1.3rem;
-    padding: 0.5rem;
+    margin-top: 1.3rem;             /* отступ сверху */
+    padding: 0.5rem;                 /* внутренние отступы */
 }
 
 .schedule-section h2 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    font-size: 1.4em;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 0.5rem;
+    color: #2c3e50;                  /* цвет заголовка */
+    margin-bottom: 1.5rem;          /* отступ снизу */
+    font-size: 1.4em;               /* размер шрифта */
+    border-bottom: 2px solid #3498db; /* нижняя граница */
+    padding-bottom: 0.5rem;          /* отступ под границей */
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 1rem;
-    background-color: white;
-    border-radius: 6px;
-    overflow: hidden;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    width: 100%;                    /* ширина 100% */
+    border-collapse: collapse;       /* схлопывание границ */
+    margin-bottom: 1rem;            /* отступ снизу */
+    background-color: white;         /* белый фон */
+    border-radius: 6px;              /* скругленные углы */
+    overflow: hidden;                /* скрыть выходящее за границы */
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1); /* легкая тень */
 }
 
 th {
-    background-color: #3498db;
-    color: white;
-    padding: 1rem 0.75rem;
-    font-weight: 600;
-    text-align: center;
-    border: 1px solid #2980b9;
+    background-color: #3498db;       /* синий фон заголовков */
+    color: white;                   /* белый текст */
+    padding: 1rem 0.75rem;          /* внутренние отступы */
+    font-weight: 600;                /* жирный текст */
+    text-align: center;              /* центрирование текста */
+    border: 1px solid #2980b9;       /* граница ячеек */
 }
 
 td {
-    border: 1px solid #e0e0e0;
-    padding: 0.75rem;
-    text-align: center;
-    vertical-align: top;
-    transition: background-color 0.2s ease;
+    border: 1px solid #e0e0e0;       /* цвет границы ячеек */
+    padding: 0.75rem;                /* внутренние отступы */
+    text-align: center;              /* центрирование текста */
+    vertical-align: top;             /* выравнивание по верху */
+    transition: background-color 0.2s ease; /* плавный переход фона */
 }
 
 td:not(.empty) {
-    font-size: 0.875rem;
-    line-height: 1.4;
-    color: #2c3e50;
+    font-size: 0.875rem;             /* размер шрифта */
+    line-height: 1.4;                /* межстрочный интервал */
+    color: #2c3e50;                  /* цвет текста */
 }
 
-/* ===== 9. INFO PAGE ===== */
+/* =====================================================
+   9. INFO PAGE STYLES
+===================================================== */
 .university-hero {
-    background: linear-gradient(135deg, #3498db, #2980b9);
-    color: white;
-    padding: 4rem 0;
-    text-align: center;
-    margin-bottom: 3rem;
-    border-radius: 15px;
+    background: linear-gradient(135deg, #3498db, #2980b9); /* синий градиент */
+    color: white;                   /* белый текст */
+    padding: 4rem 0;                /* вертикальные отступы */
+    text-align: center;             /* центрирование текста */
+    margin-bottom: 3rem;            /* отступ снизу */
+    border-radius: 15px;             /* скругленные углы */
 }
 
 .university-hero h1 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    font-weight: 300;
+    font-size: 3rem;                /* крупный заголовок */
+    margin-bottom: 1rem;            /* отступ снизу */
+    font-weight: 300;               /* легкое начертание */
 }
 
 .info-section {
-    background: white;
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-    margin-bottom: 2rem;
+    background: white;               /* белый фон */
+    padding: 2.5rem;                 /* внутренние отступы */
+    border-radius: 12px;             /* скругленные углы */
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* тень */
+    margin-bottom: 2rem;            /* отступ снизу */
 }
 
 .info-section h2 {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    font-size: 1.8rem;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 0.5rem;
+    color: #2c3e50;                  /* цвет заголовка */
+    margin-bottom: 1.5rem;          /* отступ снизу */
+    font-size: 1.8rem;              /* размер шрифта */
+    border-bottom: 2px solid #3498db; /* нижняя граница */
+    padding-bottom: 0.5rem;          /* отступ под границей */
 }
 
 .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin: 2rem 0;
+    display: grid;                  /* grid layout */
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* адаптивные колонки */
+    gap: 1.5rem;                    /* расстояние между элементами */
+    margin: 2rem 0;                 /* вертикальные отступы */
 }
 
 .stat-card {
-    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-    padding: 1.5rem;
-    border-radius: 10px;
-    text-align: center;
-    border-left: 4px solid #3498db;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef); /* светлый градиент */
+    padding: 1.5rem;                /* внутренние отступы */
+    border-radius: 10px;             /* скругленные углы */
+    text-align: center;              /* центрирование текста */
+    border-left: 4px solid #3498db;  /* синяя левая граница */
 }
 
 .stat-number {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #2c3e50;
-    display: block;
+    font-size: 2.5rem;              /* крупные цифры */
+    font-weight: bold;               /* жирное начертание */
+    color: #2c3e50;                  /* цвет цифр */
+    display: block;                  /* блочное отображение */
 }
 
 .faculties-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
+    display: grid;                  /* grid layout */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* адаптивные колонки */
+    gap: 1.5rem;                    /* расстояние между карточками */
+    margin-top: 2rem;               /* отступ сверху */
 }
 
 .faculty-card {
-    background: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    border-left: 4px solid #87CEEB;
+    background: #f8f9fa;             /* светлый фон */
+    padding: 1.5rem;                /* внутренние отступы */
+    border-radius: 8px;              /* скругленные углы */
+    border-left: 4px solid #87CEEB;  /* голубая левая граница */
 }
 
-/* ===== 10. PROFILE PAGE ===== */
+/* =====================================================
+   10. PROFILE PAGE STYLES
+===================================================== */
 .profile-container {
-    max-width: 700px;
-    margin: 0 auto;
+    max-width: 700px;               /* ограничение ширины */
+    margin: 0 auto;                 /* центрирование */
 }
 
 .profile-card {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    overflow: hidden;
+    background: white;               /* белый фон */
+    border-radius: 15px;             /* скругленные углы */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* тень */
+    overflow: hidden;                /* скрыть выходящее за границы */
 }
 
 .profile-header {
-    display: flex;
-    align-items: flex-start;
-    padding: 2rem;
-    background: #4a6fa5;
-    color: white;
-    gap: 2rem;
+    display: flex;                  /* flex для заголовка профиля */
+    align-items: flex-start;         /* выравнивание по верху */
+    padding: 2rem;                   /* внутренние отступы */
+    background: #4a6fa5;             /* синий фон */
+    color: white;                   /* белый текст */
+    gap: 2rem;                      /* расстояние между элементами */
 }
 
 .avatar-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+    display: flex;                  /* flex для аватара */
+    flex-direction: column;          /* вертикальное расположение */
+    align-items: center;            /* центрирование по горизонтали */
+    gap: 1rem;                      /* расстояние между элементами */
 }
 
 .profile-avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 3px solid white;
-    object-fit: cover;
-    background-color: #f0f0f0;
+    width: 120px;                   /* ширина аватара */
+    height: 120px;                  /* высота аватара */
+    border-radius: 50%;              /* круглый аватар */
+    border: 3px solid white;        /* белая рамка */
+    object-fit: cover;               /* обрезка изображения */
+    background-color: #f0f0f0;       /* фон по умолчанию */
 }
 
 .change-avatar-btn {
-    background: white;
-    color: #4a6fa5;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    background: white;               /* белый фон кнопки */
+    color: #4a6fa5;                  /* синий текст */
+    border: none;                    /* без границы */
+    padding: 0.5rem 1rem;           /* внутренние отступы */
+    border-radius: 6px;              /* скругленные углы */
+    font-size: 0.9rem;              /* размер шрифта */
+    font-weight: 600;                /* жирный текст */
+    cursor: pointer;                 /* курсор указатель */
+    transition: all 0.3s ease;      /* плавные переходы */
 }
 
 .change-avatar-btn:hover {
-    background: #385d8a;
-    color: white;
-    transform: translateY(-2px);
+    background: #385d8a;             /* темно-синий фон при наведении */
+    color: white;                   /* белый текст */
+    transform: translateY(-2px);     /* подъем кнопки */
 }
 
 .profile-info {
-    flex: 1;
+    flex: 1;                        /* занимает оставшееся пространство */
 }
 
 .profile-info h2 {
-    font-size: 1.8rem;
-    font-weight: 300;
+    font-size: 1.8rem;              /* размер заголовка */
+    font-weight: 300;               /* легкое начертание */
 }
 
 .username {
-    color: rgba(255,255,255,0.9);
-    font-size: 1rem;
-    margin-top: 3px;
-    margin-bottom: 10px;
+    color: rgba(255,255,255,0.9);   /* полупрозрачный белый */
+    font-size: 1rem;                /* размер шрифта */
+    margin-top: 3px;                /* отступ сверху */
+    margin-bottom: 10px;            /* отступ снизу */
 }
 
 .profile-main-section {
-    padding: 2rem;
+    padding: 2rem;                   /* внутренние отступы */
 }
 
 .section-title {
-    color: #2c3e50;
-    margin-bottom: 1.5rem;
-    font-size: 1.5rem;
-    font-weight: 600;
+    color: #2c3e50;                  /* цвет заголовка */
+    margin-bottom: 1.5rem;          /* отступ снизу */
+    font-size: 1.5rem;              /* размер шрифта */
+    font-weight: 600;                /* жирный текст */
 }
 
 .info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
+    display: grid;                  /* grid layout */
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* адаптивные колонки */
+    gap: 1.5rem;                    /* расстояние между элементами */
 }
 
 .info-item {
-    display: flex;
-    flex-direction: column;
-    gap: 0.3rem;
+    display: flex;                  /* flex для метки и значения */
+    flex-direction: column;          /* вертикальное расположение */
+    gap: 0.3rem;                    /* небольшой отступ */
 }
 
 .info-label {
-    font-weight: 600;
-    color: #666;
-    font-size: 0.9rem;
+    font-weight: 600;                /* жирная метка */
+    color: #666;                    /* серый цвет */
+    font-size: 0.9rem;              /* небольшой размер */
 }
 
 .info-value {
-    color: #333;
-    font-size: 1rem;
+    color: #333;                    /* темно-серый цвет */
+    font-size: 1rem;                /* размер шрифта */
 }
 
-.info-value.budget { color: #27ae60; }
-.info-value.contract { color: #e67e22; }
-.info-value.senior { color: #8e44ad; }
-.info-value.junior { color: #3498db; }
+.info-value.budget { color: #27ae60; } /* зеленый для бюджета */
+.info-value.contract { color: #e67e22; } /* оранжевый для контракта */
+.info-value.senior { color: #8e44ad; } /* фиолетовый для старшего курса */
+.info-value.junior { color: #3498db; } /* синий для младшего курса */
 
 .profile-actions {
-    padding: 1.5rem 2rem;
-    text-align: center;
-    border-top: 1px solid #eee;
-    background-color: #f8f9fa;
+    padding: 1.5rem 2rem;           /* внутренние отступы */
+    text-align: center;             /* центрирование текста */
+    border-top: 1px solid #eee;     /* верхняя граница */
+    background-color: #f8f9fa;       /* светлый фон */
 }
 
 .change-password-btn {
-    background: #e74c3c;
-    color: white;
-    border: none;
-    padding: 0.75rem 2rem;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    background: #e74c3c;             /* красный фон */
+    color: white;                   /* белый текст */
+    border: none;                    /* без границы */
+    padding: 0.75rem 2rem;          /* внутренние отступы */
+    border-radius: 8px;              /* скругленные углы */
+    font-size: 1rem;                /* размер шрифта */
+    font-weight: 600;                /* жирный текст */
+    cursor: pointer;                 /* курсор указатель */
+    transition: all 0.3s ease;      /* плавные переходы */
 }
 
 .change-password-btn:hover {
-    background: #c0392b;
-    transform: translateY(-2px);
+    background: #c0392b;             /* темно-красный при наведении */
+    transform: translateY(-2px);     /* подъем кнопки */
 }
 
 .avatar-buttons {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
+    display: flex;                  /* flex для кнопок аватара */
+    gap: 10px;                      /* расстояние между кнопками */
+    margin-top: 15px;               /* отступ сверху */
 }
 
 .remove-avatar-btn {
-    background: #e74c3c;
-    color: white;
-    border: none;
-    width: 33px;
-    height: 33px;
-    border-radius: 20%;
-    cursor: pointer;
-    font-size: 1.2rem;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    flex-shrink: 0;
+    background: #e74c3c;             /* красный фон */
+    color: white;                   /* белый текст */
+    border: none;                    /* без границы */
+    width: 33px;                    /* ширина кнопки */
+    height: 33px;                   /* высота кнопки */
+    border-radius: 20%;              /* слегка скругленные углы */
+    cursor: pointer;                 /* курсор указатель */
+    font-size: 1.2rem;              /* размер иконки */
+    font-weight: bold;               /* жирное начертание */
+    display: flex;                  /* flex для центрирования */
+    align-items: center;            /* вертикальное центрирование */
+    justify-content: center;         /* горизонтальное центрирование */
+    transition: all 0.3s ease;      /* плавные переходы */
+    flex-shrink: 0;                 /* запрет на сжатие */
 }
 
 .remove-avatar-btn:hover {
-    background: #c0392b;
-    transform: scale(1.1);
+    background: #c0392b;             /* темно-красный при наведении */
+    transform: scale(1.1);           /* увеличение кнопки */
 }
 
-/* ===== 11. TASKS PAGE ===== */
+/* =====================================================
+   11. TASKS PAGE STYLES
+===================================================== */
 .tasks-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-    padding: 2rem 0;
+    display: grid;                  /* grid layout */
+    grid-template-columns: repeat(3, 1fr); /* 3 колонки */
+    gap: 1.5rem;                    /* расстояние между карточками */
+    padding: 2rem 0;                /* вертикальные отступы */
 }
 
 .task-card {
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    padding: 1.5rem;
-    border-left: 5px solid #3498db;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+    background: white;               /* белый фон */
+    border-radius: 12px;             /* скругленные углы */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* тень */
+    padding: 1.5rem;                /* внутренние отступы */
+    border-left: 5px solid #3498db;  /* синяя левая граница */
+    transition: all 0.3s ease;      /* плавные анимации */
+    display: flex;                  /* flex для растягивания */
+    flex-direction: column;          /* вертикальное расположение */
+    height: 100%;                   /* высота 100% */
 }
 
 .task-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);     /* подъем карточки */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15); /* усиленная тень */
 }
 
 .task-header {
-    margin-bottom: 1rem;
+    margin-bottom: 1rem;            /* отступ снизу */
 }
 
 .task-title {
-    font-size: 1.3rem;
-    color: #2c3e50;
-    margin-bottom: 0.75rem;
-    font-weight: 600;
+    font-size: 1.3rem;              /* размер заголовка */
+    color: #2c3e50;                  /* цвет заголовка */
+    margin-bottom: 0.75rem;         /* отступ снизу */
+    font-weight: 600;                /* жирный текст */
 }
 
 .task-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
+    display: flex;                  /* flex для мета-информации */
+    flex-direction: column;          /* вертикальное расположение */
+    gap: 0.5rem;                    /* небольшой отступ */
+    margin-bottom: 1rem;            /* отступ снизу */
 }
 
 .task-subject, .task-teacher {
-    color: #7f8c8d;
-    font-size: 0.9rem;
+    color: #7f8c8d;                 /* серый цвет */
+    font-size: 0.9rem;              /* небольшой размер */
 }
 
 .task-subject {
-    font-weight: 500;
-    color: #555;
+    font-weight: 500;               /* средняя жирность */
+    color: #555;                    /* темно-серый цвет */
 }
 
 .task-description {
-    color: #333;
-    line-height: 1.5;
-    font-size: 0.95rem;
-    background: #f9f9f9;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-top: auto;
-    border: 1px solid #eee;
+    color: #333;                    /* цвет текста */
+    line-height: 1.5;                /* межстрочный интервал */
+    font-size: 0.95rem;              /* размер шрифта */
+    background: #f9f9f9;             /* светлый фон */
+    padding: 1rem;                   /* внутренние отступы */
+    border-radius: 8px;              /* скругленные углы */
+    margin-top: auto;                /* прижимает к низу */
+    border: 1px solid #eee;         /* тонкая граница */
 }
 
 .tasks-empty {
-    text-align: center;
-    padding: 4rem 2rem;
-    grid-column: 1 / -1;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;             /* центрирование текста */
+    padding: 4rem 2rem;             /* внутренние отступы */
+    grid-column: 1 / -1;            /* растягивает на все колонки */
+    background: white;               /* белый фон */
+    border-radius: 12px;             /* скругленные углы */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* тень */
 }
 
 .tasks-empty h3 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-weight: 300;
-    font-size: 1.5rem;
+    color: #2c3e50;                  /* цвет заголовка */
+    margin-bottom: 1rem;            /* отступ снизу */
+    font-weight: 300;               /* легкое начертание */
+    font-size: 1.5rem;              /* размер шрифта */
 }
 
 .tasks-empty p {
-    color: #7f8c8d;
-    font-size: 1rem;
+    color: #7f8c8d;                 /* серый цвет текста */
+    font-size: 1rem;                /* размер шрифта */
 }
 
-/* ===== 12. TEACHER DASHBOARD ===== */
+/* =====================================================
+   12. TEACHER DASHBOARD
+===================================================== */
 .teacher-layout {
-    display: flex;
-    gap: 2rem;
-    margin-top: 2rem;
+    display: flex;                  /* flex для разделения на две части */
+    gap: 2rem;                      /* расстояние между секциями */
+    margin-top: 2rem;               /* отступ сверху */
 }
 
 .task-form-section {
-    flex: 2;
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    flex: 2;                        /* занимает 2/3 пространства */
+    background: white;               /* белый фон */
+    padding: 2rem;                   /* внутренние отступы */
+    border-radius: 12px;             /* скругленные углы */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* тень */
 }
 
 .task-list-section {
-    flex: 1;
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    max-height: 800px;
-    overflow-y: auto;
+    flex: 1;                        /* занимает 1/3 пространства */
+    background: white;               /* белый фон */
+    padding: 2rem;                   /* внутренние отступы */
+    border-radius: 12px;             /* скругленные углы */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* тень */
+    max-height: 800px;               /* максимальная высота */
+    overflow-y: auto;                /* вертикальный скролл при переполнении */
 }
 
 .subject-info {
-    background: #f8f9fa;
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1.5rem;
-    border-left: 4px solid #3498db;
+    background: #f8f9fa;             /* светлый фон */
+    padding: 1rem;                   /* внутренние отступы */
+    border-radius: 8px;              /* скругленные углы */
+    margin-bottom: 1.5rem;          /* отступ снизу */
+    border-left: 4px solid #3498db;  /* синяя левая граница */
 }
 
 .teacher-subject {
-    color: #3498db;
-    font-weight: 500;
+    color: #3498db;                  /* синий цвет */
+    font-weight: 500;               /* средняя жирность */
 }
 
 .subject-hint {
-    font-size: 0.9rem;
-    color: #7f8c8d;
-    margin-top: 0.3rem;
+    font-size: 0.9rem;              /* небольшой размер */
+    color: #7f8c8d;                 /* серый цвет */
+    margin-top: 0.3rem;             /* небольшой отступ сверху */
 }
 
 .description-textarea {
-    resize: vertical;
-    min-height: 100px;
+    resize: vertical;                /* разрешить изменение высоты */
+    min-height: 100px;               /* минимальная высота */
 }
 
 .teacher-tasks-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    display: flex;                  /* flex для списка задач */
+    flex-direction: column;          /* вертикальное расположение */
+    gap: 1rem;                      /* расстояние между задачами */
 }
 
 .teacher-task-card {
-    background: #f8f9fa;
-    border-radius: 8px;
-    padding: 1rem;
-    border-left: 4px solid #3498db;
-    transition: all 0.3s ease;
+    background: #f8f9fa;             /* светлый фон */
+    border-radius: 8px;              /* скругленные углы */
+    padding: 1rem;                   /* внутренние отступы */
+    border-left: 4px solid #3498db;  /* синяя левая граница */
+    transition: all 0.3s ease;      /* плавные анимации */
 }
 
 .teacher-task-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-3px);     /* легкий подъем */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1); /* тень при наведении */
 }
 
 .teacher-task-card h4 {
-    color: #2c3e50;
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
+    color: #2c3e50;                  /* цвет заголовка */
+    margin-bottom: 0.5rem;          /* отступ снизу */
+    font-size: 1.1rem;              /* размер шрифта */
 }
 
 .task-description-box {
-    background: white;
-    padding: 0.75rem;
-    border-radius: 6px;
-    margin-bottom: 0.8rem;
-    border: 1px solid #eee;
-    max-height: 150px;
-    overflow-y: auto;
-    word-wrap: break-word;
-    word-break: break-word;
-    line-height: 1.4;
-    font-size: 0.9rem;
-    color: #333;
+    background: white;               /* белый фон */
+    padding: 0.75rem;                /* внутренние отступы */
+    border-radius: 6px;              /* скругленные углы */
+    margin-bottom: 0.8rem;          /* отступ снизу */
+    border: 1px solid #eee;         /* тонкая граница */
+    max-height: 150px;               /* максимальная высота */
+    overflow-y: auto;                /* вертикальный скролл */
+    word-wrap: break-word;           /* перенос длинных слов */
+    word-break: break-word;          /* разрыв слов при необходимости */
+    line-height: 1.4;                /* межстрочный интервал */
+    font-size: 0.9rem;              /* размер шрифта */
+    color: #333;                    /* цвет текста */
 }
 
 .task-description-box::-webkit-scrollbar {
-    width: 6px;
+    width: 6px;                     /* ширина скроллбара */
 }
 
 .task-description-box::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
+    background: #f1f1f1;             /* цвет трека */
+    border-radius: 3px;              /* скругленные углы */
 }
 
 .task-description-box::-webkit-scrollbar-thumb {
-    background: #ccc;
-    border-radius: 3px;
+    background: #ccc;                /* цвет ползунка */
+    border-radius: 3px;              /* скругленные углы */
 }
 
 .task-description-box::-webkit-scrollbar-thumb:hover {
-    background: #999;
+    background: #999;                /* цвет ползунка при наведении */
 }
 
 .task-student {
-    font-weight: 500;
+    font-weight: 500;               /* средняя жирность */
 }
 
 .delete-btn {
-    background: #e74c3c;
-    color: white;
-    border: none;
-    padding: 0.4rem 0.8rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-size: 0.85rem;
-    transition: all 0.3s ease;
+    background: #e74c3c;             /* красный фон */
+    color: white;                   /* белый текст */
+    border: none;                    /* без границы */
+    padding: 0.4rem 0.8rem;         /* внутренние отступы */
+    border-radius: 4px;              /* скругленные углы */
+    cursor: pointer;                 /* курсор указатель */
+    font-size: 0.85rem;             /* размер шрифта */
+    transition: all 0.3s ease;      /* плавные переходы */
 }
 
 .delete-btn:hover {
-    background: #c0392b;
-    transform: translateY(-2px);
+    background: #c0392b;             /* темно-красный при наведении */
+    transform: translateY(-2px);     /* подъем кнопки */
 }
 
 .char-counter {
-    text-align: right;
-    font-size: 0.85rem;
-    color: #7f8c8d;
-    margin-top: 0.3rem;
+    text-align: right;              /* выравнивание по правому краю */
+    font-size: 0.85rem;             /* небольшой размер */
+    color: #7f8c8d;                 /* серый цвет */
+    margin-top: 0.3rem;             /* небольшой отступ сверху */
 }
 
 .char-counter.warning {
-    color: #e74c3c;
+    color: #e74c3c;                  /* красный цвет при предупреждении */
 }
 
 .no-tasks-message {
-    text-align: center;
-    padding: 3rem;
-    color: #7f8c8d;
+    text-align: center;             /* центрирование текста */
+    padding: 3rem;                   /* внутренние отступы */
+    color: #7f8c8d;                 /* серый цвет */
 }
 
 .no-tasks-message h3 {
-    margin-bottom: 1rem;
-    font-weight: 300;
+    margin-bottom: 1rem;            /* отступ снизу */
+    font-weight: 300;               /* легкое начертание */
 }
 
 .student-select {
-    background: white;
+    background: white;               /* белый фон */
 }
 
-/* ===== 13. ADMIN PANEL ===== */
+/* =====================================================
+   13. ADMIN PANEL STYLES
+===================================================== */
 .admin-form-card {
-    background: white;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    padding: 2.5rem;
-    margin: 0 auto 2rem auto;
-    max-width: 800px;
+    background: white;               /* белый фон */
+    border-radius: 15px;             /* скругленные углы */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* тень */
+    padding: 2.5rem;                 /* внутренние отступы */
+    margin: 0 auto 2rem auto;        /* центрирование и отступ снизу */
+    max-width: 800px;                /* максимальная ширина */
 }
 
 .admin-form-title {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-size: 1.8rem;
-    font-weight: 300;
+    color: #2c3e50;                  /* цвет заголовка */
+    margin-bottom: 1rem;            /* отступ снизу */
+    font-size: 1.8rem;              /* размер шрифта */
+    font-weight: 300;               /* легкое начертание */
 }
 
 .role-fields {
-    margin-top: 20px;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 8px;
-    border-left: 4px solid #3498db;
-    display: none;
+    margin-top: 20px;               /* отступ сверху */
+    padding: 20px;                   /* внутренние отступы */
+    background: #f8f9fa;             /* светлый фон */
+    border-radius: 8px;              /* скругленные углы */
+    border-left: 4px solid #3498db;  /* синяя левая граница */
+    display: none;                   /* скрыто по умолчанию */
 }
 
 .role-fields h4 {
-    color: #2c3e50;
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-    border-bottom: 2px solid #3498db;
-    padding-bottom: 0.5rem;
+    color: #2c3e50;                  /* цвет заголовка */
+    margin-bottom: 1rem;            /* отступ снизу */
+    font-size: 1.2rem;              /* размер шрифта */
+    border-bottom: 2px solid #3498db; /* нижняя граница */
+    padding-bottom: 0.5rem;          /* отступ под границей */
 }
 
 .admin-form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-bottom: 1.2rem;
+    display: grid;                  /* grid layout */
+    grid-template-columns: 1fr 1fr;  /* две колонки */
+    gap: 1rem;                      /* расстояние между элементами */
+    margin-bottom: 1.2rem;          /* отступ снизу */
 }
 
 .admin-button-group {
-    text-align: center;
+    text-align: center;             /* центрирование кнопок */
 }
 
-/* ===== 14. FOOTER ===== */
+/* =====================================================
+   14. FOOTER STYLES
+===================================================== */
 footer {
-    background: #2c3e50;
-    color: #ecf0f1;
-    padding: 2rem 0;
-    margin-top: auto;
+    background: #2c3e50;             /* темно-синий фон */
+    color: #ecf0f1;                 /* светлый текст */
+    padding: 2rem 0;                /* вертикальные отступы */
+    margin-top: auto;                /* прижимает к низу */
 }
 
 .footer-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem;
+    display: flex;                  /* flex для содержимого футера */
+    justify-content: space-between; /* распределение по краям */
+    align-items: center;            /* вертикальное выравнивание */
+    flex-wrap: wrap;                /* перенос на новую строку */
+    gap: 1rem;                      /* расстояние между элементами */
 }
 
 .github-link {
-    color: #ecf0f1;
-    text-decoration: none;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ecf0f1;
-    border-radius: 4px;
-    transition: all 0.3s ease;
-    white-space: nowrap;
+    color: #ecf0f1;                 /* цвет ссылки */
+    text-decoration: none;          /* убрать подчеркивание */
+    padding: 0.5rem 1rem;           /* внутренние отступы */
+    border: 1px solid #ecf0f1;      /* граница ссылки */
+    border-radius: 4px;              /* скругленные углы */
+    transition: all 0.3s ease;      /* плавные переходы */
+    white-space: nowrap;            /* запрет переноса текста */
 }
 
 .github-link:hover {
-    background-color: #ecf0f1;
-    color: #2c3e50;
+    background-color: #ecf0f1;       /* белый фон при наведении */
+    color: #2c3e50;                  /* темно-синий текст */
 }
 
-/* ===== 15. UTILITY CLASSES ===== */
-.mt-1 { margin-top: 1rem; }
-.mt-2 { margin-top: 2rem; }
-.text-center { text-align: center; }
+/* =====================================================
+   15. UTILITY CLASSES
+===================================================== */
+.mt-1 { margin-top: 1rem; }         /* отступ сверху 1rem */
+.mt-2 { margin-top: 2rem; }         /* отступ сверху 2rem */
+.text-center { text-align: center; } /* центрирование текста */
 
 .login-links, .registration-links {
-    text-align: center;
-    margin-top: 1.5rem;
+    text-align: center;             /* центрирование ссылок */
+    margin-top: 1.5rem;            /* отступ сверху */
 }
 
 .login-links a, .registration-links a {
-    color: #3498db;
-    text-decoration: none;
-    transition: color 0.3s ease;
+    color: #3498db;                  /* синий цвет ссылок */
+    text-decoration: none;          /* убрать подчеркивание */
+    transition: color 0.3s ease;    /* плавное изменение цвета */
 }
 
 .login-links a:hover, .registration-links a:hover {
-    color: #2980b9;
-    text-decoration: underline;
+    color: #2980b9;                  /* темно-синий при наведении */
+    text-decoration: underline;     /* подчеркивание при наведении */
 }
 
-/* ===== 16. MESSAGES ===== */
+/* =====================================================
+   16. MESSAGES & ALERTS
+===================================================== */
 .error-message {
-    background: #ffebee;
-    color: #c62828;
-    padding: 0.75rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    border: 1px solid #ffcdd2;
-    text-align: center;
+    background: #ffebee;             /* светло-красный фон */
+    color: #c62828;                  /* красный текст */
+    padding: 0.75rem;                /* внутренние отступы */
+    border-radius: 6px;              /* скругленные углы */
+    margin-bottom: 1rem;            /* отступ снизу */
+    border: 1px solid #ffcdd2;      /* красная граница */
+    text-align: center;              /* центрирование текста */
 }
 
 .success-message {
-    background: #e8f5e8;
-    color: #2e7d32;
-    padding: 0.75rem;
-    border-radius: 6px;
-    margin-bottom: 1rem;
-    border: 1px solid #c8e6c9;
-    text-align: center;
+    background: #e8f5e8;             /* светло-зеленый фон */
+    color: #2e7d32;                  /* зеленый текст */
+    padding: 0.75rem;                /* внутренние отступы */
+    border-radius: 6px;              /* скругленные углы */
+    margin-bottom: 1rem;            /* отступ снизу */
+    border: 1px solid #c8e6c9;      /* зеленая граница */
+    text-align: center;              /* центрирование текста */
 }
 
-/* ===== 17. FIELD ERRORS ===== */
+/* =====================================================
+   17. FIELD ERRORS & VALIDATION
+===================================================== */
 .field-error {
-    color: #dc3545;
-    font-size: 0.85rem;
-    margin-top: 0.3rem;
-    min-height: 1.2rem;
-    font-weight: 500;
+    color: #dc3545;                  /* красный цвет ошибки */
+    font-size: 0.85rem;             /* небольшой размер */
+    margin-top: 0.3rem;             /* отступ сверху */
+    min-height: 1.2rem;             /* минимальная высота */
+    font-weight: 500;               /* средняя жирность */
 }
 
 .age-display {
-    color: #28a745;
-    font-size: 0.9rem;
-    margin-top: 0.3rem;
-    font-weight: 500;
+    color: #28a745;                  /* зеленый цвет */
+    font-size: 0.9rem;              /* размер шрифта */
+    margin-top: 0.3rem;             /* отступ сверху */
+    font-weight: 500;               /* средняя жирность */
 }
 
-/* ===== 18. FILES & FILE COUNTER ===== */
+/* =====================================================
+   18. FILES UPLOAD & FILE COUNTER
+===================================================== */
 .file-list {
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
+    margin-top: 0.5rem;             /* небольшой отступ сверху */
+    font-size: 0.9rem;              /* небольшой размер шрифта */
 }
 
 .file-list div {
-    background: #f1f1f1;
-    padding: 5px 10px;
-    margin-bottom: 5px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    background: #f1f1f1;             /* светлый фон */
+    padding: 5px 10px;              /* внутренние отступы */
+    margin-bottom: 5px;             /* отступ снизу */
+    border-radius: 6px;              /* скругленные углы */
+    display: flex;                  /* flex для элементов файла */
+    align-items: center;            /* вертикальное выравнивание */
+    justify-content: space-between;  /* распределение по краям */
 }
 
 .file-list button {
-    background: #e74c3c;
-    border: none;
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    padding: 2px 6px;
-    font-size: 0.8rem;
-    font-weight: bold;
+    background: #e74c3c;             /* красный фон */
+    border: none;                    /* без границы */
+    color: white;                   /* белый текст */
+    border-radius: 4px;              /* скругленные углы */
+    cursor: pointer;                 /* курсор указатель */
+    padding: 2px 6px;               /* внутренние отступы */
+    font-size: 0.8rem;              /* размер шрифта */
+    font-weight: bold;               /* жирное начертание */
 }
 
 .file-list button:hover {
-    background: #c0392b;
+    background: #c0392b;             /* темно-красный при наведении */
 }
 
-
 input[type="file"] {
-    color: transparent;
-    width: 100%;
-    padding: 0.75rem;
-    border: 2px solid #e9ecef;
-    border-radius: 8px;
-    background: white;
-    cursor: pointer;
-    font-family: inherit;
-    transition: all 0.3s ease;
+    color: transparent;             /* скрыть текст по умолчанию */
+    width: 100%;                    /* ширина 100% */
+    padding: 0.75rem;               /* внутренние отступы */
+    border: 2px solid #e9ecef;      /* цвет границы */
+    border-radius: 8px;             /* скругленные углы */
+    background: white;               /* белый фон */
+    cursor: pointer;                 /* курсор указатель */
+    font-family: inherit;           /* наследование шрифта */
+    transition: all 0.3s ease;      /* плавные переходы */
 }
 
 input[type="file"]:hover {
-    border-color: #3498db;
+    border-color: #3498db;          /* синяя граница при наведении */
 }
 
 input[type="file"]:focus {
-    outline: none;
-    border-color: #3498db;
-    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+    outline: none;                  /* убрать стандартный outline */
+    border-color: #3498db;          /* синяя граница при фокусе */
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1); /* свечение */
 }
 
 input[type="file"]::file-selector-button {
-    margin-right: 10px;
+    margin-right: 10px;             /* отступ справа от кнопки */
 }
 
 #fileCounter {
-    margin-top: 0.3rem;
-    text-align: right;
-    font-size: 0.85rem;
+    margin-top: 0.3rem;             /* небольшой отступ сверху */
+    text-align: right;              /* выравнивание по правому краю */
+    font-size: 0.85rem;             /* небольшой размер */
 }
 
-/* ===== 19. TASK FILES IN CARDS ===== */
+/* =====================================================
+   19. TASK FILES IN CARDS
+===================================================== */
 .task-files {
-    margin-top: 0.5rem;
-    font-size: 0.85rem;
+    margin-top: 0.5rem;             /* небольшой отступ сверху */
+    font-size: 0.85rem;             /* небольшой размер шрифта */
 }
 
 .task-file-item {
-    margin-top: 0.2rem;
-    padding: 0.2rem 0.5rem;
-    background: #f0f8ff;
-    border-radius: 4px;
-    border-left: 3px solid #3498db;
+    margin-top: 0.2rem;             /* минимальный отступ сверху */
+    padding: 0.2rem 0.5rem;         /* небольшие внутренние отступы */
+    background: #f0f8ff;             /* светло-голубой фон */
+    border-radius: 4px;              /* скругленные углы */
+    border-left: 3px solid #3498db;  /* синяя левая граница */
 }
 
 .task-file-link {
-    color: #3498db;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.3rem;
+    color: #3498db;                  /* синий цвет ссылки */
+    text-decoration: none;          /* убрать подчеркивание */
+    display: flex;                  /* flex для иконки и текста */
+    align-items: center;            /* вертикальное выравнивание */
+    gap: 0.3rem;                    /* расстояние между иконкой и текстом */
 }
 
 .task-file-link:hover {
-    color: #2980b9;
-    text-decoration: underline;
+    color: #2980b9;                  /* темно-синий при наведении */
+    text-decoration: underline;     /* подчеркивание при наведении */
 }
 
 .task-file-link::before {
-    content: "📎";
-    font-size: 0.9rem;
+    content: "📎";                   /* иконка скрепки */
+    font-size: 0.9rem;              /* размер иконки */
 }
