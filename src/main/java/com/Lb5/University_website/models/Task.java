@@ -13,28 +13,28 @@ public class Task {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id; // Уникальный идентификатор задания
+    private Long id;
 
     @Column(name = "title", nullable = false, length = 50)
-    private String title; // Заголовок задания (3-50 символов)
+    private String title;
 
     @Column(name = "description", nullable = false, length = 200)
-    private String description; // Описание задания (20-200 символов)
+    private String description;
 
     @Column(name = "subject", nullable = false, length = 50)
-    private String subject; // Учебный предмет
+    private String subject;
 
     @Column(name = "teacher_id", nullable = false)
-    private Long teacherId; // ID преподавателя, создавшего задание
+    private Long teacherId;
 
     @Column(name = "teacher_name", nullable = false)
-    private String teacherName; // Имя преподавателя
+    private String teacherName;
 
     @Column(name = "student_id", nullable = false)
-    private Long studentId; // ID студента, которому назначено задание
+    private Long studentId;
 
     @Column(name = "student_name", nullable = false)
-    private String studentName; // Имя студента
+    private String studentName;
 
     @ElementCollection
     @CollectionTable(
@@ -42,20 +42,21 @@ public class Task {
             joinColumns = @JoinColumn(name = "task_id")
     )
     @Column(name = "file_path")
-    private List<String> attachmentPaths = new ArrayList<>(); // Пути к прикрепленным файлам
+    private List<String> attachmentPaths = new ArrayList<>();
 
     public Task() {}
 
     /**
-     * Конструктор с параметрами для создания задания
+     * Создает новое задание с указанными параметрами
      *
-     * @param title         Заголовок задания
-     * @param description   Описание задания
-     * @param subject       Учебный предмет
-     * @param teacherId     ID преподавателя
-     * @param teacherName   Имя преподавателя
-     * @param studentId     ID студента
-     * @param studentName   Имя студента
+     * @param title Заголовок задания (3-50 символов)
+     * @param description Описание задания (20-200 символов)
+     * @param subject Учебный предмет
+     * @param teacherId Идентификатор преподавателя
+     * @param teacherName Имя преподавателя
+     * @param studentId Идентификатор студента
+     * @param studentName Имя студента
+     * @throws IllegalArgumentException если параметры не соответствуют ограничениям
      */
     public Task(String title, String description, String subject,
                 Long teacherId, String teacherName,
@@ -67,11 +68,10 @@ public class Task {
         setTeacherName(teacherName);
         setStudentId(studentId);
         setStudentName(studentName);
-        this.attachmentPaths = new ArrayList<>(); // Инициализируем пустой список
+        this.attachmentPaths = new ArrayList<>();
     }
 
-    // ----------------- Геттеры и сеттеры -----------------
-
+    // --- Стандартные геттеры и сеттеры ---
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
@@ -106,7 +106,7 @@ public class Task {
     public String getStudentName() { return studentName; }
     public void setStudentName(String studentName) { this.studentName = studentName; }
 
-    // ----------------- Методы для работы с файлами -----------------
+    // --- Методы для работы с файлами ---
 
     public List<String> getAttachmentPaths() {
         return attachmentPaths;
@@ -116,6 +116,11 @@ public class Task {
         this.attachmentPaths = attachmentPaths != null ? attachmentPaths : new ArrayList<>();
     }
 
+    /**
+     * Добавляет путь к прикрепленному файлу
+     *
+     * @param filePath Путь к файлу
+     */
     public void addAttachmentPath(String filePath) {
         if (filePath != null && !filePath.trim().isEmpty()) {
             if (this.attachmentPaths == null) {
@@ -125,14 +130,30 @@ public class Task {
         }
     }
 
+    /**
+     * Удаляет путь к прикрепленному файлу
+     *
+     * @param filePath Путь к файлу для удаления
+     * @return true если файл был удален, false если не найден
+     */
     public boolean removeAttachmentPath(String filePath) {
         return this.attachmentPaths != null && filePath != null && this.attachmentPaths.remove(filePath);
     }
 
+    /**
+     * Проверяет наличие прикрепленных файлов
+     *
+     * @return true если есть прикрепленные файлы
+     */
     public boolean hasAttachments() {
         return this.attachmentPaths != null && !this.attachmentPaths.isEmpty();
     }
 
+    /**
+     * Получает количество прикрепленных файлов
+     *
+     * @return Количество файлов
+     */
     public int getAttachmentCount() {
         return this.attachmentPaths != null ? this.attachmentPaths.size() : 0;
     }

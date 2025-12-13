@@ -26,10 +26,19 @@ public class TaskService {
     @Autowired
     private UserService userService;
 
-    // ===== Папка для файлов заданий =====
     private final Path rootDir = Paths.get("tasksFiles");
 
-    // ===================== Работа с заданиями =====================
+    /**
+     * Создает новое задание
+     *
+     * @param title Название задания
+     * @param description Описание задания
+     * @param subject Предмет
+     * @param teacherId Идентификатор преподавателя
+     * @param studentId Идентификатор студента
+     * @return Созданное задание
+     * @throws RuntimeException если студент не найден
+     */
     public Task createTask(String title, String description, String subject, Long teacherId, Long studentId) {
         User teacher = userService.getUserById(teacherId);
         User student = userService.getUserById(studentId);
@@ -45,14 +54,33 @@ public class TaskService {
         return taskRepository.save(task);
     }
 
+    /**
+     * Получает список заданий преподавателя
+     *
+     * @param teacherId Идентификатор преподавателя
+     * @return Список заданий
+     */
     public List<Task> getTeacherTasks(Long teacherId) {
         return taskRepository.findByTeacherId(teacherId);
     }
 
+    /**
+     * Получает список заданий студента
+     *
+     * @param studentId Идентификатор студента
+     * @return Список заданий
+     */
     public List<Task> getStudentTasks(Long studentId) {
         return taskRepository.findByStudentId(studentId);
     }
 
+    /**
+     * Удаляет задание, если оно принадлежит указанному преподавателю
+     *
+     * @param taskId Идентификатор задания
+     * @param teacherId Идентификатор преподавателя
+     * @return true если задание удалено, false если не найдено или нет прав
+     */
     public boolean deleteTask(Long taskId, Long teacherId) {
         Task task = taskRepository.findByIdAndTeacherId(taskId, teacherId);
         if (task != null) {
@@ -62,22 +90,44 @@ public class TaskService {
         return false;
     }
 
+    /**
+     * Получает задание по идентификатору
+     *
+     * @param taskId Идентификатор задания
+     * @return Найденное задание
+     * @throws RuntimeException если задание не найдено
+     */
     public Task getTaskById(Long taskId) {
         return taskRepository.findById(taskId)
                 .orElseThrow(() -> new RuntimeException("Задание не найдено"));
     }
 
+    /**
+     * Сохраняет задание
+     *
+     * @param task Задание для сохранения
+     * @return Сохраненное задание
+     */
     public Task saveTask(Task task) {
         return taskRepository.save(task);
     }
 
-    // ===================== Работа с файлами =====================
+    /**
+     * Сохраняет файл, связанный с заданием
+     *
+     * @param file Файл для сохранения
+     * @param taskId Идентификатор задания
+     * @return Безопасное имя сохраненного файла
+     * @throws IOException если произошла ошибка ввода-вывода
+     * @throws IllegalArgumentException если файл пустой
+     */
     public String saveFile(MultipartFile file, Long taskId) throws IOException {
         if (file == null || file.isEmpty()) throw new IllegalArgumentException("Файл не может быть пустым");
 
         String originalFilename = file.getOriginalFilename();
         if (originalFilename == null) originalFilename = "unknown";
 
+        // Очистка имени файла от небезопасных символов и добавление префикса taskId
         String safeFilename = taskId + "_" + originalFilename.replaceAll("[^a-zA-Z0-9\\.\\-_]", "_");
 
         if (!Files.exists(rootDir)) {
@@ -90,10 +140,22 @@ public class TaskService {
         return safeFilename;
     }
 
+    /**
+     * Получает путь к файлу по его имени
+     *
+     * @param fileName Имя файла
+     * @return Полный путь к файлу
+     */
     public Path getFilePath(String fileName) {
         return rootDir.resolve(fileName);
     }
 
+    /**
+     * Получает ресурс файла по его имени
+     *
+     * @param fileName Имя файла
+     * @return Ресурс файла
+     */
     public Resource getResource(String fileName) {
         Path path = getFilePath(fileName);
         return new FileSystemResource(path.toFile());

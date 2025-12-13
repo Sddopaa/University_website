@@ -971,7 +971,7 @@ footer {
     background: #c0392b;
 }
 
-/* Стили для файлового поля */
+
 input[type="file"] {
     color: transparent;
     width: 100%;
@@ -998,7 +998,6 @@ input[type="file"]::file-selector-button {
     margin-right: 10px;
 }
 
-/* Счетчик файлов */
 #fileCounter {
     margin-top: 0.3rem;
     text-align: right;

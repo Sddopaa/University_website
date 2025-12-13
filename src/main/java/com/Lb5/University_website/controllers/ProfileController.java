@@ -21,15 +21,18 @@ public class ProfileController {
     @Autowired
     private UserService userService;
 
-    // Путь ВНУТРИ контейнера (совпадает с docker volume)
     private static final String AVATAR_DIR = "/app/userAvatar/";
-
-    // URL по которому браузер запрашивает файл
     private static final String AVATAR_URL_PREFIX = "/avatars/";
-
     private static final String DEFAULT_AVATAR = "/avatars/defaultAvatar.png";
 
-
+    /**
+     * Загружает новый аватар пользователя
+     *
+     * @param file Загружаемый файл изображения
+     * @param session HTTP-сессия
+     * @param redirect Атрибуты для редиректа
+     * @return Перенаправление на страницу профиля
+     */
     @PostMapping("/profile/upload-avatar")
     public String uploadAvatar(@RequestParam("avatar") MultipartFile file,
                                HttpSession session,
@@ -53,36 +56,34 @@ public class ProfileController {
                 return "redirect:/profile";
             }
 
-            // ⬇️ корректно определяем расширение
+            // Определение расширения файла из оригинального имени
             String originalName = file.getOriginalFilename();
             String extension = ".jpg";
-
             if (originalName != null && originalName.contains(".")) {
                 extension = originalName.substring(originalName.lastIndexOf("."));
             }
 
             String fileName = "user_" + user.getId() + extension;
-
             Path dirPath = Paths.get(AVATAR_DIR);
+
             if (!Files.exists(dirPath)) {
                 Files.createDirectories(dirPath);
             }
 
-
-            if (user.getAvatarPath() != null &&
-                    !user.getAvatarPath().equals(DEFAULT_AVATAR)) {
-
+            // Удаление старого аватара (если это не дефолтный)
+            if (user.getAvatarPath() != null && !user.getAvatarPath().equals(DEFAULT_AVATAR)) {
                 String oldFileName = user.getAvatarPath()
                         .replace(AVATAR_URL_PREFIX, "")
                         .split("\\?")[0];
-
                 Path oldFilePath = dirPath.resolve(oldFileName);
                 Files.deleteIfExists(oldFilePath);
             }
 
+            // Сохранение нового файла
             Path filePath = dirPath.resolve(fileName);
             Files.copy(file.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
+            // Добавление timestamp для обхода кэширования браузера
             String avatarUrl = AVATAR_URL_PREFIX + fileName + "?v=" + System.currentTimeMillis();
             user.setAvatarPath(avatarUrl);
 
@@ -99,6 +100,13 @@ public class ProfileController {
         return "redirect:/profile";
     }
 
+    /**
+     * Удаляет аватар пользователя, устанавливая аватар по умолчанию
+     *
+     * @param session HTTP-сессия
+     * @param redirect Атрибуты для редиректа
+     * @return Перенаправление на страницу профиля
+     */
     @PostMapping("/profile/remove-avatar")
     public String removeAvatar(HttpSession session, RedirectAttributes redirect) {
 
@@ -109,16 +117,13 @@ public class ProfileController {
 
         try {
             User user = userService.getUserByUsername(sessionUser.getUserName());
-
             Path dirPath = Paths.get(AVATAR_DIR);
 
-            if (user.getAvatarPath() != null &&
-                    !user.getAvatarPath().equals(DEFAULT_AVATAR)) {
-
+            // Удаление файла аватара (если это не дефолтный)
+            if (user.getAvatarPath() != null && !user.getAvatarPath().equals(DEFAULT_AVATAR)) {
                 String fileName = user.getAvatarPath()
                         .replace(AVATAR_URL_PREFIX, "")
                         .split("\\?")[0];
-
                 Files.deleteIfExists(dirPath.resolve(fileName));
             }
 

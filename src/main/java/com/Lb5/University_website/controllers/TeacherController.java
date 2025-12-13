@@ -27,6 +27,13 @@ public class TeacherController {
     @Autowired
     private UserService userService;
 
+    /**
+     * Отображает страницу кабинета преподавателя
+     *
+     * @param session HTTP-сессия для получения данных пользователя
+     * @param model Модель для передачи данных в представление
+     * @return Имя представления или редирект
+     */
     @GetMapping("/fromTeacher")
     public String fromTeacherPage(HttpSession session, Model model) {
         User teacherUser = (User) session.getAttribute("user");
@@ -47,6 +54,17 @@ public class TeacherController {
         return "fromTeacher";
     }
 
+    /**
+     * Создает новое задание для студента
+     *
+     * @param title Название задания (3-50 символов)
+     * @param description Описание задания (20-200 символов)
+     * @param studentId Идентификатор студента
+     * @param files Прикрепляемые файлы (опционально)
+     * @param session HTTP-сессия для проверки авторизации
+     * @return Перенаправление на страницу преподавателя
+     * @throws IOException если произошла ошибка при сохранении файлов
+     */
     @PostMapping("/teacher/createTask")
     public String createTask(
             @RequestParam String title,
@@ -64,6 +82,7 @@ public class TeacherController {
         User student = userService.getUserById(studentId);
         if (student == null) return "redirect:/fromTeacher?error=student_not_found";
 
+        // Проверка, что студент из того же факультета
         if (student instanceof Student) {
             Student studentEntity = (Student) student;
             if (!teacher.getFaculty().equals(studentEntity.getFaculty())) {
@@ -74,10 +93,10 @@ public class TeacherController {
         if (title.length() < 3 || title.length() > 50) return "redirect:/fromTeacher?error=title_length";
         if (description.length() < 20 || description.length() > 200) return "redirect:/fromTeacher?error=description_length";
 
-        // Создаём задание
+        // Создание задания
         Task task = taskService.createTask(title, description, teacher.getSubject(), teacherUser.getId(), studentId);
 
-        // Загружаем файлы
+        // Сохранение прикрепленных файлов
         if (files != null) {
             for (MultipartFile file : files) {
                 if (!file.isEmpty()) {
@@ -91,6 +110,13 @@ public class TeacherController {
         return "redirect:/fromTeacher?success=true";
     }
 
+    /**
+     * Удаляет задание преподавателя
+     *
+     * @param taskId Идентификатор задания для удаления
+     * @param session HTTP-сессия для проверки авторизации
+     * @return Перенаправление на страницу преподавателя
+     */
     @PostMapping("/teacher/deleteTask/{taskId}")
     public String deleteTask(@PathVariable Long taskId, HttpSession session) {
         User teacher = (User) session.getAttribute("user");
@@ -100,7 +126,14 @@ public class TeacherController {
         return "redirect:/fromTeacher?success=deleted";
     }
 
-    // ===== Скачивание файла задания =====
+    /**
+     * Скачивание файла, связанного с заданием
+     *
+     * @param fileName Имя файла для скачивания
+     * @param session HTTP-сессия для проверки авторизации
+     * @return Ответ с файлом или код ошибки
+     * @throws IOException если произошла ошибка при работе с файлом
+     */
     @GetMapping("/teacher/download/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpSession session) throws IOException {
         User teacher = (User) session.getAttribute("user");
@@ -111,6 +144,7 @@ public class TeacherController {
         Resource resource = taskService.getResource(fileName);
         if (!resource.exists() || !resource.isReadable()) return ResponseEntity.notFound().build();
 
+        // Определение MIME-типа файла
         Path path = resource.getFile().toPath();
         String contentType = Files.probeContentType(path);
         if (contentType == null) contentType = "application/octet-stream";

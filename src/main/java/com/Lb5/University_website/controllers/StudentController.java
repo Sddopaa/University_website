@@ -23,6 +23,13 @@ public class StudentController {
     @Autowired
     private TaskService taskService;
 
+    /**
+     * Отображает страницу со списком заданий студента
+     *
+     * @param session HTTP-сессия для получения данных пользователя
+     * @param model Модель для передачи данных в представление
+     * @return Имя представления или редирект
+     */
     @GetMapping("/tasks")
     public String tasksPage(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
@@ -34,7 +41,14 @@ public class StudentController {
         return "tasks";
     }
 
-    // ===== Скачивание файла задания =====
+    /**
+     * Скачивание файла, связанного с заданием
+     *
+     * @param fileName Имя файла для скачивания
+     * @param session HTTP-сессия для проверки авторизации
+     * @return Ответ с файлом или код ошибки
+     * @throws Exception если произошла ошибка при работе с файлом
+     */
     @GetMapping("/tasks/download/{fileName}")
     public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpSession session) throws Exception {
         User user = (User) session.getAttribute("user");
@@ -43,6 +57,7 @@ public class StudentController {
         Resource resource = taskService.getResource(fileName);
         if (!resource.exists() || !resource.isReadable()) return ResponseEntity.notFound().build();
 
+        // Определение MIME-типа файла
         Path path = resource.getFile().toPath();
         String contentType = Files.probeContentType(path);
         if (contentType == null) contentType = "application/octet-stream";
